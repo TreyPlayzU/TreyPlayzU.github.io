@@ -48,7 +48,7 @@
       background: #1a1a1a;
       border-radius: 20px;
       padding: 60px;
-      margin: 50px 0;
+      margin: 50px auto;
       min-height: 500px;
       display: flex;
       flex-direction: column;
@@ -383,7 +383,7 @@
         let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         
         if (cartItems > 0) {
-          const price = 799.99; // Updated price to €799.99
+          const price = 799.99;
           const totalPrice = (price * cartItems).toFixed(2);
           
           cartContainer.innerHTML = `
