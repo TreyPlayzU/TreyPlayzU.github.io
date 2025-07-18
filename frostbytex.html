@@ -241,6 +241,74 @@
       padding: 20px;
       border-left: 4px solid #4ecdc4;
     }
+
+    /* New Extras Card Styles */
+    .extras-card {
+      position: relative;
+      overflow: hidden;
+      border-left: 4px solid #4ecdc4;
+      background: linear-gradient(135deg, #222222 0%, #1a1a1a 100%);
+      grid-column: span 2;
+    }
+
+    .extras-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .extras-title {
+      font-weight: bold;
+      color: #4ecdc4;
+      margin: 0 10px;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .extras-dot {
+      width: 6px;
+      height: 6px;
+      background: #4ecdc4;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .extras-item {
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .extras-item:last-child {
+      border-bottom: none;
+    }
+
+    .extras-icon {
+      margin-right: 15px;
+      font-size: 1.2rem;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .extras-text {
+      flex: 1;
+    }
+
+    .extras-glow {
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #4ecdc433 0%, transparent 70%);
+      z-index: 0;
+    }
     
     .benchmark-section {
       margin-top: 40px;
@@ -399,6 +467,10 @@
         top: 20px;
         right: 20px;
       }
+
+      .extras-card {
+        grid-column: span 1;
+      }
     }
   </style>
 </head>
@@ -494,13 +566,33 @@
           <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">CASE</div>
           <div>Deepcool CG530</div>
         </div>
-        <div class="spec-card">
-          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">EXTRAS</div>
-          <div> Latest BIOS & drivers installed</div>
-          <div>  </div>
-          <div> Essential apps (Google, Discord, Steam + 1 optional ≤20GB) pre-downloaded </div>
-          <div>  </div>
-          <div> BIOS settings optimized </div>
+        <div class="spec-card extras-card">
+          <div class="extras-header">
+            <span class="extras-dot"></span>
+            <span class="extras-dot"></span>
+            <span class="extras-dot"></span>
+            <span class="extras-title">SYSTEM READY</span>
+            <span class="extras-dot"></span>
+            <span class="extras-dot"></span>
+            <span class="extras-dot"></span>
+          </div>
+          <div class="extras-item">
+            <span class="extras-icon">⚙️</span>
+            <span class="extras-text">Latest BIOS & drivers pre-installed</span>
+          </div>
+          <div class="extras-item">
+            <span class="extras-icon">📦</span>
+            <span class="extras-text">Essential apps pre-loaded (Google, Discord, Steam +1)</span>
+          </div>
+          <div class="extras-item">
+            <span class="extras-icon">🚀</span>
+            <span class="extras-text">BIOS optimized for maximum performance</span>
+          </div>
+          <div class="extras-item">
+            <span class="extras-icon">🔧</span>
+            <span class="extras-text">Fully tested & stress-tested for stability</span>
+          </div>
+          <div class="extras-glow"></div>
         </div>
       </div>
       
