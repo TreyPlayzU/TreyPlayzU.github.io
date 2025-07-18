@@ -181,7 +181,6 @@
     .empty-cart {
       text-align: center;
       padding: 80px 60px;
-      font-size: 2rem;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -193,6 +192,7 @@
       font-size: 6rem;
       margin-bottom: 30px;
       color: #4ecdc4;
+      text-align: center;
     }
     
     .empty-cart-text {
@@ -200,6 +200,8 @@
       font-weight: 600;
       font-size: 2.2rem;
       margin-bottom: 40px;
+      width: 100%;
+      text-align: center;
     }
     
     .empty-cart-btn {
@@ -214,6 +216,8 @@
       text-decoration: none;
       font-weight: 600;
       box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+      display: inline-block;
+      text-align: center;
     }
     
     .empty-cart-btn:hover {
@@ -379,15 +383,15 @@
         let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         
         if (cartItems > 0) {
-          const price = 750;
-          const totalPrice = price * cartItems;
+          const price = 799.99; // Updated price to €799.99
+          const totalPrice = (price * cartItems).toFixed(2);
           
           cartContainer.innerHTML = `
             <div class="cart-item" id="cartItem">
               <img src="images/frostbyte1.jpg" alt="FrostByte X" class="cart-item-image">
               <div class="cart-item-details">
                 <div class="cart-item-title">FrostByte X</div>
-                <div class="cart-item-price">€${price} × ${cartItems} = €${totalPrice}</div>
+                <div class="cart-item-price">€${price.toFixed(2)} × ${cartItems} = €${totalPrice}</div>
                 <div class="cart-item-actions">
                   <button class="quantity-btn" id="decreaseCartQty">-</button>
                   <span class="quantity-display">${cartItems}</span>
