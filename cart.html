@@ -11,11 +11,6 @@
       margin: 0;
       padding: 0;
       background-color: #111;
-      background-image: 
-        linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.9)),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" fill="none" stroke="%234ecdc4" stroke-width="0.5" opacity="0.15"/></svg>');
-      background-size: 60px 60px;
-      background-position: 0 0, 30px 30px;
       color: white;
       min-height: 100vh;
       display: flex;
@@ -26,55 +21,41 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 1rem;
       background-color: #222;
       border-bottom: 1px solid #333;
       position: relative;
     }
     
     .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 1.8rem;
+      font-weight: bold;
       color: #4ecdc4;
       text-decoration: none;
-      letter-spacing: 1px;
     }
     
     .container {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 30px;
+      padding: 20px;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     
     .cart-container {
-      background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(30, 30, 30, 0.6) 100%);
-      backdrop-filter: blur(5px);
-      border: 1px solid #333;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      background: #1a1a1a;
       border-radius: 15px;
-      padding: 40px;
-      margin: 40px 0;
-      min-height: 400px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 90%;
-      max-width: 1100px;
+      padding: 30px;
+      margin-top: 30px;
     }
     
     .cart-item {
       display: flex;
       align-items: center;
-      padding: 30px;
+      padding: 25px;
       border-bottom: 1px solid #333;
       transition: all 0.3s ease;
       margin: 0 auto;
-      width: 100%;
+      max-width: 900px;
     }
     
     .cart-item:last-child {
@@ -82,13 +63,12 @@
     }
 
     .cart-item-image {
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
       object-fit: contain;
-      margin-right: 50px;
+      margin-right: 40px;
       background: #222;
-      border-radius: 10px;
-      padding: 15px;
+      border-radius: 8px;
     }
     
     .cart-item-details {
@@ -98,86 +78,71 @@
     .cart-item-title {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 2rem;
+      font-size: 1.5rem;
       color: #4ecdc4;
-      margin-bottom: 15px;
-      letter-spacing: -0.5px;
+      margin-bottom: 10px;
     }
     
     .cart-item-price {
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
-      font-size: 1.6rem;
-      margin-bottom: 20px;
-      color: #ddd;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
     }
     
     .cart-item-actions {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
     }
     
     .quantity-btn {
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       background: #4ecdc4;
       color: #111;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.2s;
-    }
-    
-    .quantity-btn:hover {
-      transform: scale(1.1);
     }
     
     .quantity-display {
-      font-size: 1.3rem;
-      min-width: 30px;
+      font-size: 1.1rem;
+      min-width: 25px;
       text-align: center;
     }
     
     .remove-btn {
       background: #ff4757;
       color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 8px 15px;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
       font-weight: 600;
-      font-size: 1rem;
       transition: all 0.3s ease;
-      letter-spacing: 0.5px;
     }
     
     .remove-btn:hover {
       background: #ff6b81;
-      transform: translateY(-2px);
     }
     
     .checkout-btn {
       background: #4ecdc4;
       color: #111;
-      padding: 15px 30px;
-      font-size: 1.3rem;
-      margin-top: 40px;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      margin-top: 30px;
       width: 100%;
-      max-width: 350px;
-      border-radius: 10px;
+      max-width: 300px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: bold;
-      letter-spacing: 0.5px;
     }
     
     .checkout-btn:hover {
@@ -187,75 +152,47 @@
     
     .empty-cart {
       text-align: center;
-      padding: 60px 40px;
-      font-size: 1.5rem;
-      width: 100%;
+      padding: 50px 0;
+      font-size: 1.2rem;
+      min-height: 300px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
     }
     
-    .empty-cart-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      color: #4ecdc4;
-    }
-    
-    .empty-cart-text {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-    }
-    
-    .empty-cart-btn {
-      background: #4ecdc4;
-      color: #111;
-      padding: 12px 25px;
+    .empty-cart a {
+      display: inline-block;
+      margin-top: 20px;
       font-size: 1.2rem;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      color: #4ecdc4;
       text-decoration: none;
-      font-weight: 600;
-    }
-    
-    .empty-cart-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
     }
     
     .checkout-section {
       display: flex;
       justify-content: center;
-      margin-top: 50px;
-      width: 100%;
+      margin-top: 40px;
     }
     
     .cart-total {
       text-align: right;
-      font-size: 2rem;
-      margin-top: 30px;
-      padding-right: 50px;
-      width: 100%;
-      max-width: 1100px;
+      font-size: 1.8rem;
+      margin-top: 20px;
+      padding-right: 20px;
     }
     
     .total-amount {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 2.2rem;
       color: #4ecdc4;
     }
     
     footer {
       text-align: center;
-      padding: 2.5rem 1rem;
+      padding: 2rem 1rem;
       background: #222;
       color: white;
-      font-size: 1.1rem;
+      margin-top: auto;
     }
     
     @keyframes itemRemoved {
@@ -268,60 +205,18 @@
     }
     
     @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-      
-      .cart-container {
-        padding: 30px 20px;
-        width: auto;
-      }
-      
       .cart-item {
         flex-direction: column;
         text-align: center;
-        padding: 25px;
       }
       
       .cart-item-image {
-        width: 180px;
-        height: 180px;
         margin-right: 0;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
       }
       
       .cart-item-actions {
         justify-content: center;
-      }
-      
-      .cart-item-title {
-        font-size: 1.8rem;
-      }
-      
-      .cart-item-price {
-        font-size: 1.4rem;
-      }
-      
-      .checkout-btn {
-        font-size: 1.2rem;
-        padding: 12px 25px;
-      }
-      
-      .cart-total {
-        font-size: 1.8rem;
-        padding-right: 20px;
-      }
-      
-      .empty-cart {
-        padding: 40px 20px;
-      }
-      
-      .empty-cart-icon {
-        font-size: 3rem;
-      }
-      
-      .empty-cart-text {
-        font-size: 1.5rem;
       }
     }
   </style>
@@ -332,13 +227,7 @@
   </header>
   
   <div class="container">
-    <div class="cart-container" id="cartContainer">
-      <div class="empty-cart">
-        <div class="empty-cart-icon">🛒</div>
-        <div class="empty-cart-text">Your cart is empty</div>
-        <a href="index.html" class="empty-cart-btn">BROWSE PRODUCTS</a>
-      </div>
-    </div>
+    <div class="cart-container" id="cartContainer"></div>
     
     <div class="cart-total">
       Total: <span class="total-amount" id="totalAmount">€0</span>
@@ -413,9 +302,8 @@
         } else {
           cartContainer.innerHTML = `
             <div class="empty-cart">
-              <div class="empty-cart-icon">🛒</div>
-              <div class="empty-cart-text">Your cart is empty</div>
-              <a href="index.html" class="empty-cart-btn">BROWSE PRODUCTS</a>
+              Your cart is empty<br><br>
+              <a href="index.html">← Back to products</a>
             </div>
           `;
           cartTotal.style.display = 'none';
