@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | TLPrebuilts</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .logo-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background-color: #222;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #4ecdc4;
+      text-decoration: none;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    .cart-container {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 30px;
+    }
+    
+    .cart-item {
+      display: flex;
+      align-items: center;
+      padding: 25px;
+      border-bottom: 1px solid #333;
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      max-width: 900px;
+    }
+    
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-image {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-right: 40px;
+      background: #222;
+      border-radius: 8px;
+    }
+    
+    .cart-item-details {
+      flex: 1;
+    }
+    
+    .cart-item-title {
+      font-size: 1.5rem;
+      color: #4ecdc4;
+      margin-bottom: 10px;
+    }
+    
+    .cart-item-price {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+    
+    .cart-item-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .quantity-btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #4ecdc4;
+      color: #111;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .quantity-display {
+      font-size: 1.1rem;
+      min-width: 25px;
+      text-align: center;
+    }
+    
+    .remove-btn {
+      background: #ff4757;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .remove-btn:hover {
+      background: #ff6b81;
+    }
+    
+    .checkout-btn {
+      background: #4ecdc4;
+      color: #111;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      margin-top: 30px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .checkout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 50px 0;
+      font-size: 1.2rem;
+    }
+    
+    .checkout-section {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    
+    .cart-total {
+      text-align: right;
+      font-size: 1.8rem;
+      margin-top: 20px;
+      padding-right: 20px;
+    }
+    
+    .total-amount {
+      color: #4ecdc4;
+      font-weight: bold;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #222;
+      color: white;
+    }
+    
+    @keyframes itemRemoved {
+      0% { opacity: 1; transform: translateX(0); }
+      100% { opacity: 0; transform: translateX(-100px); }
+    }
+    
+    .item-removing {
+      animation: itemRemoved 0.3s forwards;
+    }
+    
+    @media (max-width: 768px) {
+      .cart-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .cart-item-image {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+      
+      .cart-item-actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="logo-header">
+    <a href="index.html" class="logo">TLPrebuilts</a>
+  </header>
+  
+  <div class="container">
+    <div class="cart-container" id="cartContainer"></div>
+    
+    <div class="cart-total">
+      Total: <span class="total-amount" id="totalAmount">€0</span>
+    </div>
+    
+    <div class="checkout-section">
+      <a href="https://paypal.me/Treyplayz1" class="checkout-btn" target="_blank">PROCEED TO CHECKOUT</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 TLPrebuilts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cartContainer = document.getElementById('cartContainer');
+      const totalAmount = document.getElementById('totalAmount');
+      const checkoutSection = document.querySelector('.checkout-section');
+      const cartTotal = document.querySelector('.cart-total');
+      
+      function updateCartDisplay() {
+        let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+        
+        if (cartItems > 0) {
+          const price = 750;
+          const totalPrice = price * cartItems;
+          
+          cartContainer.innerHTML = `
+            <div class="cart-item" id="cartItem">
+              <img src="images/frostbyte1.jpg" alt="FrostByte X" class="cart-item-image">
+              <div class="cart-item-details">
+                <div class="cart-item-title">FrostByte X</div>
+                <div class="cart-item-price">€${price} × ${cartItems} = €${totalPrice}</div>
+                <div class="cart-item-actions">
+                  <button class="quantity-btn" id="decreaseCartQty">-</button>
+                  <span class="quantity-display">${cartItems}</span>
+                  <button class="quantity-btn" id="increaseCartQty">+</button>
+                  <button class="remove-btn" id="removeItem">REMOVE ALL</button>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          totalAmount.textContent = `€${totalPrice}`;
+          cartTotal.style.display = 'block';
+          checkoutSection.style.display = 'flex';
+          
+          document.getElementById('increaseCartQty').addEventListener('click', function() {
+            cartItems++;
+            localStorage.setItem('cartItems', cartItems.toString());
+            updateCartDisplay();
+          });
+
+          document.getElementById('decreaseCartQty').addEventListener('click', function() {
+            if (cartItems > 1) {
+              cartItems--;
+              localStorage.setItem('cartItems', cartItems.toString());
+              updateCartDisplay();
+            }
+          });
+
+          document.getElementById('removeItem').addEventListener('click', function() {
+            const cartItem = document.getElementById('cartItem');
+            cartItem.classList.add('item-removing');
+            
+            setTimeout(() => {
+              localStorage.setItem('cartItems', '0');
+              updateCartDisplay();
+            }, 300);
+          });
+        } else {
+          cartContainer.innerHTML = `
+            <div class="empty-cart">
+              Your cart is empty<br><br>
+              <a href="index.html" style="color: #4ecdc4;">← Back to products</a>
+            </div>
+          `;
+          cartTotal.style.display = 'none';
+          checkoutSection.style.display = 'none';
+        }
+      }
+      
+      updateCartDisplay();
+    });
+  </script>
+</body>
+</html>

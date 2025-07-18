@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrostByte X | TLPrebuilts</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: white;
+      min-height: 100vh;
+    }
+    
+    .logo-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background-color: #222;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #4ecdc4;
+      text-decoration: none;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .pc-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-top: 20px;
+      align-items: center;
+    }
+    
+    .image-section {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+    
+    .image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      height: 500px;
+      background: #1a1a1a;
+    }
+    
+    .pc-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity 0.5s ease-in-out;
+    }
+    
+    .image-nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #4ecdc4;
+      color: #111;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .nav-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .info-section {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 60px;
+    }
+    
+    .build-name {
+      color: #4ecdc4;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      padding-left: 20px;
+      text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+      transform: translateY(-20px);
+    }
+    
+    .price-tag {
+      color: #4ecdc4;
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      letter-spacing: 1px;
+      line-height: 1.1;
+    }
+
+    .image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .image-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+
+    .close-overlay {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    
+    .tags-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+    
+    .tag {
+      background: #333;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #4ecdc4;
+      color: #111;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .quantity-display {
+      font-size: 1.3rem;
+      min-width: 30px;
+      text-align: center;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding-left: 20px;
+    }
+    
+    .btn {
+      padding: 16px 25px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .btn-primary {
+      background: #4ecdc4;
+      color: #111;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #4ecdc4;
+      border: 2px solid #4ecdc4;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(78, 205, 196, 0.1);
+    }
+    
+    .btn-tertiary {
+      background: #333;
+      color: white;
+      border: 2px solid #444;
+    }
+    
+    .btn-tertiary:hover {
+      background: #444;
+    }
+    
+    .content-section {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 0;
+      margin-top: 50px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+    }
+    
+    .content-section.visible {
+      max-height: 1200px;
+      padding: 30px;
+    }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .spec-card {
+      background: #222;
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #4ecdc4;
+    }
+    
+    .benchmark-section {
+      margin-top: 40px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .benchmark-btn {
+      padding: 16px 25px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+      background: #4ecdc4;
+      color: #111;
+      display: inline-block;
+    }
+    
+    .benchmark-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    }
+    
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #4ecdc4;
+      color: #111;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      width: max-content;
+      max-width: 90%;
+    }
+    
+    .cart-notification.show {
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .cart-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: #4ecdc4;
+      text-decoration: none;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .cart-count.has-items {
+      display: flex;
+    }
+    
+    @media (max-width: 768px) {
+      .build-name {
+        font-size: 2rem;
+        padding-left: 0;
+        text-align: center;
+      }
+      
+      .pc-showcase {
+        flex-direction: column;
+      }
+      
+      .image-container {
+        height: 350px;
+      }
+      
+      .info-section {
+        padding-top: 0;
+      }
+      
+      .price-tag {
+        font-size: 2.8rem;
+        padding-left: 0;
+        text-align: center;
+      }
+      
+      .action-buttons {
+        padding-left: 0;
+        align-items: center;
+      }
+      
+      .tags-container {
+        justify-content: center;
+        padding-left: 0;
+      }
+      
+      .quantity-controls {
+        justify-content: center;
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cart-notification" id="cartNotification">Added to Cart!</div>
+  
+  <header class="logo-header">
+    <a href="index.html" class="logo">TLPrebuilts</a>
+    <a href="cart.html" class="cart-icon">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </a>
+  </header>
+  
+  <div class="container">
+    <div class="pc-showcase">
+      <div class="image-section">
+        <div class="image-overlay" id="imageOverlay">
+          <span class="close-overlay" id="closeOverlay">×</span>
+          <img id="overlayImage" src="" alt="Enlarged view">
+        </div>
+        <div class="image-container">
+          <img src="images/frostbyte1.jpg" alt="FrostByte X" class="pc-image" id="pcImage">
+        </div>
+        <div class="image-nav">
+          <button class="nav-btn" onclick="prevImage()">←</button>
+          <button class="nav-btn" onclick="nextImage()">→</button>
+        </div>
+      </div>
+      
+      <div class="info-section">
+        <div class="build-name">❄️ FROSTBYTE X</div>
+        <div class="price-tag">€750</div>
+        
+        <div class="tags-container">
+          <span class="tag">Gaming</span>
+          <span class="tag">Budget</span>
+          <span class="tag">Intel</span>
+          <span class="tag">NVIDIA</span>
+          <span class="tag">Windows 11</span>
+          <span class="tag">Ready-to-Ship</span>
+        </div>
+        
+        <div class="quantity-controls">
+          <button class="quantity-btn" id="decreaseQty">-</button>
+          <span class="quantity-display" id="quantityDisplay">1</span>
+          <button class="quantity-btn" id="increaseQty">+</button>
+        </div>
+        
+        <div class="action-buttons">
+          <a href="https://paypal.me/Treyplayz1" class="btn btn-primary" target="_blank">BUY NOW</a>
+          <button class="btn btn-tertiary" id="addToCart">ADD TO CART</button>
+          <button class="btn btn-secondary" id="toggleContent">SHOW SPECS</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="content-section" id="content">
+      <div class="specs-grid">
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">PROCESSOR</div>
+          <div>Intel Core i3-12100F</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">GRAPHICS CARD</div>
+          <div>NVIDIA GTX 1660 Super OC 6GB</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">MEMORY</div>
+          <div>16GB DDR4 3200MHz</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">STORAGE</div>
+          <div>512GB NVMe SSD</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">MOTHERBOARD</div>
+          <div>Asrock B660M PRO RS</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">POWER SUPPLY</div>
+          <div>Corsair 650W Full Modular 80+ Bronze</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">COOLING</div>
+          <div>Intel Stock Cooler</div>
+        </div>
+        <div class="spec-card">
+          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">CASE</div>
+          <div>Deepcool CG530</div>
+        </div>
+      </div>
+      
+      <div class="benchmark-section">
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="benchmark-btn" target="_blank">VIEW BENCHMARK RESULTS</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      "images/frostbyte1.jpg",
+      "images/frostbyte2.jpg",
+      "images/frostbyte3.jpg"
+    ];
+    let currentIndex = 0;
+    const pcImage = document.getElementById('pcImage');
+    const contentSection = document.getElementById('content');
+    const toggleBtn = document.getElementById('toggleContent');
+    const addToCartBtn = document.getElementById('addToCart');
+    const cartNotification = document.getElementById('cartNotification');
+    const cartCount = document.getElementById('cartCount');
+    let isTransitioning = false;
+    let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+    let quantity = 1;
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    const increaseQty = document.getElementById('increaseQty');
+    const decreaseQty = document.getElementById('decreaseQty');
+
+    function updateCartCount() {
+      cartCount.textContent = cartItems;
+      if (cartItems === 0) {
+        cartCount.classList.remove('has-items');
+      } else {
+        cartCount.classList.add('has-items');
+      }
+    }
+
+    function showImage(index) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      
+      pcImage.style.opacity = 0;
+      setTimeout(() => {
+        pcImage.src = images[index];
+        pcImage.style.opacity = 1;
+        isTransitioning = false;
+      }, 300);
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }
+
+    increaseQty.addEventListener('click', () => {
+      quantity++;
+      quantityDisplay.textContent = quantity;
+    });
+
+    decreaseQty.addEventListener('click', () => {
+      if (quantity > 1) {
+        quantity--;
+        quantityDisplay.textContent = quantity;
+      }
+    });
+
+    function addToCart() {
+      cartItems += quantity;
+      updateCartCount();
+      localStorage.setItem('cartItems', cartItems.toString());
+      
+      cartNotification.classList.add('show');
+      setTimeout(() => {
+        cartNotification.classList.remove('show');
+      }, 3000);
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      contentSection.classList.toggle('visible');
+      if (contentSection.classList.contains('visible')) {
+        toggleBtn.textContent = 'HIDE SPECS';
+        setTimeout(() => {
+          contentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+      } else {
+        toggleBtn.textContent = 'SHOW SPECS';
+      }
+    });
+
+    addToCartBtn.addEventListener('click', addToCart);
+
+    images.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    const imageOverlay = document.getElementById('imageOverlay');
+    const overlayImage = document.getElementById('overlayImage');
+    const closeOverlay = document.getElementById('closeOverlay');
+
+    pcImage.addEventListener('click', function() {
+      overlayImage.src = this.src;
+      imageOverlay.classList.add('active');
+    });
+
+    closeOverlay.addEventListener('click', function() {
+      imageOverlay.classList.remove('active');
+    });
+
+    imageOverlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+
+    function showImage(index) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      
+      pcImage.style.opacity = 0;
+      setTimeout(() => {
+        pcImage.src = images[index];
+        pcImage.style.opacity = 1;
+        isTransitioning = false;
+      }, 300);
+    }
+
+
+    updateCartCount();
+    showImage(0);
+  </script>
+</body>
+</html>

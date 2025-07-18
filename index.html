@@ -1,11 +1,313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Welcome to Trey!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TLPrebuilts</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #111;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .welcome-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #4ecdc4;
+      color: #111;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      z-index: 1000;
+      transform: translateY(0);
+      transition: all 0.5s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .welcome-popup.small {
+      padding: 10px;
+      font-size: 1rem;
+      transform: translateY(-10px);
+    }
+
+    .logo-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background-color: #222;
+      border-bottom: 1px solid #333;
+      position: relative;
+      margin-top: 50px;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #4ecdc4;
+      text-decoration: none;
+    }
+
+    .container {
+      padding: 1rem;
+      flex: 1;
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 25px;
+      border-radius: 30px;
+      border: none;
+      background: #1a1a1a;
+      color: white;
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      box-shadow: 0 0 0 2px #4ecdc4;
+    }
+
+    .pc-card {
+      display: block;
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .pc-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pc-card.hidden {
+      display: none;
+    }
+
+    .pc-card-content {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pc-card-text {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .pc-card-text h2 {
+      margin-top: 0;
+      color: #4ecdc4;
+    }
+
+    .pc-card-text ul {
+      padding-left: 1.2rem;
+    }
+
+    .pc-image {
+      width: 280px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #222;
+      color: white;
+      margin-top: auto;
+    }
+
+    a {
+      color: #4ecdc4;
+      text-decoration: none;
+    }
+
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #4ecdc4;
+      color: #111;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      width: max-content;
+      max-width: 90%;
+    }
+
+    .cart-notification.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .cart-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: #4ecdc4;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .cart-count.has-items {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      .pc-card-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .pc-image {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .pc-card-text ul {
+        font-size: 0.95rem;
+      }
+
+      .pc-card-text h2 {
+        font-size: 1.2rem;
+      }
+
+      .cart-icon {
+        top: 15px;
+        right: 15px;
+        font-size: 1.3rem;
+      }
+
+      .logo-header {
+        margin-top: 40px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome!</h1> <p>We are  TL Works a p rebuilt pc seller company.</p>
-  <link rel="stylesheet" href="style.css" />  
+  <div class="welcome-popup" id="welcomePopup">
+    Welcome to TLPrebuilts - Your Custom PC Store!
+  </div>
+
+  <div class="cart-notification" id="cartNotification">Added to Cart!</div>
+
+  <header class="logo-header">
+    <a href="index.html" class="logo">TLPrebuilts</a>
+    <a href="cart.html" class="cart-icon">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </a>
+  </header>
+
+  <div class="search-container">
+    <input type="text" class="search-input" id="searchInput" placeholder="Search PCs...">
+  </div>
+
+  <div class="container">
+    <a href="FrostByteX.html" class="pc-card">
+      <div class="pc-card-content">
+        <div class="pc-card-text">
+          <h2>❄️ FrostByte X - €750</h2>
+          <ul>
+            <li>Intel Core i3-12100F</li>
+            <li>GTX 1660 Super OC 6GB Dual Fan GPU</li>
+            <li>16GB DDR4 3200MHz RAM</li>
+            <li>512GB NVMe SSD</li>
+            <li>Intel CPU Cooler</li>
+            <li>Asrock B660M PRO RS Motherboard</li>
+            <li>Corsair 650W Full Modular 80+ Bronze PSU</li>
+            <li>Deepcool CG530 Midi Tower Black</li>
+            <li>Windows 11 Pro | Chrome, Discord, Steam & 1 app of choice pre-installed</li>
+          </ul>
+        </div>
+        <img src="images/frostbyte1.jpg" alt="FrostByte X" class="pc-image" />
+      </div>
+    </a>
+
+    <p>📩 Contact: <a href="mailto:tlprebuilts@gmail.com">tlprebuilts@gmail.com</a></p>
+  </div>
+
+  <footer>
+    <p>© 2025 TLPrebuilts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const welcomePopup = document.getElementById('welcomePopup');
+      setTimeout(() => {
+        welcomePopup.classList.add('small');
+      }, 2000);
+
+      const searchInput = document.getElementById('searchInput');
+      const pcCards = document.querySelectorAll('.pc-card');
+      
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        pcCards.forEach(card => {
+          const title = card.querySelector('h2').textContent.toLowerCase();
+          const specs = card.querySelector('ul').textContent.toLowerCase();
+          
+          if (title.includes(searchTerm) || specs.includes(searchTerm)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+
+      const cartCount = document.getElementById('cartCount');
+      const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+      
+      function updateCartCount() {
+        cartCount.textContent = cartItems;
+        if (cartItems > 0) {
+          cartCount.classList.add('has-items');
+        } else {
+          cartCount.classList.remove('has-items');
+        }
+      }
+      
+      updateCartCount();
+    });
+  </script>
 </body>
 </html>
-
