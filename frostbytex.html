@@ -13,6 +13,8 @@
       background-color: #111;
       color: white;
       min-height: 100vh;
+      position: relative;
+      padding-bottom: 60px;
     }
     
     .logo-header {
@@ -264,22 +266,40 @@
     }
 
     .extras-card {
-      background: #222;
+      background: linear-gradient(135deg, rgba(255,71,87,0.1) 0%, rgba(78,205,196,0.1) 100%);
       border-radius: 12px;
       padding: 20px;
       border-left: 4px solid #ff4757;
       grid-column: span 2;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .extras-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+      z-index: 0;
     }
 
     .extras-card h3 {
       color: #ff4757;
       margin-top: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .extras-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .extras-list div {
@@ -340,6 +360,31 @@
       border-left: 4px solid #4ecdc4;
     }
 
+    .youtube-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #ff0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      border: 2px solid #ff0000;
+    }
+
+    .youtube-link:hover {
+      background: transparent;
+      color: #ff0000;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+    }
+
+    .youtube-link i {
+      margin-right: 8px;
+    }
+
     .cart-notification {
       position: fixed;
       top: 20px;
@@ -389,6 +434,18 @@
       display: flex;
     }
 
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #222;
+      color: #777;
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid #333;
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 768px) {
       .build-name {
         font-size: 2rem;
@@ -436,8 +493,13 @@
       .benchmark-stats {
         grid-template-columns: 1fr;
       }
+
+      body {
+        padding-bottom: 80px;
+      }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <header class="logo-header">
@@ -526,7 +588,7 @@
           <div>Deepcool CG530</div>
         </div>
         <div class="extras-card">
-          <h3>🌟 EXTRAS INCLUDED</h3>
+          <h3>🌟 PREMIUM EXTRAS INCLUDED</h3>
           <div class="extras-list">
             <div>Latest BIOS & drivers installed</div>
             <div>Essential apps pre-downloaded (Google, Discord, Steam)</div>
@@ -565,13 +627,16 @@
               <p>• Boot Time: 12s</p>
             </div>
           </div>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="youtube-link" target="_blank">
+            <i class="fab fa-youtube"></i> WATCH BENCHMARK VIDEO
+          </a>
         </div>
       </div>
     </div>
   </div>
 
   <footer>
-    <p>© 2025 TLPrebuilts. All rights reserved.</p>
+    <p>© 2025 TLPrebuilts. All rights reserved. | Designed with ❤️ for gamers</p>
   </footer>
 
   <script>
@@ -668,6 +733,7 @@
         }, 3000);
       });
       
+      // Benchmark toggle
       document.getElementById('benchmarkToggle').addEventListener('click', function() {
         this.querySelector('h3').textContent = this.querySelector('h3').textContent.includes('▶') ? 
           "▼ BENCHMARK RESULTS" : "▶ CLICK TO VIEW BENCHMARK RESULTS";
