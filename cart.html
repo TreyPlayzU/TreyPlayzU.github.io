@@ -20,14 +20,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 1.5rem;
       background-color: #222;
       border-bottom: 1px solid #333;
       position: relative;
     }
     
     .logo {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: bold;
       color: #4ecdc4;
       text-decoration: none;
@@ -36,25 +36,30 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 30px;
       flex: 1;
     }
     
     .cart-container {
       background: #1a1a1a;
       border-radius: 15px;
-      padding: 30px;
-      margin-top: 30px;
+      padding: 40px;
+      margin-top: 40px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     
     .cart-item {
       display: flex;
       align-items: center;
-      padding: 25px;
+      padding: 30px;
       border-bottom: 1px solid #333;
       transition: all 0.3s ease;
       margin: 0 auto;
-      max-width: 900px;
+      max-width: 1000px;
+      width: 100%;
     }
     
     .cart-item:last-child {
@@ -62,12 +67,12 @@
     }
 
     .cart-item-image {
-      width: 150px;
-      height: 150px;
+      width: 180px;
+      height: 180px;
       object-fit: contain;
-      margin-right: 40px;
+      margin-right: 50px;
       background: #222;
-      border-radius: 8px;
+      border-radius: 10px;
     }
     
     .cart-item-details {
@@ -75,30 +80,30 @@
     }
     
     .cart-item-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       color: #4ecdc4;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     
     .cart-item-price {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
     }
     
     .cart-item-actions {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       align-items: center;
     }
     
     .quantity-btn {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #4ecdc4;
       color: #111;
       border: none;
-      font-size: 1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -106,19 +111,20 @@
     }
     
     .quantity-display {
-      font-size: 1.1rem;
-      min-width: 25px;
+      font-size: 1.3rem;
+      min-width: 30px;
       text-align: center;
     }
     
     .remove-btn {
       background: #ff4757;
       color: white;
-      padding: 8px 15px;
-      border-radius: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
       font-weight: 600;
+      font-size: 1rem;
       transition: all 0.3s ease;
     }
     
@@ -129,15 +135,18 @@
     .checkout-btn {
       background: #4ecdc4;
       color: #111;
-      padding: 12px 25px;
-      font-size: 1.2rem;
-      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      margin-top: 40px;
       width: 100%;
-      max-width: 300px;
-      border-radius: 8px;
+      max-width: 350px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
     }
     
     .checkout-btn:hover {
@@ -147,21 +156,27 @@
     
     .empty-cart {
       text-align: center;
-      padding: 50px 0;
+      padding: 60px 0;
+      font-size: 1.5rem;
+    }
+    
+    .empty-cart a {
+      display: inline-block;
+      margin-top: 20px;
       font-size: 1.2rem;
     }
     
     .checkout-section {
       display: flex;
       justify-content: center;
-      margin-top: 40px;
+      margin-top: 50px;
     }
     
     .cart-total {
       text-align: right;
-      font-size: 1.8rem;
-      margin-top: 20px;
-      padding-right: 20px;
+      font-size: 2rem;
+      margin-top: 30px;
+      padding-right: 30px;
     }
     
     .total-amount {
@@ -171,9 +186,10 @@
     
     footer {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem;
       background: #222;
       color: white;
+      font-size: 1.1rem;
     }
     
     @keyframes itemRemoved {
@@ -186,18 +202,46 @@
     }
     
     @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .cart-container {
+        padding: 30px 20px;
+      }
+      
       .cart-item {
         flex-direction: column;
         text-align: center;
+        padding: 25px;
       }
       
       .cart-item-image {
+        width: 160px;
+        height: 160px;
         margin-right: 0;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
       }
       
       .cart-item-actions {
         justify-content: center;
+      }
+      
+      .cart-item-title {
+        font-size: 1.6rem;
+      }
+      
+      .cart-item-price {
+        font-size: 1.3rem;
+      }
+      
+      .checkout-btn {
+        font-size: 1.2rem;
+        padding: 12px 25px;
+      }
+      
+      .cart-total {
+        font-size: 1.6rem;
       }
     }
   </style>
