@@ -533,50 +533,99 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const welcomePopup = document.getElementById('welcomePopup');
-      setTimeout(() => {
-        welcomePopup.classList.add('small');
-      }, 2000);
-
-      const searchInput = document.getElementById('searchInput');
-      const pcCards = document.querySelectorAll('.pc-card');
-      
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        
-        pcCards.forEach(card => {
-          const title = card.querySelector('h2').textContent.toLowerCase();
-          const specs = card.querySelector('ul').textContent.toLowerCase();
-          
-          if (title.includes(searchTerm) || specs.includes(searchTerm)) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-      });
-
-      const cartCount = document.getElementById('cartCount');
-      const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
-      
-      function updateCartCount() {
-        cartCount.textContent = cartItems;
-        if (cartItems > 0) {
-          cartCount.classList.add('has-items');
-        } else {
-          cartCount.classList.remove('has-items');
-        }
-      }
-      
-      updateCartCount();
-
-      document.getElementById('benchmarkToggle').addEventListener('click', function() {
-        this.querySelector('h3').textContent = this.querySelector('h3').textContent.includes('▶') ? 
-          "▼ BENCHMARK RESULTS" : "▶ CLICK TO VIEW BENCHMARK RESULTS";
-        document.getElementById('benchmarkDetails').classList.toggle('active');
-      });
+  document.addEventListener('DOMContentLoaded', function() {
+    // Image gallery functionality
+    const images = ['images/frostbyte1.jpg', 'images/frostbyte2.jpg', 'images/frostbyte3.jpg'];
+    const pcImage = document.getElementById('pcImage');
+    let currentImageIndex = 0;
+    
+    function updateImage() {
+      pcImage.src = images[currentImageIndex];
+    }
+    
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      updateImage();
+    }
+    
+    function prevImage() {
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+      updateImage();
+    }
+    
+    // Quantity controls
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    const increaseQty = document.getElementById('increaseQty');
+    const decreaseQty = document.getElementById('decreaseQty');
+    let quantity = 1;
+    
+    function updateQuantity() {
+      quantityDisplay.textContent = quantity;
+    }
+    
+    increaseQty.addEventListener('click', function() {
+      quantity++;
+      updateQuantity();
     });
-  </script>
+    
+    decreaseQty.addEventListener('click', function() {
+      if (quantity > 1) {
+        quantity--;
+        updateQuantity();
+      }
+    });
+    
+    // Toggle specs content
+    const toggleContent = document.getElementById('toggleContent');
+    const content = document.getElementById('content');
+    
+    toggleContent.addEventListener('click', function() {
+      content.classList.toggle('visible');
+      this.textContent = content.classList.contains('visible') ? 'HIDE SPECS' : 'SHOW SPECS';
+    });
+    
+    // Cart functionality
+    const cartCount = document.getElementById('cartCount');
+    const addToCart = document.getElementById('addToCart');
+    const cartNotification = document.createElement('div');
+    cartNotification.className = 'cart-notification';
+    document.body.appendChild(cartNotification);
+    
+    let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+    
+    function updateCartCount() {
+      cartCount.textContent = cartItems;
+      if (cartItems > 0) {
+        cartCount.classList.add('has-items');
+      } else {
+        cartCount.classList.remove('has-items');
+      }
+    }
+    
+    updateCartCount();
+    
+    addToCart.addEventListener('click', function() {
+      cartItems += quantity;
+      localStorage.setItem('cartItems', cartItems);
+      updateCartCount();
+      
+      cartNotification.textContent = `${quantity} FrostByte X ${quantity > 1 ? 'systems' : 'system'} added to cart!`;
+      cartNotification.classList.add('show');
+      
+      setTimeout(() => {
+        cartNotification.classList.remove('show');
+      }, 3000);
+    });
+    
+    document.getElementById('benchmarkToggle').addEventListener('click', function() {
+      this.querySelector('h3').textContent = this.querySelector('h3').textContent.includes('▶') ? 
+        "▼ BENCHMARK RESULTS" : "▶ CLICK TO VIEW BENCHMARK RESULTS";
+      document.getElementById('benchmarkDetails').classList.toggle('active');
+    });
+    
+    window.nextImage = nextImage;
+    window.prevImage = prevImage;
+  });
+</script>
 </body>
 </html>
