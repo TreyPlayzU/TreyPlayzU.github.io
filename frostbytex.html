@@ -263,6 +263,37 @@
       border-left: 4px solid #4ecdc4;
     }
 
+    .extras-card {
+      background: #222;
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #ff4757;
+      grid-column: span 2;
+    }
+
+    .extras-card h3 {
+      color: #ff4757;
+      margin-top: 0;
+    }
+
+    .extras-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+    }
+
+    .extras-list div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .extras-list div::before {
+      content: "✓";
+      color: #4ecdc4;
+      font-weight: bold;
+    }
+
     .benchmark-section {
       margin: 40px auto;
       max-width: 800px;
@@ -398,6 +429,10 @@
         padding-left: 0;
       }
 
+      .extras-card {
+        grid-column: span 1;
+      }
+
       .benchmark-stats {
         grid-template-columns: 1fr;
       }
@@ -490,11 +525,18 @@
           <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">CASE</div>
           <div>Deepcool CG530</div>
         </div>
-        <div class="spec-card">
-          <div style="font-weight:bold;color:#4ecdc4;margin-bottom:10px;">EXTRAS</div>
-          <div> Latest BIOS & drivers installed</div>
-          <div> Essential apps (Google, Discord, Steam + 1 optional ≤20GB) pre-downloaded </div>
-          <div> BIOS settings optimized </div>
+        <div class="extras-card">
+          <h3>🌟 EXTRAS INCLUDED</h3>
+          <div class="extras-list">
+            <div>Latest BIOS & drivers installed</div>
+            <div>Essential apps pre-downloaded (Google, Discord, Steam)</div>
+            <div>1 optional app (≤20GB) pre-installed</div>
+            <div>BIOS settings optimized for performance</div>
+            <div>Windows 11 fully updated</div>
+            <div>RGB lighting configured (if applicable)</div>
+            <div>Stress tested for stability</div>
+            <div>Packaged with premium protective materials</div>
+          </div>
         </div>
       </div>
       
@@ -533,99 +575,109 @@
   </footer>
 
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Image gallery functionality
-    const images = ['images/frostbyte1.jpg', 'images/frostbyte2.jpg', 'images/frostbyte3.jpg'];
-    const pcImage = document.getElementById('pcImage');
-    let currentImageIndex = 0;
-    
-    function updateImage() {
-      pcImage.src = images[currentImageIndex];
-    }
-    
-    function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      updateImage();
-    }
-    
-    function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-      updateImage();
-    }
-    
-    // Quantity controls
-    const quantityDisplay = document.getElementById('quantityDisplay');
-    const increaseQty = document.getElementById('increaseQty');
-    const decreaseQty = document.getElementById('decreaseQty');
-    let quantity = 1;
-    
-    function updateQuantity() {
-      quantityDisplay.textContent = quantity;
-    }
-    
-    increaseQty.addEventListener('click', function() {
-      quantity++;
-      updateQuantity();
-    });
-    
-    decreaseQty.addEventListener('click', function() {
-      if (quantity > 1) {
-        quantity--;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Image gallery functionality
+      const images = ['images/frostbyte1.jpg', 'images/frostbyte2.jpg', 'images/frostbyte3.jpg'];
+      const pcImage = document.getElementById('pcImage');
+      let currentImageIndex = 0;
+      
+      function updateImage() {
+        pcImage.src = images[currentImageIndex];
+      }
+      
+      function nextImage() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        updateImage();
+      }
+      
+      function prevImage() {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        updateImage();
+      }
+      
+      // Quantity controls
+      const quantityDisplay = document.getElementById('quantityDisplay');
+      const increaseQty = document.getElementById('increaseQty');
+      const decreaseQty = document.getElementById('decreaseQty');
+      let quantity = 1;
+      
+      function updateQuantity() {
+        quantityDisplay.textContent = quantity;
+      }
+      
+      increaseQty.addEventListener('click', function() {
+        quantity++;
         updateQuantity();
+      });
+      
+      decreaseQty.addEventListener('click', function() {
+        if (quantity > 1) {
+          quantity--;
+          updateQuantity();
+        }
+      });
+      
+      // Toggle specs content with smooth scrolling
+      const toggleContent = document.getElementById('toggleContent');
+      const content = document.getElementById('content');
+      
+      toggleContent.addEventListener('click', function() {
+        const willShow = !content.classList.contains('visible');
+        content.classList.toggle('visible');
+        this.textContent = willShow ? 'HIDE SPECS' : 'SHOW SPECS';
+        
+        if (willShow) {
+          // Scroll to the specs section smoothly
+          setTimeout(() => {
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      });
+      
+      // Cart functionality
+      const cartCount = document.getElementById('cartCount');
+      const addToCart = document.getElementById('addToCart');
+      const cartNotification = document.createElement('div');
+      cartNotification.className = 'cart-notification';
+      document.body.appendChild(cartNotification);
+      
+      let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+      
+      function updateCartCount() {
+        cartCount.textContent = cartItems;
+        if (cartItems > 0) {
+          cartCount.classList.add('has-items');
+        } else {
+          cartCount.classList.remove('has-items');
+        }
       }
-    });
-    
-    // Toggle specs content
-    const toggleContent = document.getElementById('toggleContent');
-    const content = document.getElementById('content');
-    
-    toggleContent.addEventListener('click', function() {
-      content.classList.toggle('visible');
-      this.textContent = content.classList.contains('visible') ? 'HIDE SPECS' : 'SHOW SPECS';
-    });
-    
-    // Cart functionality
-    const cartCount = document.getElementById('cartCount');
-    const addToCart = document.getElementById('addToCart');
-    const cartNotification = document.createElement('div');
-    cartNotification.className = 'cart-notification';
-    document.body.appendChild(cartNotification);
-    
-    let cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
-    
-    function updateCartCount() {
-      cartCount.textContent = cartItems;
-      if (cartItems > 0) {
-        cartCount.classList.add('has-items');
-      } else {
-        cartCount.classList.remove('has-items');
-      }
-    }
-    
-    updateCartCount();
-    
-    addToCart.addEventListener('click', function() {
-      cartItems += quantity;
-      localStorage.setItem('cartItems', cartItems);
+      
       updateCartCount();
       
-      cartNotification.textContent = `${quantity} FrostByte X ${quantity > 1 ? 'systems' : 'system'} added to cart!`;
-      cartNotification.classList.add('show');
+      addToCart.addEventListener('click', function() {
+        cartItems += quantity;
+        localStorage.setItem('cartItems', cartItems);
+        updateCartCount();
+        
+        // Show notification
+        cartNotification.textContent = `${quantity} FrostByte X ${quantity > 1 ? 'systems' : 'system'} added to cart!`;
+        cartNotification.classList.add('show');
+        
+        setTimeout(() => {
+          cartNotification.classList.remove('show');
+        }, 3000);
+      });
       
-      setTimeout(() => {
-        cartNotification.classList.remove('show');
-      }, 3000);
+      document.getElementById('benchmarkToggle').addEventListener('click', function() {
+        this.querySelector('h3').textContent = this.querySelector('h3').textContent.includes('▶') ? 
+          "▼ BENCHMARK RESULTS" : "▶ CLICK TO VIEW BENCHMARK RESULTS";
+        document.getElementById('benchmarkDetails').classList.toggle('active');
+      });
+      
+      // Make the image navigation buttons work
+      window.nextImage = nextImage;
+      window.prevImage = prevImage;
     });
-    
-    document.getElementById('benchmarkToggle').addEventListener('click', function() {
-      this.querySelector('h3').textContent = this.querySelector('h3').textContent.includes('▶') ? 
-        "▼ BENCHMARK RESULTS" : "▶ CLICK TO VIEW BENCHMARK RESULTS";
-      document.getElementById('benchmarkDetails').classList.toggle('active');
-    });
-    
-    window.nextImage = nextImage;
-    window.prevImage = prevImage;
-  });
-</script>
+  </script>
 </body>
 </html>
