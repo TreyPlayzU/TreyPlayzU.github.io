@@ -79,9 +79,6 @@
       width: 100%;
       max-width: 800px; 
       margin: 40px auto 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     
     .search-bar {
@@ -99,24 +96,6 @@
     .search-bar:focus {
       outline: 3px solid #4ecdc4;
       transform: scale(1.02);
-    }
-
-    .search-btn {
-      padding: 15px 30px;
-      margin-top: 15px;
-      background: #4ecdc4;
-      color: #111;
-      border: none;
-      border-radius: 40px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .search-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
     }
 
     .pc-card {
@@ -276,14 +255,13 @@
 
   <div class="search-container">
     <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search all prebuilt PCs...">
-    <button class="search-btn" id="searchButton">Find My PC</button>
   </div>
 
   <div class="container" id="productsContainer">
     <a href="FrostByteX.html" class="pc-card">
       <div class="pc-card-content">
         <div class="pc-card-text">
-          <h2>❄️ FrostByte X - €750</h2>
+          <h2>❄️ FrostByte X - €799.99</h2>
           <ul>
             <li>Intel Core i3-12100F</li>
             <li>GTX 1660 Super OC 6GB Dual Fan GPU</li>
@@ -309,19 +287,16 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Welcome popup animation
       const welcomePopup = document.getElementById('welcomePopup');
       setTimeout(() => {
         welcomePopup.classList.add('small');
       }, 2000);
 
-      // Search functionality
       const searchInput = document.getElementById('searchInput');
-      const searchButton = document.getElementById('searchButton');
       const pcCards = document.querySelectorAll('.pc-card');
       
-      function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase();
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
         
         pcCards.forEach(card => {
           const title = card.querySelector('h2').textContent.toLowerCase();
@@ -333,11 +308,7 @@
             card.classList.add('hidden');
           }
         });
-      }
-
-      searchInput.addEventListener('input', performSearch);
-      
-      searchButton.addEventListener('click', performSearch);
+      });
 
       const cartCount = document.getElementById('cartCount');
       const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
