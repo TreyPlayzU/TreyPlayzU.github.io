@@ -120,13 +120,17 @@
       letter-spacing: 1px;
       line-height: 1.1;
     }
+
+    
     
     .tags-container {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-      padding-left: 20px;
+       padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     
     .tag {
@@ -135,6 +139,17 @@
       border-radius: 20px;
       font-size: 0.9rem;
     }
+
+    .tag.gaming { background: #ff4757; color: white; }
+    .tag.budget { background: #4ecdc4; color: #111; }
+    .tag.intel { background: #0071c5; color: white; }
+    .tag.nvidia { background: #76b900; color: black; }
+    .tag.os { background: #00a4ef; color: white; }
+    .tag.ready { background: #2ed573; color: white; }
+    .tag.bios { background: #a4b0be; color: #111; }
+    .tag.wifi { background: #ffa502; color: #111; }
+    .tag.drivers { background: #5352ed; color: white; }
+    .tag.cooling { background: #70a1ff; color: #111; }
     
     .quantity-controls {
       display: flex;
@@ -295,6 +310,7 @@
       min-width: 30px;
       text-align: center;
     }
+
 
     .extras-text {
       flex: 1;
@@ -471,6 +487,16 @@
       .extras-card {
         grid-column: span 1;
       }
+
+      .tags-container {
+        padding-left: 0;
+        justify-content: center;
+      }
+  
+      .tag {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
     }
   </style>
 </head>
@@ -505,18 +531,20 @@
       <div class="info-section">
         <div class="build-name">❄️ FROSTBYTE X</div>
         <div class="price-tag">€799.99</div>
-        
+
         <div class="tags-container">
-          <span class="tag">Gaming</span>
-          <span class="tag">Budget</span>
-          <span class="tag">Intel</span>
-          <span class="tag">NVIDIA</span>
-          <span class="tag">Windows 11</span>
-          <span class="tag">Ready-to-Ship</span>
-          <span class="tag">UpdatedBios</span>
-          <span class="tag">Wifi</span>
-          <span class="tag">DownloadedDrivers</span>
-        </div>
+        <span class="tag gaming">Gaming</span>
+        <span class="tag budget">Budget</span>
+        <span class="tag intel">Intel</span>
+        <span class="tag nvidia">NVIDIA</span>
+        <span class="tag os">Windows 11</span>
+        <span class="tag ready">Ready-to-Ship</span>
+        <span class="tag bios">Updated BIOS</span>
+        <span class="tag wifi">WiFi</span>
+        <span class="tag drivers">Pre-installed Drivers</span>
+       <span class="tag cooling">Air Cooled</span>
+      </div>
+        
         
         <div class="quantity-controls">
           <button class="quantity-btn" id="decreaseQty">-</button>
