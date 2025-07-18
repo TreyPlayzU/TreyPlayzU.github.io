@@ -79,6 +79,9 @@
       width: 100%;
       max-width: 800px; 
       margin: 40px auto 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
     .search-bar {
@@ -98,19 +101,22 @@
       transform: scale(1.02);
     }
 
-    .search-input {
-      width: 100%;
-      padding: 16px 25px;
-      border-radius: 30px;
+    .search-btn {
+      padding: 15px 30px;
+      margin-top: 15px;
+      background: #4ecdc4;
+      color: #111;
       border: none;
-      background: #1a1a1a;
-      color: white;
+      border-radius: 40px;
       font-size: 1.1rem;
-      outline: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
-    .search-input:focus {
-      box-shadow: 0 0 0 2px #4ecdc4;
+    .search-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
     }
 
     .pc-card {
@@ -189,11 +195,6 @@
       width: max-content;
       max-width: 90%;
     }
-    
-    .search-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
-    }
 
     .cart-notification.show {
       transform: translateX(-50%) translateY(0);
@@ -271,16 +272,14 @@
       🛒
       <span class="cart-count" id="cartCount">0</span>
     </a>
-    
   </header>
 
-  
   <div class="search-container">
-    <input type="text" class="search-bar" placeholder="🔍 Search all prebuilt PCs...">
-    <button class="search-btn">Find My PC</button>
+    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Search all prebuilt PCs...">
+    <button class="search-btn" id="searchButton">Find My PC</button>
   </div>
 
-  <div class="container">
+  <div class="container" id="productsContainer">
     <a href="FrostByteX.html" class="pc-card">
       <div class="pc-card-content">
         <div class="pc-card-text">
@@ -310,16 +309,19 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Welcome popup animation
       const welcomePopup = document.getElementById('welcomePopup');
       setTimeout(() => {
         welcomePopup.classList.add('small');
       }, 2000);
 
+      // Search functionality
       const searchInput = document.getElementById('searchInput');
+      const searchButton = document.getElementById('searchButton');
       const pcCards = document.querySelectorAll('.pc-card');
       
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
         
         pcCards.forEach(card => {
           const title = card.querySelector('h2').textContent.toLowerCase();
@@ -331,7 +333,11 @@
             card.classList.add('hidden');
           }
         });
-      });
+      }
+
+      searchInput.addEventListener('input', performSearch);
+      
+      searchButton.addEventListener('click', performSearch);
 
       const cartCount = document.getElementById('cartCount');
       const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
