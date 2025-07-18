@@ -57,6 +57,7 @@
       border-radius: 12px;
       height: 500px;
       background: #1a1a1a;
+      cursor: pointer;
     }
     
     .pc-image {
@@ -97,7 +98,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      padding-top: 60px;
+      padding-top: 40px;
     }
     
     .build-name {
@@ -118,42 +119,6 @@
       padding-left: 20px;
       letter-spacing: 1px;
       line-height: 1.1;
-    }
-
-    .image-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .image-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .image-overlay img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-    }
-
-    .close-overlay {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
     }
     
     .tags-container {
@@ -352,6 +317,43 @@
     .cart-count.has-items {
       display: flex;
     }
+
+    /* Image overlay styles */
+    .image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .image-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+
+    .close-overlay {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
     
     @media (max-width: 768px) {
       .build-name {
@@ -392,10 +394,20 @@
         justify-content: center;
         padding-left: 0;
       }
+
+      .close-overlay {
+        top: 20px;
+        right: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="image-overlay" id="imageOverlay">
+    <span class="close-overlay" id="closeOverlay">×</span>
+    <img id="overlayImage" src="" alt="Enlarged view">
+  </div>
+
   <div class="cart-notification" id="cartNotification">Added to Cart!</div>
   
   <header class="logo-header">
@@ -409,10 +421,6 @@
   <div class="container">
     <div class="pc-showcase">
       <div class="image-section">
-        <div class="image-overlay" id="imageOverlay">
-          <span class="close-overlay" id="closeOverlay">×</span>
-          <img id="overlayImage" src="" alt="Enlarged view">
-        </div>
         <div class="image-container">
           <img src="images/frostbyte1.jpg" alt="FrostByte X" class="pc-image" id="pcImage">
         </div>
@@ -486,7 +494,7 @@
       </div>
       
       <div class="benchmark-section">
-        <a href="https://www.youtube.com/watch?v=7iiRZebSW7s&t=924s.com" class="benchmark-btn" target="_blank">VIEW BENCHMARK RESULTS</a>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="benchmark-btn" target="_blank">VIEW BENCHMARK RESULTS</a>
       </div>
     </div>
   </div>
@@ -510,6 +518,11 @@
     const quantityDisplay = document.getElementById('quantityDisplay');
     const increaseQty = document.getElementById('increaseQty');
     const decreaseQty = document.getElementById('decreaseQty');
+
+    // Image overlay elements
+    const imageOverlay = document.getElementById('imageOverlay');
+    const overlayImage = document.getElementById('overlayImage');
+    const closeOverlay = document.getElementById('closeOverlay');
 
     function updateCartCount() {
       cartCount.textContent = cartItems;
@@ -541,6 +554,22 @@
       currentIndex = (currentIndex + 1) % images.length;
       showImage(currentIndex);
     }
+
+    // Image overlay functionality
+    pcImage.addEventListener('click', function() {
+      overlayImage.src = this.src;
+      imageOverlay.classList.add('active');
+    });
+
+    closeOverlay.addEventListener('click', function() {
+      imageOverlay.classList.remove('active');
+    });
+
+    imageOverlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
 
     increaseQty.addEventListener('click', () => {
       quantity++;
@@ -583,38 +612,6 @@
       const img = new Image();
       img.src = src;
     });
-
-    const imageOverlay = document.getElementById('imageOverlay');
-    const overlayImage = document.getElementById('overlayImage');
-    const closeOverlay = document.getElementById('closeOverlay');
-
-    pcImage.addEventListener('click', function() {
-      overlayImage.src = this.src;
-      imageOverlay.classList.add('active');
-    });
-
-    closeOverlay.addEventListener('click', function() {
-      imageOverlay.classList.remove('active');
-    });
-
-    imageOverlay.addEventListener('click', function(e) {
-      if (e.target === this) {
-        this.classList.remove('active');
-      }
-    });
-
-    function showImage(index) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      
-      pcImage.style.opacity = 0;
-      setTimeout(() => {
-        pcImage.src = images[index];
-        pcImage.style.opacity = 1;
-        isTransitioning = false;
-      }, 300);
-    }
-
 
     updateCartCount();
     showImage(0);
