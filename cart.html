@@ -21,41 +21,50 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 1.5rem;
       background-color: #222;
       border-bottom: 1px solid #333;
       position: relative;
     }
     
     .logo {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: bold;
       color: #4ecdc4;
       text-decoration: none;
     }
     
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 30px;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
     .cart-container {
       background: #1a1a1a;
       border-radius: 15px;
-      padding: 30px;
-      margin-top: 30px;
+      padding: 40px;
+      margin: 40px 0;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 90%;
+      max-width: 1100px;
     }
     
     .cart-item {
       display: flex;
       align-items: center;
-      padding: 25px;
+      padding: 30px;
       border-bottom: 1px solid #333;
       transition: all 0.3s ease;
       margin: 0 auto;
-      max-width: 900px;
+      width: 100%;
     }
     
     .cart-item:last-child {
@@ -63,12 +72,13 @@
     }
 
     .cart-item-image {
-      width: 150px;
-      height: 150px;
+      width: 200px;
+      height: 200px;
       object-fit: contain;
-      margin-right: 40px;
+      margin-right: 50px;
       background: #222;
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 15px;
     }
     
     .cart-item-details {
@@ -78,71 +88,86 @@
     .cart-item-title {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: #4ecdc4;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
     }
     
     .cart-item-price {
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
-      font-size: 1.3rem;
-      margin-bottom: 15px;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: #ddd;
     }
     
     .cart-item-actions {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       align-items: center;
     }
     
     .quantity-btn {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #4ecdc4;
       color: #111;
       border: none;
-      font-size: 1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.2s;
+    }
+    
+    .quantity-btn:hover {
+      transform: scale(1.1);
     }
     
     .quantity-display {
-      font-size: 1.1rem;
-      min-width: 25px;
+      font-size: 1.3rem;
+      min-width: 30px;
       text-align: center;
     }
     
     .remove-btn {
       background: #ff4757;
       color: white;
-      padding: 8px 15px;
-      border-radius: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
       font-weight: 600;
+      font-size: 1rem;
       transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
     
     .remove-btn:hover {
       background: #ff6b81;
+      transform: translateY(-2px);
     }
     
     .checkout-btn {
       background: #4ecdc4;
       color: #111;
-      padding: 12px 25px;
-      font-size: 1.2rem;
-      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      margin-top: 40px;
       width: 100%;
-      max-width: 300px;
-      border-radius: 8px;
+      max-width: 350px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: bold;
+      letter-spacing: 0.5px;
     }
     
     .checkout-btn:hover {
@@ -152,44 +177,72 @@
     
     .empty-cart {
       text-align: center;
-      padding: 50px 0;
-      font-size: 1.2rem;
-      min-height: 300px;
+      padding: 60px 40px;
+      font-size: 1.5rem;
+      width: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
     }
     
-    .empty-cart a {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 1.2rem;
+    .empty-cart-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
       color: #4ecdc4;
+    }
+    
+    .empty-cart-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+    }
+    
+    .empty-cart-btn {
+      background: #4ecdc4;
+      color: #111;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
       text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .empty-cart-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
     }
     
     .checkout-section {
       display: flex;
       justify-content: center;
-      margin-top: 40px;
+      margin-top: 50px;
+      width: 100%;
     }
     
     .cart-total {
       text-align: right;
-      font-size: 1.8rem;
-      margin-top: 20px;
-      padding-right: 20px;
+      font-size: 2rem;
+      margin-top: 30px;
+      padding-right: 50px;
+      width: 100%;
+      max-width: 1100px;
     }
     
     .total-amount {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
+      font-size: 2.2rem;
       color: #4ecdc4;
     }
     
     footer {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem;
       background: #222;
       color: white;
       margin-top: auto;
@@ -205,18 +258,60 @@
     }
     
     @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .cart-container {
+        padding: 30px 20px;
+        width: auto;
+      }
+      
       .cart-item {
         flex-direction: column;
         text-align: center;
+        padding: 25px;
       }
       
       .cart-item-image {
+        width: 180px;
+        height: 180px;
         margin-right: 0;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
       }
       
       .cart-item-actions {
         justify-content: center;
+      }
+      
+      .cart-item-title {
+        font-size: 1.8rem;
+      }
+      
+      .cart-item-price {
+        font-size: 1.4rem;
+      }
+      
+      .checkout-btn {
+        font-size: 1.2rem;
+        padding: 12px 25px;
+      }
+      
+      .cart-total {
+        font-size: 1.8rem;
+        padding-right: 20px;
+      }
+      
+      .empty-cart {
+        padding: 40px 20px;
+      }
+      
+      .empty-cart-icon {
+        font-size: 3rem;
+      }
+      
+      .empty-cart-text {
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -227,7 +322,13 @@
   </header>
   
   <div class="container">
-    <div class="cart-container" id="cartContainer"></div>
+    <div class="cart-container" id="cartContainer">
+      <div class="empty-cart">
+        <div class="empty-cart-icon">🛒</div>
+        <div class="empty-cart-text">Your cart is empty</div>
+        <a href="index.html" class="empty-cart-btn">BROWSE PRODUCTS</a>
+      </div>
+    </div>
     
     <div class="cart-total">
       Total: <span class="total-amount" id="totalAmount">€0</span>
@@ -302,8 +403,9 @@
         } else {
           cartContainer.innerHTML = `
             <div class="empty-cart">
-              Your cart is empty<br><br>
-              <a href="index.html">← Back to products</a>
+              <div class="empty-cart-icon">🛒</div>
+              <div class="empty-cart-text">Your cart is empty</div>
+              <a href="index.html" class="empty-cart-btn">BROWSE PRODUCTS</a>
             </div>
           `;
           cartTotal.style.display = 'none';
