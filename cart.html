@@ -4,7 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart | TLPrebuilts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    body {
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      background-image: 
+        linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.9)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" fill="none" stroke="%234ecdc4" stroke-width="0.5" opacity="0.15"/></svg>');
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
     .logo-header {
       display: flex;
       align-items: center;
@@ -16,10 +33,12 @@
     }
     
     .logo {
+      font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
-      font-weight: bold;
+      font-weight: 700;
       color: #4ecdc4;
       text-decoration: none;
+      letter-spacing: 1px;
     }
     
     .container {
@@ -33,7 +52,10 @@
     }
     
     .cart-container {
-      background: #1a1a1a;
+      background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(30, 30, 30, 0.6) 100%);
+      backdrop-filter: blur(5px);
+      border: 1px solid #333;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       border-radius: 15px;
       padding: 40px;
       margin: 40px 0;
@@ -74,14 +96,18 @@
     }
     
     .cart-item-title {
-      font-size: 1.8rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
       color: #4ecdc4;
       margin-bottom: 15px;
-      letter-spacing: 0.5px;
+      letter-spacing: -0.5px;
     }
     
     .cart-item-price {
-      font-size: 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.6rem;
       margin-bottom: 20px;
       color: #ddd;
     }
@@ -177,7 +203,10 @@
     }
     
     .empty-cart-text {
-      margin-bottom: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
     }
     
     .empty-cart-btn {
@@ -204,22 +233,6 @@
       margin-top: 50px;
       width: 100%;
     }
-
-     body {
-      background-color: #111;
-      background-image: 
-        linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.9)),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" fill="none" stroke="%234ecdc4" stroke-width="0.5" opacity="0.15"/></svg>');
-      background-size: 60px 60px;
-      background-position: 0 0, 30px 30px;
-    }
-
-    .cart-container {
-      background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(30, 30, 30, 0.6) 100%);
-      backdrop-filter: blur(5px);
-      border: 1px solid #333;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
     
     .cart-total {
       text-align: right;
@@ -231,8 +244,10 @@
     }
     
     .total-amount {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
       color: #4ecdc4;
-      font-weight: bold;
     }
     
     footer {
@@ -280,11 +295,11 @@
       }
       
       .cart-item-title {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
       }
       
       .cart-item-price {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
       }
       
       .checkout-btn {
@@ -293,7 +308,7 @@
       }
       
       .cart-total {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         padding-right: 20px;
       }
       
@@ -303,6 +318,10 @@
       
       .empty-cart-icon {
         font-size: 3rem;
+      }
+      
+      .empty-cart-text {
+        font-size: 1.5rem;
       }
     }
   </style>
