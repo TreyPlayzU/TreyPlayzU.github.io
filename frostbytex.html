@@ -725,17 +725,17 @@
 
   <section class="product-gallery">
     <div class="gallery-main">
-      <img src="images/frostbyte-main.jpg" alt="FrostByte X Gaming PC" id="mainImage">
+      <img src="images/frostbyte1.jpg" alt="FrostByte X Gaming PC" id="mainImage">
     </div>
     <div class="gallery-thumbnails">
       <div class="gallery-thumbnail active" onclick="changeImage('images/frostbyte-main.jpg')">
-        <img src="images/frostbyte-thumb1.jpg" alt="Front View">
+        <img src="images/frostbyte2.jpg" alt="Front View">
       </div>
       <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-side.jpg')">
-        <img src="images/frostbyte-thumb2.jpg" alt="Side View">
+        <img src="images/frostbyte2.jpg" alt="Side View">
       </div>
       <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-angle.jpg')">
-        <img src="images/frostbyte-thumb3.jpg" alt="Angled View">
+        <img src="images/frostbyte3.jpg" alt="Angled View">
       </div>
     </div>
   </section>
@@ -881,7 +881,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Header scroll effect
       const header = document.getElementById('mainHeader');
       window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
@@ -891,7 +890,6 @@
         }
       });
 
-      // Mobile menu toggle
       const menuToggle = document.getElementById('menuToggle');
       const mainNav = document.getElementById('mainNav');
       const overlay = document.getElementById('overlay');
@@ -923,7 +921,6 @@
       function changeImage(src) {
         document.getElementById('mainImage').src = src;
         
-        // Update active thumbnail
         const thumbnails = document.querySelectorAll('.gallery-thumbnail');
         thumbnails.forEach(thumb => {
           thumb.classList.remove('active');
@@ -931,7 +928,6 @@
         event.currentTarget.classList.add('active');
       }
 
-      // Smooth scrolling for anchor links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           if (this.getAttribute('href') !== '#') {
@@ -941,7 +937,6 @@
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-              // Close mobile menu if open
               if (mainNav.classList.contains('active')) {
                 mainNav.classList.remove('active');
                 overlay.classList.remove('active');
