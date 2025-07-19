@@ -240,39 +240,79 @@
       color: var(--primary);
     }
     
-    /* Product Gallery */
-    .product-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+    /* New Product Gallery Layout */
+    .product-display {
+      display: flex;
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem 3rem;
+      gap: 3rem;
+      align-items: center;
     }
     
-    .gallery-main {
-      grid-column: span 2;
+    .product-image-container {
+      flex: 1;
+      position: relative;
+      max-width: 600px;
+    }
+    
+    .product-main-image {
+      width: 100%;
       border-radius: 16px;
       overflow: hidden;
-      position: relative;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(0, 240, 255, 0.2);
     }
     
-    .gallery-main img {
+    .product-main-image img {
       width: 100%;
       height: auto;
       display: block;
       transition: transform 0.5s ease;
     }
     
-    .gallery-thumbnails {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 1rem;
+      z-index: 10;
     }
     
-    .gallery-thumbnail {
+    .nav-arrow {
+      background: rgba(0, 0, 0, 0.5);
+      color: var(--primary);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid var(--primary);
+    }
+    
+    .nav-arrow:hover {
+      background: var(--primary);
+      color: var(--dark);
+      transform: scale(1.1);
+    }
+    
+    .product-thumbnails {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+    
+    .product-thumbnail {
+      width: 80px;
+      height: 80px;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
@@ -280,22 +320,33 @@
       border: 1px solid rgba(0, 240, 255, 0.1);
     }
     
-    .gallery-thumbnail:hover {
+    .product-thumbnail:hover {
       transform: translateY(-5px);
       border-color: var(--primary);
       box-shadow: 0 8px 20px rgba(0, 240, 255, 0.1);
     }
     
-    .gallery-thumbnail img {
+    .product-thumbnail.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+    
+    .product-thumbnail img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: var(--transition);
     }
     
-    .gallery-thumbnail.active {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px var(--primary);
+    .product-actions {
+      flex: 1;
+      max-width: 500px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
     
     /* Product Specs */
@@ -619,15 +670,24 @@
       .product-header {
         padding: 10rem 2rem 3rem;
       }
-      
-      .gallery-main {
-        grid-column: span 1;
-      }
     }
     
     @media (max-width: 992px) {
       .product-header {
         padding: 8rem 2rem 2rem;
+      }
+      
+      .product-display {
+        flex-direction: column;
+      }
+      
+      .product-image-container {
+        max-width: 100%;
+      }
+      
+      .product-actions {
+        max-width: 100%;
+        width: 100%;
       }
     }
     
@@ -672,6 +732,10 @@
         flex-direction: column;
         gap: 1rem;
       }
+      
+      .product-thumbnails {
+        flex-wrap: wrap;
+      }
     }
     
     @media (max-width: 576px) {
@@ -683,8 +747,15 @@
         font-size: 2.5rem;
       }
       
-      .gallery-thumbnails {
-        grid-template-columns: repeat(2, 1fr);
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      
+      .product-thumbnail {
+        width: 60px;
+        height: 60px;
       }
     }
   </style>
@@ -723,19 +794,58 @@
     </div>
   </section>
 
-  <section class="product-gallery">
-    <div class="gallery-main">
-      <img src="images/frostbyte1.jpg" alt="FrostByte X Gaming PC" id="mainImage">
+  <!-- New Product Display Section -->
+  <section class="product-display">
+    <div class="product-image-container">
+      <div class="product-main-image">
+        <img src="images/frostbyte1.jpg" alt="FrostByte X Gaming PC" id="mainImage">
+      </div>
+      <div class="gallery-nav">
+        <div class="nav-arrow" id="prevImage">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="nav-arrow" id="nextImage">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+      <div class="product-thumbnails">
+        <div class="product-thumbnail active" data-image="images/frostbyte1.jpg">
+          <img src="images/frostbyte1.jpg" alt="Front View">
+        </div>
+        <div class="product-thumbnail" data-image="images/frostbyte2.jpg">
+          <img src="images/frostbyte2.jpg" alt="Side View">
+        </div>
+        <div class="product-thumbnail" data-image="images/frostbyte3.jpg">
+          <img src="images/frostbyte3.jpg" alt="Angled View">
+        </div>
+      </div>
     </div>
-    <div class="gallery-thumbnails">
-      <div class="gallery-thumbnail active" onclick="changeImage('images/frostbyte-main.jpg')">
-        <img src="images/frostbyte2.jpg" alt="Front View">
+    
+    <div class="product-actions">
+      <h2 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 1rem;">AVAILABLE NOW</h2>
+      <p style="color: rgba(255, 255, 255, 0.85); margin-bottom: 1.5rem;">
+        The FrostByte X is ready to ship with all drivers installed and BIOS optimized for peak performance.
+      </p>
+      
+      <div class="action-buttons">
+        <a href="cart.html" class="btn btn-primary btn-large">
+          <i class="fas fa-cart-plus"></i> Add to Cart
+        </a>
+        <a href="checkout.html" class="btn btn-secondary btn-large">
+          <i class="fas fa-credit-card"></i> Buy Now
+        </a>
+        <a href="index.html#featured" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> Compare Other Builds
+        </a>
       </div>
-      <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-side.jpg')">
-        <img src="images/frostbyte2.jpg" alt="Side View">
-      </div>
-      <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-angle.jpg')">
-        <img src="images/frostbyte3.jpg" alt="Angled View">
+      
+      <div style="margin-top: 2.5rem; background: rgba(0, 240, 255, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 3px solid var(--primary);">
+        <h3 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 0.5rem;">
+          <i class="fas fa-shipping-fast"></i> FREE SHIPPING
+        </h3>
+        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.95rem;">
+          All orders ship within 1-2 business days with tracking provided. Delivery typically takes 3-5 days.
+        </p>
       </div>
     </div>
   </section>
@@ -918,15 +1028,57 @@
       updateCartCount();
       
       // Image gallery functionality
-      function changeImage(src) {
-        document.getElementById('mainImage').src = src;
+      const images = [
+        'images/frostbyte1.jpg',
+        'images/frostbyte2.jpg',
+        'images/frostbyte3.jpg'
+      ];
+      
+      let currentImageIndex = 0;
+      const mainImage = document.getElementById('mainImage');
+      const thumbnails = document.querySelectorAll('.product-thumbnail');
+      const prevBtn = document.getElementById('prevImage');
+      const nextBtn = document.getElementById('nextImage');
+      
+      function updateGallery(index) {
+        mainImage.src = images[index];
         
-        const thumbnails = document.querySelectorAll('.gallery-thumbnail');
-        thumbnails.forEach(thumb => {
-          thumb.classList.remove('active');
+        thumbnails.forEach((thumb, i) => {
+          if (i === index) {
+            thumb.classList.add('active');
+          } else {
+            thumb.classList.remove('active');
+          }
         });
-        event.currentTarget.classList.add('active');
       }
+      
+      thumbnails.forEach((thumb, index) => {
+        thumb.addEventListener('click', function() {
+          currentImageIndex = index;
+          updateGallery(currentImageIndex);
+        });
+      });
+      
+      prevBtn.addEventListener('click', function() {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        updateGallery(currentImageIndex);
+      });
+      
+      nextBtn.addEventListener('click', function() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        updateGallery(currentImageIndex);
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+          updateGallery(currentImageIndex);
+        } else if (e.key === 'ArrowRight') {
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+          updateGallery(currentImageIndex);
+        }
+      });
 
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
