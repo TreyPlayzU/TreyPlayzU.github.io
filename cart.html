@@ -640,7 +640,7 @@
         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
 
-      // Product data
+      // Product data - should match what's in index.html
       const products = {
         'frostbyte-x': {
           id: 'frostbyte-x',
@@ -656,46 +656,49 @@
         }
       };
 
-      // Cart functionality
+      // Get cart from localStorage or initialize empty
       let cart = JSON.parse(localStorage.getItem('cart')) || {};
-      
-      function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-      }
 
       function updateCartCount() {
         const count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
         document.getElementById('cartCount').textContent = count;
       }
 
-      // DOM elements
-      const cartItemsEl = document.getElementById('cartItems');
-      const emptyCartEl = document.getElementById('emptyCart');
-      const subtotalEl = document.getElementById('subtotal');
-      const taxEl = document.getElementById('tax');
-      const totalEl = document.getElementById('total');
-      const checkoutBtn = document.getElementById('checkoutBtn');
+      function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+      }
 
-      function renderCart() {
+      function calculateTotals() {
         const cartItems = Object.values(cart);
-        
-        // Calculate totals
         const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const tax = subtotal * 0.21; // 21% VAT
         const total = subtotal + tax;
         
+        return {
+          subtotal: subtotal.toFixed(2),
+          tax: tax.toFixed(2),
+          total: total.toFixed(2)
+        };
+      }
+
+      function renderCart() {
+        const cartItems = Object.values(cart);
+        const totals = calculateTotals();
+        
         // Update summary
-        subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
-        taxEl.textContent = `€${tax.toFixed(2)}`;
-        totalEl.textContent = `€${total.toFixed(2)}`;
+        document.getElementById('subtotal').textContent = `€${totals.subtotal}`;
+        document.getElementById('tax').textContent = `€${totals.tax}`;
+        document.getElementById('total').textContent = `€${totals.total}`;
+        
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const emptyCartEl = document.getElementById('emptyCart');
         
         if (cartItems.length === 0) {
           emptyCartEl.style.display = 'flex';
           checkoutBtn.disabled = true;
           checkoutBtn.style.opacity = '0.7';
           checkoutBtn.style.cursor = 'not-allowed';
-          updateCartCount();
           return;
         }
         
@@ -705,7 +708,9 @@
         checkoutBtn.style.cursor = 'pointer';
         
         // Render cart items
+        const cartItemsEl = document.getElementById('cartItems');
         cartItemsEl.innerHTML = '';
+        
         cartItems.forEach(item => {
           const itemEl = document.createElement('div');
           itemEl.className = 'cart-item';
@@ -732,7 +737,7 @@
           cartItemsEl.appendChild(itemEl);
         });
         
-        // Add event listeners
+        // Add event listeners to the new buttons
         document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -765,18 +770,21 @@
         });
       }
 
+      // Initialize the cart display
       renderCart();
       updateCartCount();
 
-      checkoutBtn.addEventListener('click', function() {
+      // Handle checkout button
+      document.getElementById('checkoutBtn').addEventListener('click', function() {
         if (Object.keys(cart).length > 0) {
           window.location.href = 'checkout.html';
         }
       });
 
+      // Handle URL parameters for adding items
       const urlParams = new URLSearchParams(window.location.search);
       const addProduct = urlParams.get('add');
-      
+
       if (addProduct && products[addProduct]) {
         const product = products[addProduct];
         if (cart[product.id]) {

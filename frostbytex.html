@@ -1453,38 +1453,41 @@
       const ctaButtons = document.querySelectorAll('.action-buttons .btn');
       ctaButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-          if (this.getAttribute('href') === 'cart.html') {
-            e.preventDefault();
-            const product = {
-              id: 'frostbyte-x',
-              name: 'FrostByte X',
-              price: 799.99,
-              image: 'images/frostbyte1.jpg',
-              quantity: 1
-            };
-            
-            let cart = JSON.parse(localStorage.getItem('cart')) || {};
-            if (cart[product.id]) {
-              cart[product.id].quantity += 1;
-            } else {
-              cart[product.id] = product;
-            }
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            
-            // Show added to cart notification
-            alert(`${product.name} has been added to your cart!`);
-          }
-        });
+  if (this.getAttribute('href') === 'cart.html') {
+    e.preventDefault();
+    const product = {
+      id: 'frostbyte-x',
+      name: 'FrostByte X',
+      price: 799.99,
+      image: 'images/frostbyte1.jpg',
+      quantity: 1,
+      specs: [
+        'Intel Core i3-12100F',
+        'NVIDIA GTX 1660 Super 6GB',
+        '16GB DDR4 3200MHz', 
+        '512GB NVMe SSD'
+      ]
+    };
+    
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    if (cart[product.id]) {
+      cart[product.id].quantity += 1;
+    } else {
+      cart[product.id] = product;
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    alert(`${product.name} has been added to your cart!`);
+  }
+});
       });
 
-      // Image Modal Functionality
       const imageModal = document.getElementById('imageModal');
       const modalImage = document.getElementById('modalImage');
       const closeImageModal = document.getElementById('closeImageModal');
       
-      // Make all PC images clickable
       const pcImages = document.querySelectorAll('.product-main-image img, .product-thumbnail img');
       pcImages.forEach(img => {
         img.style.cursor = 'pointer';
