@@ -69,6 +69,7 @@
       color: var(--secondary);
     }
     
+    /* Navigation */
     nav {
       display: flex;
       align-items: center;
@@ -131,6 +132,36 @@
       font-weight: bold;
     }
     
+    /* Mobile Menu */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Hero Section */
     .hero {
       padding: 8rem 2rem 4rem;
       background: radial-gradient(circle at 70% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
@@ -169,6 +200,7 @@
       color: rgba(255, 255, 255, 0.8);
     }
     
+    /* Featured Builds */
     .featured {
       padding: 4rem 2rem;
       max-width: 1400px;
@@ -346,6 +378,7 @@
       transform: translateY(-3px);
     }
     
+    /* Features Section */
     .features {
       padding: 4rem 2rem;
       background: linear-gradient(to bottom, var(--darker), var(--dark));
@@ -392,6 +425,7 @@
       line-height: 1.6;
     }
     
+    /* Footer */
     footer {
       background: var(--darker);
       padding: 3rem 2rem 2rem;
@@ -450,16 +484,7 @@
       margin-top: 1.5rem;
     }
     
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--light);
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 1001;
-    }
-    
+    /* Responsive Design */
     @media (max-width: 1024px) {
       .hero-title {
         font-size: 2.8rem;
@@ -501,19 +526,6 @@
       
       .nav-link {
         font-size: 1.2rem;
-      }
-      
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
       }
       
       .overlay.active {
@@ -693,10 +705,27 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu functionality
+      const menuToggle = document.getElementById('menuToggle');
+      const mainNav = document.getElementById('mainNav');
+      const overlay = document.getElementById('overlay');
+      
+      menuToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        menuToggle.innerHTML = mainNav.classList.contains('active') ? 
+          '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+      });
+      
+      overlay.addEventListener('click', function() {
+        mainNav.classList.remove('active');
+        overlay.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+      
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
-        const cartCount = document.getElementById('cartCount');
-        cartCount.textContent = cartItems;
+        document.getElementById('cartCount').textContent = cartItems;
       }
       
       updateCartCount();
@@ -719,23 +748,6 @@
         card.style.transform = 'translateY(20px)';
         card.style.transition = 'all 0.5s ease';
         observer.observe(card);
-      });
-      
-      const menuToggle = document.getElementById('menuToggle');
-      const mainNav = document.getElementById('mainNav');
-      const overlay = document.getElementById('overlay');
-      
-      menuToggle.addEventListener('click', function() {
-        mainNav.classList.toggle('active');
-        overlay.classList.toggle('active');
-        menuToggle.innerHTML = mainNav.classList.contains('active') ? 
-          '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-      });
-      
-      overlay.addEventListener('click', function() {
-        mainNav.classList.remove('active');
-        overlay.classList.remove('active');
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
     });
   </script>
