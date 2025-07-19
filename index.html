@@ -1054,6 +1054,22 @@
     </div>
   </section>
 
+  <section class="product-cta">
+  <div class="cta-container">
+    <h2 class="cta-title">READY TO UPGRADE YOUR GAMING EXPERIENCE?</h2>
+    <p class="cta-text">Browse our selection of high-performance prebuilt PCs designed for gamers by gamers.</p>
+    <div class="action-buttons" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+      <a href="#featured" class="btn btn-primary btn-large">
+        <i class="fas fa-desktop"></i> View All Builds
+      </a>
+      <a href="contact.html" class="btn btn-secondary btn-large">
+        <i class="fas fa-question-circle"></i> Get Help Choosing
+      </a>
+    </div>
+  </div>
+  </section>
+
+
   <footer>
     <div class="footer-logo">TLPrebuilts</div>
     
@@ -1082,99 +1098,116 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const header = document.getElementById('mainHeader');
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      });
+  const header = document.getElementById('mainHeader');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
 
-      const menuToggle = document.getElementById('menuToggle');
-      const mainNav = document.getElementById('mainNav');
-      const overlay = document.getElementById('overlay');
-      
-      menuToggle.addEventListener('click', function() {
-        mainNav.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
-        menuToggle.innerHTML = mainNav.classList.contains('active') ? 
-          '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-      });
-      
-      overlay.addEventListener('click', function() {
-        mainNav.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-      });
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNav = document.getElementById('mainNav');
+  const overlay = document.getElementById('overlay');
 
-      const businessOverlay = document.getElementById('businessOverlay');
-      const closeOverlay = document.getElementById('closeOverlay');
-      const learnMoreBtn = document.getElementById('learnMoreBtn');
-      const aboutLink = document.getElementById('aboutLink');
-      const supportLink = document.getElementById('supportLink');
-      
-      function showBusinessOverlay() {
-        document.body.style.overflow = 'hidden';
-        businessOverlay.style.display = 'grid';
-        void businessOverlay.offsetWidth;
-        businessOverlay.classList.add('active');
+  menuToggle.addEventListener('click', function() {
+    mainNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
+    menuToggle.innerHTML = mainNav.classList.contains('active') ?
+      '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+  });
+
+  overlay.addEventListener('click', function() {
+    mainNav.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  });
+
+  const businessOverlay = document.getElementById('businessOverlay');
+  const closeOverlay = document.getElementById('closeOverlay');
+  const learnMoreBtn = document.getElementById('learnMoreBtn');
+  const aboutLink = document.getElementById('aboutLink');
+  const supportLink = document.getElementById('supportLink');
+
+  function showBusinessOverlay() {
+    document.body.style.overflow = 'hidden';
+    businessOverlay.style.display = 'grid';
+    void businessOverlay.offsetWidth;
+    businessOverlay.classList.add('active');
+  }
+
+  function hideBusinessOverlay() {
+    businessOverlay.classList.remove('active');
+    setTimeout(() => {
+      businessOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 400);
+  }
+
+  [learnMoreBtn, aboutLink, supportLink].forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showBusinessOverlay();
+      });
+    }
+  });
+
+  closeOverlay.addEventListener('click', hideBusinessOverlay);
+
+  businessOverlay.addEventListener('click', function(e) {
+    if (e.target === this) {
+      hideBusinessOverlay();
+    }
+  });
+
+  function updateCartCount() {
+    const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
+    document.getElementById('cartCount').textContent = cartItems;
+  }
+
+  updateCartCount();
+
+  const observerOptions = {
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = 1;
+        entry.target.style.transform = 'translateY(0)';
       }
-      
-      function hideBusinessOverlay() {
-        businessOverlay.classList.remove('active');
-        setTimeout(() => {
-          businessOverlay.style.display = 'none';
-          document.body.style.overflow = '';
-        }, 400);
-      }
-      
-      [learnMoreBtn, aboutLink, supportLink].forEach(btn => {
-        if (btn) {
-          btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showBusinessOverlay();
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.build-card, .feature-card').forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'all 0.5s ease';
+    observer.observe(card);
+  });
+
+  const ctaButtons = document.querySelectorAll('.action-buttons .btn');
+  ctaButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      if (this.getAttribute('href') === '#featured') {
+        e.preventDefault();
+        const target = document.querySelector('#featured');
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
           });
         }
-      });
-      
-      closeOverlay.addEventListener('click', hideBusinessOverlay);
-      
-      businessOverlay.addEventListener('click', function(e) {
-        if (e.target === this) {
-          hideBusinessOverlay();
-        }
-      });
-
-      function updateCartCount() {
-        const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
-        document.getElementById('cartCount').textContent = cartItems;
       }
-      
-      updateCartCount();
-      
-      const observerOptions = {
-        threshold: 0.1
-      };
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, observerOptions);
-      
-      document.querySelectorAll('.build-card, .feature-card').forEach(card => {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.5s ease';
-        observer.observe(card);
-      });
     });
-  </script>
+  });
+});
+
+</script>
 </body>
 </html>

@@ -626,6 +626,7 @@
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(5px);
+      cursor: pointer;
     }
 
     .benchmark-card:hover {
@@ -833,6 +834,126 @@
       margin-top: 1.5rem;
       position: relative;
       z-index: 1;
+    }
+
+    /* Image Modal Overlay */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    
+    .image-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+    
+    .modal-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: -10px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .close-modal:hover {
+      color: var(--secondary);
+      transform: rotate(90deg);
+    }
+    
+    /* Benchmark Modal */
+    .benchmark-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 5, 8, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    
+    .benchmark-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .benchmark-modal-content {
+      background: var(--darker);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      border: 2px solid var(--primary);
+      position: relative;
+    }
+    
+    .benchmark-modal-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .benchmark-modal-result {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .benchmark-modal-details {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .benchmark-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .benchmark-modal-close:hover {
+      color: var(--secondary);
+      transform: rotate(90deg);
     }
     
     /* Responsive adjustments */
@@ -1125,25 +1246,25 @@
       </h2>
       
       <div class="benchmark-grid">
-        <div class="benchmark-card">
+        <div class="benchmark-card" data-benchmark="timespy">
           <h3 class="benchmark-title">3DMARK TIME SPY</h3>
           <div class="benchmark-result">5,850</div>
           <p class="benchmark-description">Great for 1080p gaming and esports titles</p>
         </div>
         
-        <div class="benchmark-card">
+        <div class="benchmark-card" data-benchmark="cinebench">
           <h3 class="benchmark-title">CINEBENCH R23</h3>
           <div class="benchmark-result">7,420</div>
           <p class="benchmark-description">Solid multi-core performance for productivity</p>
         </div>
         
-        <div class="benchmark-card">
+        <div class="benchmark-card" data-benchmark="gaming1080">
           <h3 class="benchmark-title">GAMING (1080P)</h3>
           <div class="benchmark-result">100+ FPS</div>
           <p class="benchmark-description">Esports titles like Valorant, CS2, Fortnite</p>
         </div>
         
-        <div class="benchmark-card">
+        <div class="benchmark-card" data-benchmark="gaming1440">
           <h3 class="benchmark-title">GAMING (1440P)</h3>
           <div class="benchmark-result">60+ FPS</div>
           <p class="benchmark-description">AAA titles at medium-high settings</p>
@@ -1192,6 +1313,26 @@
       Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> for gamers worldwide
     </p>
   </footer>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeImageModal">&times;</span>
+      <img id="modalImage" src="" alt="Enlarged PC view">
+    </div>
+  </div>
+
+  <!-- Benchmark Modal -->
+  <div class="benchmark-modal" id="benchmarkModal">
+    <div class="benchmark-modal-content">
+      <span class="benchmark-modal-close" id="closeBenchmarkModal">&times;</span>
+      <h2 class="benchmark-modal-title" id="benchmarkModalTitle">Benchmark Details</h2>
+      <div class="benchmark-modal-result" id="benchmarkModalResult">0</div>
+      <div class="benchmark-modal-details" id="benchmarkModalDetails">
+        Detailed benchmark information will appear here.
+      </div>
+    </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1309,13 +1450,11 @@
         });
       });
 
-      // CTA buttons functionality
       const ctaButtons = document.querySelectorAll('.action-buttons .btn');
       ctaButtons.forEach(button => {
         button.addEventListener('click', function(e) {
           if (this.getAttribute('href') === 'cart.html') {
             e.preventDefault();
-            // Add to cart logic
             const product = {
               id: 'frostbyte-x',
               name: 'FrostByte X',
@@ -1338,6 +1477,115 @@
             alert(`${product.name} has been added to your cart!`);
           }
         });
+      });
+
+      // Image Modal Functionality
+      const imageModal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+      const closeImageModal = document.getElementById('closeImageModal');
+      
+      // Make all PC images clickable
+      const pcImages = document.querySelectorAll('.product-main-image img, .product-thumbnail img');
+      pcImages.forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+          modalImage.src = this.src;
+          imageModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      
+      closeImageModal.addEventListener('click', function() {
+        imageModal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      // Benchmark Modal Functionality
+      const benchmarkModal = document.getElementById('benchmarkModal');
+      const closeBenchmarkModal = document.getElementById('closeBenchmarkModal');
+      const benchmarkModalTitle = document.getElementById('benchmarkModalTitle');
+      const benchmarkModalResult = document.getElementById('benchmarkModalResult');
+      const benchmarkModalDetails = document.getElementById('benchmarkModalDetails');
+      
+      // Benchmark data
+      const benchmarkDetails = {
+        timespy: {
+          title: "3DMARK TIME SPY DETAILS",
+          result: "5,850 Points",
+          details: "The FrostByte X scores 5,850 in 3DMark Time Spy, which indicates excellent performance for 1080p gaming. This score puts it in the top tier for budget gaming PCs, capable of running:<br><br>" +
+                  "- Valorant: 300+ FPS<br>" +
+                  "- CS2: 200+ FPS<br>" +
+                  "- Fortnite: 120+ FPS (Medium Settings)<br>" +
+                  "- Apex Legends: 100+ FPS<br><br>" +
+                  "This benchmark primarily tests DirectX 12 gaming performance."
+        },
+        cinebench: {
+          title: "CINEBENCH R23 DETAILS",
+          result: "7,420 Points",
+          details: "With a Cinebench R23 multi-core score of 7,420, the FrostByte X handles productivity tasks with ease:<br><br>" +
+                  "- Video Editing: Smooth 1080p timeline performance<br>" +
+                  "- 3D Rendering: Competent performance for entry-level work<br>" +
+                  "- Streaming: Can handle 1080p60 streaming while gaming<br><br>" +
+                  "The Intel Core i3-12100F shows impressive performance for its price point in CPU-intensive tasks."
+        },
+        gaming1080: {
+          title: "1080P GAMING PERFORMANCE",
+          result: "100+ FPS",
+          details: "At 1920×1080 resolution, the FrostByte X delivers exceptional frame rates:<br><br>" +
+                  "<strong>Competitive Esports:</strong><br>" +
+                  "- Valorant: 300+ FPS<br>" +
+                  "- CS2: 200-250 FPS<br>" +
+                  "- Rocket League: 240+ FPS<br><br>" +
+                  "<strong>AAA Titles:</strong><br>" +
+                  "- GTA V: 90-110 FPS (High Settings)<br>" +
+                  "- Call of Duty: 80-100 FPS (Medium Settings)<br>" +
+                  "- Cyberpunk 2077: 50-60 FPS (Medium Settings with FSR)"
+        },
+        gaming1440: {
+          title: "1440P GAMING PERFORMANCE",
+          result: "60+ FPS",
+          details: "At 2560×1440 resolution, the FrostByte X still delivers playable frame rates:<br><br>" +
+                  "<strong>Optimized Settings:</strong><br>" +
+                  "- Medium-High settings recommended for most games<br>" +
+                  "- Enable FSR/DLSS when available<br><br>" +
+                  "<strong>Performance Examples:</strong><br>" +
+                  "- Fortnite: 80-100 FPS (Medium Settings)<br>" +
+                  "- Apex Legends: 70-90 FPS<br>" +
+                  "- Red Dead Redemption 2: 50-60 FPS (Balanced Settings)<br><br>" +
+                  "For competitive gaming at 1440p, we recommend lowering settings for maximum FPS."
+        }
+      };
+
+      const benchmarkCards = document.querySelectorAll('.benchmark-card');
+      benchmarkCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+          const benchmarkType = this.getAttribute('data-benchmark');
+          const benchmarkData = benchmarkDetails[benchmarkType];
+          
+          benchmarkModalTitle.textContent = benchmarkData.title;
+          benchmarkModalResult.textContent = benchmarkData.result;
+          benchmarkModalDetails.innerHTML = benchmarkData.details;
+          
+          benchmarkModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      
+      closeBenchmarkModal.addEventListener('click', function() {
+        benchmarkModal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      window.addEventListener('click', function(e) {
+        if (e.target === imageModal) {
+          imageModal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+        if (e.target === benchmarkModal) {
+          benchmarkModal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
       });
     });
   </script>
