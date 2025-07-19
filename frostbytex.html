@@ -180,22 +180,15 @@
       transform: scale(1.1);
     }
     
-    /* Hero Section */
-    .product-hero {
-      padding: 12rem 2rem 6rem;
-      background: radial-gradient(circle at 70% 30%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
-                  linear-gradient(to bottom, rgba(5,5,8,0.9), rgba(10,10,18,0.7));
+    /* Product Header */
+    .product-header {
+      padding: 12rem 2rem 3rem;
       text-align: center;
       position: relative;
-      overflow: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background: radial-gradient(circle at 70% 30%, rgba(0, 240, 255, 0.15) 0%, transparent 50%);
     }
     
-    .product-hero::before {
+    .product-header::before {
       content: '';
       position: absolute;
       top: 0;
@@ -209,54 +202,42 @@
     
     .product-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      margin-bottom: 1.5rem;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 1rem;
       background: linear-gradient(to right, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       line-height: 1.1;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      animation: fadeInUp 0.8s ease-out;
     }
     
     .product-subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-size: clamp(1rem, 2vw, 1.3rem);
       max-width: 800px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2rem;
       color: rgba(255, 255, 255, 0.85);
-      animation: fadeInUp 0.8s ease-out 0.2s forwards;
-      opacity: 0;
+    }
+    
+    .product-price-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
     }
     
     .product-price {
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      margin-bottom: 3rem;
       color: var(--light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      animation: fadeInUp 0.8s ease-out 0.4s forwards;
-      opacity: 0;
     }
     
     .product-price::before {
       content: '€';
       font-size: 1.5rem;
       color: var(--primary);
-    }
-    
-    .product-actions {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.6s forwards;
-      opacity: 0;
     }
     
     /* Product Gallery */
@@ -266,7 +247,7 @@
       gap: 2rem;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 2rem 5rem;
+      padding: 0 2rem 3rem;
     }
     
     .gallery-main {
@@ -341,6 +322,25 @@
       margin: 0 auto;
       position: relative;
       z-index: 1;
+    }
+    
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      margin-bottom: 3rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, var(--primary), transparent);
     }
     
     .specs-grid {
@@ -437,72 +437,6 @@
       margin-top: 0.5rem;
     }
     
-    /* Performance Section */
-    .performance {
-      padding: 6rem 2rem;
-      background: linear-gradient(to bottom, var(--dark), var(--darker));
-      position: relative;
-    }
-    
-    .performance::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('images/tech-pattern.png') center/cover;
-      opacity: 0.05;
-      z-index: 0;
-    }
-    
-    .performance-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .benchmarks {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    
-    .benchmark-card {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 12px;
-      padding: 2rem;
-      border: 1px solid rgba(0, 240, 255, 0.1);
-      transition: var(--transition);
-      backdrop-filter: blur(5px);
-    }
-    
-    .benchmark-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
-    }
-    
-    .benchmark-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.3rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-    
-    .benchmark-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--light);
-      margin-bottom: 0.5rem;
-    }
-    
-    .benchmark-description {
-      color: rgba(255, 255, 255, 0.7);
-    }
-    
     /* CTA Section */
     .product-cta {
       padding: 6rem 2rem;
@@ -541,6 +475,54 @@
     .cta-text {
       color: rgba(255, 255, 255, 0.85);
       margin-bottom: 2.5rem;
+      font-size: 1.1rem;
+    }
+    
+    /* Buttons */
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      text-align: center;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      min-width: 200px;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: var(--dark);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--dark);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+    
+    .btn-large {
+      padding: 1.2rem 2.5rem;
       font-size: 1.1rem;
     }
     
@@ -632,82 +614,10 @@
       z-index: 1;
     }
     
-    /* Buttons */
-    .btn {
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.7rem;
-      text-align: center;
-      font-size: 1rem;
-      letter-spacing: 0.5px;
-      min-width: 200px;
-    }
-    
-    .btn-primary {
-      background: var(--primary);
-      color: var(--dark);
-      border: 2px solid var(--primary);
-    }
-    
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--primary);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
-    }
-    
-    .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-    
-    .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--dark);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
-    }
-    
-    .btn-large {
-      padding: 1.2rem 2.5rem;
-      font-size: 1.1rem;
-    }
-    
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4);
-      }
-      70% {
-        box-shadow: 0 0 0 15px rgba(0, 240, 255, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);
-      }
-    }
-    
     /* Responsive adjustments */
     @media (max-width: 1200px) {
-      .product-hero {
-        padding: 10rem 2rem 5rem;
+      .product-header {
+        padding: 10rem 2rem 3rem;
       }
       
       .gallery-main {
@@ -716,8 +626,8 @@
     }
     
     @media (max-width: 992px) {
-      .product-hero {
-        padding: 8rem 2rem 4rem;
+      .product-header {
+        padding: 8rem 2rem 2rem;
       }
     }
     
@@ -754,24 +664,19 @@
         right: 0;
       }
       
-      .product-hero {
-        padding: 6rem 1.5rem 3rem;
+      .product-header {
+        padding: 6rem 1.5rem 2rem;
       }
       
-      .product-actions {
+      .product-price-container {
         flex-direction: column;
-        align-items: center;
-      }
-      
-      .btn {
-        width: 100%;
-        max-width: 300px;
+        gap: 1rem;
       }
     }
     
     @media (max-width: 576px) {
-      .product-hero {
-        padding: 5rem 1rem 3rem;
+      .product-header {
+        padding: 5rem 1rem 2rem;
       }
       
       .product-title {
@@ -780,17 +685,6 @@
       
       .gallery-thumbnails {
         grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    @media (max-width: 400px) {
-      .product-title {
-        font-size: 2rem;
-      }
-      
-      .btn {
-        min-width: auto;
-        padding: 1rem 1.5rem;
       }
     }
   </style>
@@ -818,16 +712,13 @@
     </nav>
   </header>
 
-  <section class="product-hero">
+  <section class="product-header">
     <h1 class="product-title">FROSTBYTE X</h1>
     <p class="product-subtitle">The ultimate budget gaming PC with exceptional performance and stunning aesthetics</p>
-    <div class="product-price">799.99</div>
-    <div class="product-actions">
-      <a href="#configurator" class="btn btn-primary btn-large">
-        <i class="fas fa-cog"></i> Customize
-      </a>
-      <a href="cart.html" class="btn btn-secondary btn-large">
-        <i class="fas fa-cart-plus"></i> Add to Cart
+    <div class="product-price-container">
+      <div class="product-price">799.99</div>
+      <a href="#specs" class="btn btn-secondary">
+        <i class="fas fa-list"></i> View Specs
       </a>
     </div>
   </section>
@@ -846,19 +737,10 @@
       <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-angle.jpg')">
         <img src="images/frostbyte-thumb3.jpg" alt="Angled View">
       </div>
-      <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-rgb.jpg')">
-        <img src="images/frostbyte-thumb4.jpg" alt="RGB Lighting">
-      </div>
-      <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-interior.jpg')">
-        <img src="images/frostbyte-thumb5.jpg" alt="Interior View">
-      </div>
-      <div class="gallery-thumbnail" onclick="changeImage('images/frostbyte-back.jpg')">
-        <img src="images/frostbyte-thumb6.jpg" alt="Rear View">
-      </div>
     </div>
   </section>
 
-  <section class="product-specs">
+  <section class="product-specs" id="specs">
     <div class="specs-container">
       <h2 class="section-title">
         <i class="fas fa-microchip"></i> TECHNICAL SPECIFICATIONS
@@ -956,62 +838,16 @@
     </div>
   </section>
 
-  <section class="performance">
-    <div class="performance-container">
-      <h2 class="section-title">
-        <i class="fas fa-tachometer-alt"></i> PERFORMANCE BENCHMARKS
-      </h2>
-      
-      <div class="benchmarks">
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">3DMark Time Spy</h3>
-          <div class="benchmark-value">6,421</div>
-          <p class="benchmark-description">Excellent 1080p gaming performance</p>
-        </div>
-        
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">Cinebench R23</h3>
-          <div class="benchmark-value">7,892</div>
-          <p class="benchmark-description">Strong multi-core performance</p>
-        </div>
-        
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">PCMark 10</h3>
-          <div class="benchmark-value">5,876</div>
-          <p class="benchmark-description">Great for productivity tasks</p>
-        </div>
-        
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">Fortnite (1080p Epic)</h3>
-          <div class="benchmark-value">98 FPS</div>
-          <p class="benchmark-description">Smooth competitive gameplay</p>
-        </div>
-        
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">Call of Duty: Warzone</h3>
-          <div class="benchmark-value">85 FPS</div>
-          <p class="benchmark-description">High settings at 1080p</p>
-        </div>
-        
-        <div class="benchmark-card">
-          <h3 class="benchmark-title">Temperature (Load)</h3>
-          <div class="benchmark-value">68°C</div>
-          <p class="benchmark-description">Efficient cooling solution</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="product-cta" id="configurator">
+  <section class="product-cta">
     <div class="cta-container">
       <h2 class="cta-title">READY TO UPGRADE YOUR GAMING EXPERIENCE?</h2>
-      <p class="cta-text">The FrostByte X delivers exceptional performance at an unbeatable price. Customize your build or order now for fast shipping!</p>
-      <div class="product-actions">
-        <a href="#configurator" class="btn btn-primary btn-large">
-          <i class="fas fa-cog"></i> Customize Now
-        </a>
-        <a href="cart.html" class="btn btn-secondary btn-large">
+      <p class="cta-text">The FrostByte X delivers exceptional performance at an unbeatable price. Order now for fast shipping!</p>
+      <div style="display: flex; gap: 1.5rem; justify-content: center;">
+        <a href="cart.html" class="btn btn-primary btn-large">
           <i class="fas fa-cart-plus"></i> Add to Cart
+        </a>
+        <a href="index.html#featured" class="btn btn-secondary btn-large">
+          <i class="fas fa-arrow-left"></i> View Other Builds
         </a>
       </div>
     </div>
@@ -1079,15 +915,6 @@
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         document.getElementById('cartCount').textContent = cartItems;
-        
-        // Add pulse animation when cart updates
-        if (cartItems > 0) {
-          const cartIcon = document.querySelector('.cart-icon');
-          cartIcon.style.animation = 'pulse 0.8s ease-out';
-          setTimeout(() => {
-            cartIcon.style.animation = '';
-          }, 800);
-        }
       }
       
       updateCartCount();
