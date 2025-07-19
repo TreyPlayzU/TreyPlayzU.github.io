@@ -31,7 +31,6 @@
       position: relative;
     }
     
-    /* Header Styles */
     header {
       background: linear-gradient(to right, var(--darker), rgba(10, 10, 18, 0.9));
       backdrop-filter: blur(10px);
@@ -62,7 +61,6 @@
       color: var(--secondary);
     }
     
-    /* Navigation */
     nav {
       display: flex;
       align-items: center;
@@ -125,7 +123,6 @@
       font-weight: bold;
     }
     
-    /* Main Content */
     .cart-container {
       max-width: 1200px;
       margin: 6rem auto 3rem;
@@ -155,7 +152,6 @@
       color: var(--secondary);
     }
     
-    /* Cart Items */
     .cart-items {
       display: flex;
       flex-direction: column;
@@ -261,7 +257,6 @@
       color: #ff0a4e;
     }
     
-    /* Summary */
     .summary {
       background: var(--gray);
       border-radius: 10px;
@@ -349,7 +344,6 @@
       box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
     
-    /* Footer */
     footer {
       background: var(--darker);
       padding: 3rem 2rem 2rem;
@@ -373,7 +367,6 @@
       margin-top: 1.5rem;
     }
     
-    /* Responsive Design */
     @media (max-width: 768px) {
       .cart-container {
         margin-top: 5rem;
@@ -449,7 +442,6 @@
       <h1 class="cart-title"><i class="fas fa-shopping-cart"></i> Your Cart</h1>
       
       <div class="cart-items" id="cartItems">
-        <!-- Cart items will be dynamically inserted here -->
         <div class="empty-cart" id="emptyCart">
           <div class="empty-cart-icon">
             <i class="fas fa-shopping-cart"></i>
@@ -502,37 +494,41 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Load cart from localStorage or initialize with default item
-      let cart = JSON.parse(localStorage.getItem('cart')) || [
-        {
-          id: 'frostbyte-x',
-          name: 'FrostByte X',
-          image: 'images/frostbyte1.jpg',
-          price: 799.99,
-          quantity: 1,
-          specs: [
-            'Intel Core i3-12100F',
-            'NVIDIA GTX 1660 Super 6GB',
-            '16GB DDR4 3200MHz',
-            '512GB NVMe SSD'
-          ]
-        }
-      ];
+      let cart = [];
+
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    } else {
+      cart = [
+      {
+        id: 'frostbyte-x',
+        name: 'FrostByte X',
+        image: 'images/frostbyte1.jpg',
+        price: 799.99,
+        quantity: 1,
+        specs: [
+          'Intel Core i3-12100F',
+          'NVIDIA GTX 1660 Super 6GB',
+          '16GB DDR4 3200MHz',
+          '512GB NVMe SSD'
+        ]
+      }
+    ];
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
       
-      // Save cart to localStorage
       function saveCart() {
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
       }
       
-      // Update cart count in header
       function updateCartCount() {
         const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
         document.getElementById('cartCount').textContent = itemCount;
         localStorage.setItem('cartItems', itemCount);
       }
       
-      // DOM elements
       const cartItemsEl = document.getElementById('cartItems');
       const emptyCartEl = document.getElementById('emptyCart');
       const cartSummaryEl = document.getElementById('cartSummary');
@@ -541,7 +537,6 @@
       const totalEl = document.getElementById('total');
       const checkoutBtn = document.getElementById('checkoutBtn');
       
-      // Render cart items
       function renderCart() {
         if (cart.length === 0) {
           emptyCartEl.style.display = 'block';
@@ -553,17 +548,14 @@
         emptyCartEl.style.display = 'none';
         cartSummaryEl.style.display = 'block';
         
-        // Calculate totals
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.21; // 21% VAT
+        const tax = subtotal * 0.1;
         const total = subtotal + tax;
         
-        // Update summary
         subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
         taxEl.textContent = `€${tax.toFixed(2)}`;
         totalEl.textContent = `€${total.toFixed(2)}`;
         
-        // Render cart items
         cartItemsEl.innerHTML = '';
         cart.forEach(item => {
           const itemEl = document.createElement('div');
