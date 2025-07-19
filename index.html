@@ -35,9 +35,6 @@
     .glow {
       text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
     }
-    .glow-secondary {
-      text-shadow: 0 0 10px rgba(255, 45, 117, 0.7);
-    }
     
     header {
       background: linear-gradient(to right, var(--darker), rgba(10, 10, 18, 0.9));
@@ -69,7 +66,16 @@
       color: var(--secondary);
     }
     
-    /* Navigation */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    
     nav {
       display: flex;
       align-items: center;
@@ -132,36 +138,6 @@
       font-weight: bold;
     }
     
-    /* Mobile Menu */
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--light);
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 1001;
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    /* Hero Section */
     .hero {
       padding: 8rem 2rem 4rem;
       background: radial-gradient(circle at 70% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
@@ -200,7 +176,6 @@
       color: rgba(255, 255, 255, 0.8);
     }
     
-    /* Featured Builds */
     .featured {
       padding: 4rem 2rem;
       max-width: 1400px;
@@ -378,7 +353,6 @@
       transform: translateY(-3px);
     }
     
-    /* Features Section */
     .features {
       padding: 4rem 2rem;
       background: linear-gradient(to bottom, var(--darker), var(--dark));
@@ -425,7 +399,6 @@
       line-height: 1.6;
     }
     
-    /* Footer */
     footer {
       background: var(--darker);
       padding: 3rem 2rem 2rem;
@@ -484,7 +457,134 @@
       margin-top: 1.5rem;
     }
     
-    /* Responsive Design */
+    /* Business Info Overlay */
+    .business-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 2000;
+      display: none;
+      place-items: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    
+    .business-overlay.active {
+      display: grid;
+    }
+    
+    .business-container {
+      max-width: 1000px;
+      background: var(--darker);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+      position: relative;
+    }
+    
+    .close-overlay {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    
+    .business-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .business-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .business-images {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .business-images img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .business-images img:hover {
+      transform: scale(1.03);
+    }
+    
+    .main-business-image {
+      grid-column: span 2;
+    }
+    
+    .business-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .business-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .business-subtitle {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    
+    .business-description {
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .business-features {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+    
+    .feature-icon {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin-top: 0.2rem;
+    }
+    
+    .feature-text {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
     @media (max-width: 1024px) {
       .hero-title {
         font-size: 2.8rem;
@@ -524,10 +624,6 @@
         right: 0;
       }
       
-      .nav-link {
-        font-size: 1.2rem;
-      }
-      
       .overlay.active {
         opacity: 1;
         visibility: visible;
@@ -556,6 +652,10 @@
       .build-actions {
         flex-direction: column;
       }
+      
+      .business-content {
+        grid-template-columns: 1fr;
+      }
     }
     
     @media (max-width: 480px) {
@@ -566,6 +666,14 @@
       .footer-links {
         flex-direction: column;
         gap: 1rem;
+      }
+      
+      .business-images {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-business-image {
+        grid-column: span 1;
       }
     }
   </style>
@@ -593,6 +701,47 @@
     </nav>
   </header>
 
+  <!-- Business Info Overlay -->
+  <div class="business-overlay" id="businessOverlay">
+    <div class="business-container">
+      <button class="close-overlay" id="closeOverlay">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="business-content">
+        <div class="business-images">
+          <img src="images/build-process1.jpg" alt="PC Building Process" class="main-business-image">
+          <img src="images/workshop1.jpg" alt="Our Workshop">
+          <img src="images/testing1.jpg" alt="Quality Testing">
+        </div>
+        <div class="business-text">
+          <h2 class="business-title">TL PREBUILTS</h2>
+          <h3 class="business-subtitle">Premium Gaming PCs Built With Passion</h3>
+          <p class="business-description">
+            At TL Prebuilts, we combine cutting-edge hardware with meticulous craftsmanship to deliver gaming PCs that outperform expectations. Each system is hand-built by our experts, optimized for peak performance, and rigorously tested before shipping.
+          </p>
+          <div class="business-features">
+            <div class="feature-item">
+              <i class="fas fa-microchip feature-icon"></i>
+              <p class="feature-text">High-quality components from trusted brands</p>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-tachometer-alt feature-icon"></i>
+              <p class="feature-text">Performance-optimized BIOS settings</p>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle feature-icon"></i>
+              <p class="feature-text">72-hour stress testing on all systems</p>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-shield-alt feature-icon"></i>
+              <p class="feature-text">2-year comprehensive warranty</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section class="hero">
     <h1 class="hero-title">TL PREBUILTS</h1>
     <p class="hero-subtitle"> PCs optimized for performance and aesthetics. Ready to ship with all drivers installed and BIOS configured.</p>
@@ -600,7 +749,7 @@
       <a href="#featured" class="btn btn-primary">
         <i class="fas fa-gamepad"></i> View Builds
       </a>
-      <a href="#" class="btn btn-secondary">
+      <a href="#" class="btn btn-secondary" id="learnMoreBtn">
         <i class="fas fa-question-circle"></i> Learn More
       </a>
     </div>
@@ -705,6 +854,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu functionality
       const menuToggle = document.getElementById('menuToggle');
       const mainNav = document.getElementById('mainNav');
       const overlay = document.getElementById('overlay');
@@ -721,7 +871,35 @@
         overlay.classList.remove('active');
         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
+
+      // Business overlay functionality
+      const businessOverlay = document.getElementById('businessOverlay');
+      const closeOverlay = document.getElementById('closeOverlay');
+      const learnMoreBtn = document.getElementById('learnMoreBtn');
       
+      // Open overlay from Learn More and Help links
+      document.querySelectorAll('.nav-link[href="#"], #learnMoreBtn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          if (this.textContent.includes('Learn More') || this.textContent.includes('Help') || this.textContent.includes('About')) {
+            e.preventDefault();
+            businessOverlay.classList.add('active');
+          }
+        });
+      });
+      
+      // Close overlay
+      closeOverlay.addEventListener('click', function() {
+        businessOverlay.classList.remove('active');
+      });
+      
+      // Close when clicking outside content
+      businessOverlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+        }
+      });
+
+      // Update cart count
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         document.getElementById('cartCount').textContent = cartItems;
@@ -729,6 +907,7 @@
       
       updateCartCount();
       
+      // Animation for cards
       const observerOptions = {
         threshold: 0.1
       };
