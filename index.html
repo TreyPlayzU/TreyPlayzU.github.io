@@ -592,12 +592,14 @@
       padding: 2rem;
       overflow-y: auto;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(20px);
     }
     
     .business-overlay.active {
       display: grid;
       opacity: 1;
+      transform: translateY(0);
     }
     
     .business-container {
@@ -608,14 +610,7 @@
       border: 1px solid var(--primary);
       box-shadow: 0 0 50px rgba(0, 240, 255, 0.3);
       position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      opacity: 0;
-    }
-    
-    .business-overlay.active .business-container {
-      transform: translateY(0);
-      opacity: 1;
+      transition: transform 0.3s ease;
     }
     
     .close-overlay {
@@ -636,7 +631,6 @@
     }
     
     .close-overlay:hover {
-      background: var(--secondary);
       transform: rotate(90deg) scale(1.1);
     }
     
@@ -727,28 +721,6 @@
       color: rgba(255, 255, 255, 0.8);
       font-size: 1.1rem;
     }
-
-    /* Tag show more functionality */
-    .tag-hidden {
-      display: none;
-    }
-
-    .show-more-tags {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--primary);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 0.5rem;
-    }
-
-    .show-more-tags:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
     
     @media (max-width: 1200px) {
       .hero-title {
@@ -791,11 +763,6 @@
       
       nav.active {
         right: 0;
-      }
-      
-      .overlay.active {
-        opacity: 1;
-        visibility: visible;
       }
       
       .hero {
@@ -946,16 +913,7 @@
             <span class="tag tag-secondary">🏆 BEST SELLER</span>
             <span class="tag tag-accent">⚡ PERFORMANCE</span>
             <span class="tag tag-primary">💰 BUDGET BEAST</span>
-            <span class="tag tag-secondary tag-hidden">📶 WIFI READY</span>
-            <span class="tag tag-primary tag-hidden">💨 144Hz+</span>
-            <span class="tag tag-secondary tag-hidden">❄️ COOL TEMPS</span>
-            <span class="tag tag-primary tag-hidden">🛡️ TESTED</span>
-            <span class="tag tag-secondary tag-hidden">🎮 GAMING</span>
-            <span class="tag tag-primary tag-hidden">💻 STREAM READY</span>
-            <span class="tag tag-secondary tag-hidden">🔊 7.1 AUDIO</span>
-            <span class="tag tag-primary tag-hidden">🔄 UPGRADABLE</span>
           </div>
-          <button class="show-more-tags">+ More</button>
           
           <div class="build-actions">
             <a href="frostbytex.html" class="btn btn-primary">
@@ -1006,6 +964,7 @@
     <div class="footer-logo">TLPrebuilts</div>
     
     <div class="footer-links">
+      <a href="index.html" class="footer-link">Home</a>
       <a href="#featured" class="footer-link">Builds</a>
       <a href="#" class="footer-link" id="aboutLink">About Us</a>
       <a href="#" class="footer-link" id="supportLink">Support</a>
@@ -1052,19 +1011,16 @@
       const aboutLink = document.getElementById('aboutLink');
       const supportLink = document.getElementById('supportLink');
       
-      // Show business overlay
       function showBusinessOverlay() {
         businessOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
       
-      // Hide business overlay
       function hideBusinessOverlay() {
         businessOverlay.classList.remove('active');
         document.body.style.overflow = '';
       }
       
-      // Event listeners for showing overlay
       [learnMoreBtn, aboutLink, supportLink].forEach(btn => {
         if (btn) {
           btn.addEventListener('click', function(e) {
@@ -1074,28 +1030,13 @@
         }
       });
       
-      // Event listener for closing overlay
       closeOverlay.addEventListener('click', hideBusinessOverlay);
       
-      // Close overlay when clicking outside content
       businessOverlay.addEventListener('click', function(e) {
         if (e.target === this) {
           hideBusinessOverlay();
         }
       });
-
-      // Tag show more functionality
-      const showMoreBtn = document.querySelector('.show-more-tags');
-      if (showMoreBtn) {
-        showMoreBtn.addEventListener('click', function() {
-          const hiddenTags = document.querySelectorAll('.tag-hidden');
-          hiddenTags.forEach(tag => {
-            tag.classList.toggle('tag-hidden');
-          });
-          
-          this.textContent = this.textContent === '+ More' ? '- Less' : '+ More';
-        });
-      }
 
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
