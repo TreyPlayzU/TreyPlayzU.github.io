@@ -583,6 +583,79 @@
       margin-top: 0.5rem;
       transition: var(--transition);
     }
+
+    /* Benchmarks Section */
+    .benchmarks {
+      padding: 5rem 2rem;
+      background: linear-gradient(to bottom, var(--dark), var(--darker));
+      position: relative;
+    }
+
+    .benchmarks::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/tech-pattern.png') center/cover;
+      opacity: 0.03;
+      z-index: 0;
+    }
+
+    .benchmarks-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .benchmark-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .benchmark-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      border-bottom: 4px solid var(--primary);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+    }
+
+    .benchmark-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.2);
+      border-bottom-color: var(--secondary);
+    }
+
+    .benchmark-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    .benchmark-result {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .benchmark-description {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+    }
     
     /* CTA Section */
     .product-cta {
@@ -1019,7 +1092,7 @@
           <div class="spec-value">Corsair CV650 <span class="spec-detail">80+ Bronze Certified | 650W</span></div>
         </div>
 
-                <!-- Cooling -->
+        <!-- Cooling -->
         <div class="spec-card">
           <div class="spec-header">
             <div class="spec-icon-circle">
@@ -1039,6 +1112,41 @@
             <h3 class="spec-title">CASE</h3>
           </div>
           <div class="spec-value">Deepcool CG530 <span class="spec-detail">Mid-Tower | Tempered Glass | Black</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benchmarks Section -->
+  <section class="benchmarks">
+    <div class="benchmarks-container">
+      <h2 class="section-title">
+        <i class="fas fa-tachometer-alt"></i> PERFORMANCE BENCHMARKS
+      </h2>
+      
+      <div class="benchmark-grid">
+        <div class="benchmark-card">
+          <h3 class="benchmark-title">3DMARK TIME SPY</h3>
+          <div class="benchmark-result">5,850</div>
+          <p class="benchmark-description">Great for 1080p gaming and esports titles</p>
+        </div>
+        
+        <div class="benchmark-card">
+          <h3 class="benchmark-title">CINEBENCH R23</h3>
+          <div class="benchmark-result">7,420</div>
+          <p class="benchmark-description">Solid multi-core performance for productivity</p>
+        </div>
+        
+        <div class="benchmark-card">
+          <h3 class="benchmark-title">GAMING (1080P)</h3>
+          <div class="benchmark-result">100+ FPS</div>
+          <p class="benchmark-description">Esports titles like Valorant, CS2, Fortnite</p>
+        </div>
+        
+        <div class="benchmark-card">
+          <h3 class="benchmark-title">GAMING (1440P)</h3>
+          <div class="benchmark-result">60+ FPS</div>
+          <p class="benchmark-description">AAA titles at medium-high settings</p>
         </div>
       </div>
     </div>
@@ -1197,6 +1305,37 @@
                 behavior: 'smooth'
               });
             }
+          }
+        });
+      });
+
+      // CTA buttons functionality
+      const ctaButtons = document.querySelectorAll('.action-buttons .btn');
+      ctaButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          if (this.getAttribute('href') === 'cart.html') {
+            e.preventDefault();
+            // Add to cart logic
+            const product = {
+              id: 'frostbyte-x',
+              name: 'FrostByte X',
+              price: 799.99,
+              image: 'images/frostbyte1.jpg',
+              quantity: 1
+            };
+            
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+            if (cart[product.id]) {
+              cart[product.id].quantity += 1;
+            } else {
+              cart[product.id] = product;
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show added to cart notification
+            alert(`${product.name} has been added to your cart!`);
           }
         });
       });
