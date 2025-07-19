@@ -212,12 +212,22 @@
       border: 1px solid rgba(0, 240, 255, 0.1);
       position: relative;
       max-width: 400px;
+      cursor: pointer;
     }
     
     .build-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
       border-color: rgba(0, 240, 255, 0.3);
+    }
+    
+    .build-card-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
     }
     
     .build-image {
@@ -229,6 +239,9 @@
     
     .build-content {
       padding: 1.5rem;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
     }
     
     .build-name {
@@ -268,6 +281,7 @@
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-bottom: 1.5rem;
+      pointer-events: auto;
     }
     
     .tag {
@@ -296,6 +310,7 @@
     .build-actions {
       display: flex;
       gap: 1rem;
+      pointer-events: auto;
     }
     
     .btn {
@@ -525,7 +540,7 @@
 
   <section class="hero">
     <h1 class="hero-title">TL PREBUILTS</h1>
-    <p class="hero-subtitle">Built PCs optimized for performance and aesthetics. Ready to ship with all drivers installed and BIOS configured.</p>
+    <p class="hero-subtitle"> PCs optimized for performance and aesthetics. Ready to ship with all drivers installed and BIOS configured.</p>
     <div class="build-actions" style="justify-content: center; margin-top: 2rem;">
       <a href="#featured" class="btn btn-primary">
         <i class="fas fa-gamepad"></i> View Builds
@@ -543,6 +558,7 @@
     
     <div class="builds-grid">
       <div class="build-card">
+        <a href="frostbytex.html" class="build-card-link"></a>
         <img src="images/frostbyte1.jpg" alt="FrostByte X" class="build-image">
         <div class="build-content">
           <h3 class="build-name">FROSTBYTE X</h3>
@@ -634,7 +650,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Update cart count from localStorage
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         const cartCount = document.getElementById('cartCount');
@@ -643,7 +658,6 @@
       
       updateCartCount();
       
-      // Add animation to cards when they come into view
       const observerOptions = {
         threshold: 0.1
       };
