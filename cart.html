@@ -173,6 +173,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 2rem;
+      grid-column: 1 / -1;
     }
     
     .cart-title {
@@ -318,6 +319,7 @@
       background: var(--gray);
       border-radius: 12px;
       border: 1px dashed rgba(0, 240, 255, 0.3);
+      grid-column: 1;
     }
     
     .empty-cart-icon {
@@ -563,11 +565,11 @@
   </header>
 
   <div class="cart-container">
+    <div class="cart-header">
+      <h1 class="cart-title"><i class="fas fa-shopping-cart"></i> Your Cart</h1>
+    </div>
+    
     <main>
-      <div class="cart-header">
-        <h1 class="cart-title"><i class="fas fa-shopping-cart"></i> Your Cart</h1>
-      </div>
-      
       <div class="cart-items" id="cartItems">
         <div class="empty-cart" id="emptyCart">
           <div class="empty-cart-icon">
@@ -582,7 +584,7 @@
       </div>
     </main>
     
-    <aside class="summary" id="cartSummary" style="display: none;">
+    <aside class="summary" id="cartSummary">
       <h2 class="summary-title"><i class="fas fa-receipt"></i> Order Summary</h2>
       
       <div class="summary-row">
@@ -605,7 +607,7 @@
         <span id="total">€0.00</span>
       </div>
       
-      <button class="checkout-btn" id="checkoutBtn">
+      <button class="checkout-btn" id="checkoutBtn" disabled>
         <i class="fas fa-lock"></i> Secure Checkout
       </button>
     </aside>
@@ -670,7 +672,6 @@
       // DOM elements
       const cartItemsEl = document.getElementById('cartItems');
       const emptyCartEl = document.getElementById('emptyCart');
-      const cartSummaryEl = document.getElementById('cartSummary');
       const subtotalEl = document.getElementById('subtotal');
       const taxEl = document.getElementById('tax');
       const totalEl = document.getElementById('total');
@@ -678,16 +679,6 @@
 
       function renderCart() {
         const cartItems = Object.values(cart);
-        
-        if (cartItems.length === 0) {
-          emptyCartEl.style.display = 'flex';
-          cartSummaryEl.style.display = 'none';
-          updateCartCount();
-          return;
-        }
-        
-        emptyCartEl.style.display = 'none';
-        cartSummaryEl.style.display = 'block';
         
         // Calculate totals
         const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -698,6 +689,20 @@
         subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
         taxEl.textContent = `€${tax.toFixed(2)}`;
         totalEl.textContent = `€${total.toFixed(2)}`;
+        
+        if (cartItems.length === 0) {
+          emptyCartEl.style.display = 'flex';
+          checkoutBtn.disabled = true;
+          checkoutBtn.style.opacity = '0.7';
+          checkoutBtn.style.cursor = 'not-allowed';
+          updateCartCount();
+          return;
+        }
+        
+        emptyCartEl.style.display = 'none';
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.opacity = '1';
+        checkoutBtn.style.cursor = 'pointer';
         
         // Render cart items
         cartItemsEl.innerHTML = '';
@@ -760,18 +765,15 @@
         });
       }
 
-      // Initialize cart
       renderCart();
       updateCartCount();
 
-      // Checkout button
       checkoutBtn.addEventListener('click', function() {
         if (Object.keys(cart).length > 0) {
           window.location.href = 'checkout.html';
         }
       });
 
-      // Check if we're adding a product from URL
       const urlParams = new URLSearchParams(window.location.search);
       const addProduct = urlParams.get('add');
       
