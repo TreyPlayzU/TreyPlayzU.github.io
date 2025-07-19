@@ -1146,6 +1146,25 @@
       color: rgba(0, 0, 0, 0.8);
     }
     
+    /* Overlay for modals */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
     @media (max-width: 1200px) {
       .hero-title {
         font-size: 3.5rem;
@@ -1273,10 +1292,13 @@
     
     <nav id="mainNav">
       <a href="#featured" class="nav-link">Builds</a>
-      <a href="#" class="nav-link">About</a>
-      <a href="#" class="nav-link">Support</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#support" class="nav-link">Support</a>
     </nav>
   </header>
+
+  <!-- Overlay for modals -->
+  <div class="overlay" id="overlay"></div>
 
   <!-- Settings Panel -->
   <div class="settings-panel" id="settingsPanel">
@@ -1324,16 +1346,15 @@
         </div>
         
         <div class="setting-item">
-          <div class="setting-label">
-            <i class="fas fa-wave-square"></i>
-            <span>Enable Animations</span>
+          <div class="cyber-switch">
+            <span><i class="fas fa-wave-square"></i> Enable Animations</span>
+            <label class="cyber-switch">
+              <input type="checkbox" id="animationsToggle" checked>
+              <span class="cyber-slider">
+                <span class="cyber-slider-knob"></span>
+              </span>
+            </label>
           </div>
-          <label class="cyber-switch">
-            <input type="checkbox" id="animationsToggle" checked>
-            <span class="cyber-slider">
-              <span class="cyber-slider-knob"></span>
-            </span>
-          </label>
         </div>
       </div>
       
@@ -1351,9 +1372,9 @@
       </button>
       <div class="business-content">
         <div class="business-images">
-          <img src="images/buildprocess1.jpg" alt="PC Building Process" class="main-business-image">
-          <img src="images/workshop1.jpg" alt="Our Workshop">
-          <img src="images/testing1.jpg" alt="Quality Testing">
+          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="PC Building Process" class="main-business-image">
+          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Our Workshop">
+          <img src="https://images.unsplash.com/photo-1581093196276-63549ffb4391?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Quality Testing">
         </div>
         <div class="business-text">
           <h2 class="business-title">TL PREBUILTS</h2>
@@ -1392,9 +1413,9 @@
       <a href="#featured" class="hero-btn hero-btn-primary">
         <i class="fas fa-gamepad"></i> View Builds
       </a>
-      <a href="#" class="hero-btn hero-btn-secondary" id="learnMoreBtn">
+      <button class="hero-btn hero-btn-secondary" id="learnMoreBtn">
         <i class="fas fa-question-circle"></i> Learn More
-      </a>
+      </button>
     </div>
   </section>
 
@@ -1407,7 +1428,7 @@
     <div class="builds-grid">
       <div class="build-card">
         <a href="frostbytex.html" class="build-card-link"></a>
-        <img src="images/frostbyte1.jpg" alt="FrostByte X" class="build-image">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="FrostByte X" class="build-image">
         <div class="build-content">
           <h3 class="build-name">FROSTBYTE X</h3>
           <div class="build-price">€799.99</div>
@@ -1431,8 +1452,8 @@
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section class="features">
+  <!-- About Section -->
+  <section class="features" id="about">
     <h2 class="section-title">
       <i class="fas fa-cogs"></i> WHY CHOOSE US
     </h2>
@@ -1464,6 +1485,39 @@
     </div>
   </section>
 
+  <!-- Support Section -->
+  <section class="features" id="support">
+    <h2 class="section-title">
+      <i class="fas fa-headset"></i> SUPPORT & WARRANTY
+    </h2>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title">3-Year Warranty</h3>
+        <p class="feature-desc">All our systems come with a comprehensive 3-year warranty covering parts and labor for your peace of mind.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <h3 class="feature-title">24/7 Support</h3>
+        <p class="feature-desc">Our expert support team is available around the clock to assist with any questions or issues you may have.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-truck"></i>
+        </div>
+        <h3 class="feature-title">Fast Shipping</h3>
+        <p class="feature-desc">Most systems ship within 1-2 business days with careful packaging to ensure safe delivery.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Call to Action -->
   <section class="product-cta">
     <div class="cta-container">
@@ -1473,7 +1527,7 @@
         <a href="#featured" class="btn btn-primary btn-large">
           <i class="fas fa-desktop"></i> View All Builds
         </a>
-        <a href="contact.html" class="btn btn-secondary btn-large">
+        <a href="#" class="btn btn-secondary btn-large" id="contactBtn">
           <i class="fas fa-question-circle"></i> Get Help Choosing
         </a>
       </div>
@@ -1487,9 +1541,9 @@
     <div class="footer-links">
       <a href="index.html" class="footer-link">Home</a>
       <a href="#featured" class="footer-link">Builds</a>
-      <a href="#" class="footer-link" id="aboutLink">About Us</a>
-      <a href="#" class="footer-link" id="supportLink">Support</a>
-      <a href="#" class="footer-link">Contact</a>
+      <a href="#about" class="footer-link">About Us</a>
+      <a href="#support" class="footer-link">Support</a>
+      <a href="#" class="footer-link" id="contactLink">Contact</a>
     </div>
     
     <div class="social-links">
@@ -1529,50 +1583,70 @@
           '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
       });
 
-      overlay.addEventListener('click', function() {
-        mainNav.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      // Close mobile menu when clicking on a nav link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+          mainNav.classList.remove('active');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
       });
 
       // Business overlay
       const businessOverlay = document.getElementById('businessOverlay');
       const closeOverlay = document.getElementById('closeOverlay');
       const learnMoreBtn = document.getElementById('learnMoreBtn');
-      const aboutLink = document.getElementById('aboutLink');
-      const supportLink = document.getElementById('supportLink');
+      const contactBtn = document.getElementById('contactBtn');
+      const contactLink = document.getElementById('contactLink');
 
       function showBusinessOverlay() {
         document.body.style.overflow = 'hidden';
+        overlay.classList.add('active');
         businessOverlay.style.display = 'grid';
+        // Trigger reflow to restart animation
         void businessOverlay.offsetWidth;
         businessOverlay.classList.add('active');
       }
 
       function hideBusinessOverlay() {
         businessOverlay.classList.remove('active');
+        overlay.classList.remove('active');
         setTimeout(() => {
           businessOverlay.style.display = 'none';
           document.body.style.overflow = '';
         }, 400);
       }
 
-      [learnMoreBtn, aboutLink, supportLink].forEach(btn => {
-        if (btn) {
-          btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showBusinessOverlay();
-          });
-        }
-      });
+      if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          showBusinessOverlay();
+        });
+      }
+
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          showBusinessOverlay();
+        });
+      }
+
+      if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          showBusinessOverlay();
+        });
+      }
 
       closeOverlay.addEventListener('click', hideBusinessOverlay);
 
-      businessOverlay.addEventListener('click', function(e) {
-        if (e.target === this) {
-          hideBusinessOverlay();
-        }
+      overlay.addEventListener('click', function() {
+        hideBusinessOverlay();
+        // Also close settings panel if open
+        settingsPanel.classList.remove('active');
+        this.classList.remove('active');
+        document.body.style.overflow = '';
       });
 
       // Cart count
