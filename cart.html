@@ -9,19 +9,30 @@
   <style>
     :root {
       --primary: #00f0ff;
+      --primary-light: #0066ff;
       --primary-dark: #00c4d1;
       --secondary: #ff2d75;
+      --secondary-light: #ff3366;
       --secondary-dark: #e02466;
       --dark: #0a0a12;
       --darker: #050508;
       --light: #f0f0f0;
-      --lighter: #ffffff;
+      --light-dark: #1a1a1a;
       --gray: #25252e;
-      --gray-light: #3a3a48;
+      --gray-light: #d0d0d8;
       --success: #00ff88;
       --warning: #ffbb00;
       --error: #ff3d3d;
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    [data-theme="light"] {
+      --primary: var(--primary-light);
+      --secondary: var(--secondary-light);
+      --dark: #f5f5f7;
+      --darker: #e0e0e8;
+      --light: var(--light-dark);
+      --gray: var(--gray-light);
     }
     
     * {
@@ -43,6 +54,7 @@
       background-attachment: fixed;
       background-blend-mode: overlay;
       background-color: rgba(10, 10, 18, 0.9);
+      transition: background-color 0.5s ease, color 0.3s ease;
     }
 
     [data-theme="light"] body {
@@ -115,6 +127,12 @@
       color: var(--primary);
       transform: scale(1.2);
     }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
     
     nav {
       display: flex;
@@ -156,11 +174,21 @@
       color: var(--light);
       font-size: 1.3rem;
       transition: var(--transition);
+      cursor: pointer;
     }
     
     .control-icon:hover {
       color: var(--primary);
       transform: scale(1.2);
+    }
+
+    .settings-icon {
+      animation: spinSlow 8s linear infinite;
+    }
+
+    @keyframes spinSlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     .cart-count {
@@ -178,19 +206,6 @@
       font-size: 0.7rem;
       font-weight: bold;
       transition: var(--transition);
-    }
-
-    /* Settings Icon */
-    .settings-icon {
-      color: var(--light);
-      font-size: 1.3rem;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .settings-icon:hover {
-      color: var(--primary);
-      transform: rotate(30deg) scale(1.2);
     }
     
     /* Main cart content */
@@ -554,6 +569,204 @@
     [data-theme="light"] .copyright {
       color: rgba(0, 0, 0, 0.5);
     }
+
+    /* Enhanced Settings Panel */
+    .settings-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background: var(--darker);
+      z-index: 2000;
+      padding: 2rem;
+      border-left: 1px solid var(--primary);
+      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .settings-panel.active {
+      right: 0;
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    }
+
+    .settings-header h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close-settings:hover {
+      color: var(--secondary);
+      transform: rotate(90deg);
+    }
+
+    .settings-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .setting-group {
+      background: rgba(0, 240, 255, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(0, 240, 255, 0.1);
+    }
+
+    [data-theme="light"] .setting-group {
+      background: rgba(0, 102, 255, 0.05);
+      border: 1px solid rgba(0, 102, 255, 0.1);
+    }
+
+    .setting-group-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .setting-group h4 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .setting-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      background: rgba(0, 240, 255, 0.03);
+    }
+
+    [data-theme="light"] .theme-option {
+      background: rgba(0, 102, 255, 0.03);
+    }
+
+    .theme-option:hover {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--primary);
+    }
+
+    [data-theme="light"] .theme-option:hover {
+      background: rgba(0, 102, 255, 0.1);
+    }
+
+    .theme-option i {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .theme-preview {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-left: auto;
+      border: 2px solid var(--light);
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    input[type="radio"]:checked + .theme-option {
+      background: rgba(0, 240, 255, 0.2);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    }
+
+    [data-theme="light"] input[type="radio"]:checked + .theme-option {
+      background: rgba(0, 102, 255, 0.2);
+      box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
+    }
+
+    .cyber-switch {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cyber-slider {
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background-color: var(--gray);
+      border-radius: 34px;
+      transition: var(--transition);
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .cyber-slider-knob {
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    input:checked + .cyber-slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .cyber-slider .cyber-slider-knob {
+      transform: translateX(26px);
+      background-color: white;
+    }
+
+    /* Overlay for modals */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
     
     /* Responsive styles */
     @media (max-width: 768px) {
@@ -614,6 +827,11 @@
       .summary {
         top: 6rem;
       }
+
+      .settings-panel {
+        width: 90%;
+        right: -90%;
+      }
     }
     
     @media (max-width: 576px) {
@@ -661,6 +879,9 @@
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-count" id="cartCount">0</span>
       </a>
+      <div class="control-icon settings-icon" id="settingsToggle">
+        <i class="fas fa-cog"></i>
+      </div>
       <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
       </button>
@@ -672,6 +893,73 @@
       <a href="#" class="nav-link">About</a>
     </nav>
   </header>
+
+  <!-- Overlay for modals -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+      <h3><i class="fas fa-sliders-h"></i> SYSTEM CONTROL</h3>
+      <button class="close-settings" id="closeSettings">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="settings-content">
+      <div class="setting-group">
+        <div class="setting-group-header">
+          <i class="fas fa-palette"></i>
+          <h4>VISUAL PROFILE</h4>
+        </div>
+        
+        <div class="setting-item">
+          <label>
+            <input type="radio" name="theme" value="dark" checked>
+            <span class="theme-option dark-theme">
+              <i class="fas fa-moon"></i>
+              <span>Neon Dark Mode</span>
+              <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 100%);"></div>
+            </span>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <label>
+            <input type="radio" name="theme" value="light">
+            <span class="theme-option light-theme">
+              <i class="fas fa-sun"></i>
+              <span>Hacker Light Mode</span>
+              <div class="theme-preview" style="background: linear-gradient(135deg, #f5f5f7 0%, #e0e0e8 100%);"></div>
+            </span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="setting-group">
+        <div class="setting-group-header">
+          <i class="fas fa-tachometer-alt"></i>
+          <h4>PERFORMANCE</h4>
+        </div>
+        
+        <div class="setting-item">
+          <div class="cyber-switch">
+            <span><i class="fas fa-wave-square"></i> Enable Animations</span>
+            <label class="cyber-switch">
+              <input type="checkbox" id="animationsToggle" checked>
+              <span class="cyber-slider">
+                <span class="cyber-slider-knob"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" id="resetSettings" style="width: 100%; margin-top: 1rem;">
+        <i class="fas fa-undo"></i> Reset to Defaults
+      </button>
+    </div>
+  </div>
 
   <div class="cart-container">
     <div class="cart-header">
@@ -952,9 +1240,99 @@
         window.history.replaceState({}, document.title, window.location.pathname);
       }
 
-      // Theme management (if you want to keep it consistent with index.html)
-      const theme = localStorage.getItem('theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
+      // Enhanced Settings Panel Functionality
+      const settingsToggle = document.getElementById('settingsToggle');
+      const settingsPanel = document.getElementById('settingsPanel');
+      const closeSettings = document.getElementById('closeSettings');
+      const resetSettingsBtn = document.getElementById('resetSettings');
+      const themeRadios = document.querySelectorAll('input[name="theme"]');
+      const animationsToggle = document.getElementById('animationsToggle');
+      const html = document.documentElement;
+
+      // Toggle settings panel
+      settingsToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        settingsPanel.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = settingsPanel.classList.contains('active') ? 'hidden' : '';
+      });
+
+      closeSettings.addEventListener('click', function() {
+        settingsPanel.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      // Close settings when clicking outside
+      overlay.addEventListener('click', function() {
+        if (settingsPanel.classList.contains('active')) {
+          settingsPanel.classList.remove('active');
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Theme management
+      function loadTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        document.querySelector(`input[value="${savedTheme}"]`).checked = true;
+        
+        // Update background blend mode
+        document.body.style.backgroundBlendMode = savedTheme === 'dark' ? 'overlay' : 'soft-light';
+      }
+
+      themeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const theme = e.target.value;
+          html.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          
+          // Update background blend mode
+          document.body.style.backgroundBlendMode = theme === 'dark' ? 'overlay' : 'soft-light';
+        });
+      });
+
+      // Animations toggle
+      function loadAnimations() {
+        const animationsEnabled = localStorage.getItem('animations') !== 'false';
+        animationsToggle.checked = animationsEnabled;
+        
+        if (!animationsEnabled) {
+          document.body.style.animation = 'none';
+          document.querySelectorAll('*').forEach(el => {
+            el.style.animation = 'none';
+          });
+        }
+      }
+
+      animationsToggle.addEventListener('change', (e) => {
+        localStorage.setItem('animations', e.target.checked);
+        
+        if (!e.target.checked) {
+          document.body.style.animation = 'none';
+          document.querySelectorAll('*').forEach(el => {
+            el.style.animation = 'none';
+          });
+        } else {
+          document.body.style.animation = '';
+          document.querySelectorAll('*').forEach(el => {
+            el.style.animation = '';
+          });
+        }
+      });
+
+      // Reset settings
+      resetSettingsBtn.addEventListener('click', function() {
+        localStorage.removeItem('theme');
+        localStorage.removeItem('animations');
+        loadTheme();
+        loadAnimations();
+      });
+
+      // Initialize
+      loadTheme();
+      loadAnimations();
     });
   </script>
 </body>
