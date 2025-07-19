@@ -136,6 +136,25 @@
       font-weight: bold;
     }
     
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
     /* Main Content */
     .cart-container {
       max-width: 1200px;
@@ -272,6 +291,33 @@
       color: #ff0a4e;
     }
     
+    /* Empty Cart */
+    .empty-cart {
+      display: grid;
+      place-items: center;
+      height: 60vh;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .empty-cart-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 400px;
+    }
+
+    .empty-cart-icon {
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .empty-cart-text {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
     /* Summary */
     .summary {
       background: var(--gray);
@@ -324,23 +370,6 @@
       box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
     }
     
-    .empty-cart {
-      text-align: center;
-      padding: 4rem 0;
-    }
-    
-    .empty-cart-icon {
-      font-size: 3rem;
-      color: rgba(255, 255, 255, 0.2);
-      margin-bottom: 1.5rem;
-    }
-    
-    .empty-cart-text {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    
     .continue-btn {
       padding: 0.8rem 1.5rem;
       background: var(--primary);
@@ -382,25 +411,6 @@
       color: rgba(255, 255, 255, 0.5);
       font-size: 0.9rem;
       margin-top: 1.5rem;
-    }
-    
-    /* Overlay */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
     }
     
     /* Responsive Design */
@@ -484,6 +494,14 @@
       .item-specs {
         font-size: 0.8rem;
       }
+      
+      .empty-cart-icon {
+        font-size: 3rem;
+      }
+      
+      .empty-cart-text {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -515,16 +533,17 @@
       <h1 class="cart-title"><i class="fas fa-shopping-cart"></i> Your Cart</h1>
       
       <div class="cart-items" id="cartItems">
-        <!-- Cart items will be dynamically inserted here -->
         <div class="empty-cart" id="emptyCart">
-          <div class="empty-cart-icon">
-            <i class="fas fa-shopping-cart"></i>
+          <div class="empty-cart-content">
+            <div class="empty-cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h3>Your cart is empty</h3>
+            <p class="empty-cart-text">Looks like you haven't added any items to your cart yet.</p>
+            <a href="index.html" class="continue-btn">
+              <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
           </div>
-          <h3>Your cart is empty</h3>
-          <p class="empty-cart-text">Looks like you haven't added any items to your cart yet.</p>
-          <a href="index.html" class="continue-btn">
-            <i class="fas fa-arrow-left"></i> Continue Shopping
-          </a>
         </div>
       </div>
     </main>
@@ -585,15 +604,14 @@
         overlay.classList.remove('active');
         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
-      
-      // Load cart from localStorage or initialize with default item
-      let cart = JSON.parse(localStorage.getItem('cart')) || [
-        {
+
+      // Product data
+      const productData = {
+        'frostbyte-x': {
           id: 'frostbyte-x',
           name: 'FrostByte X',
           image: 'images/frostbyte1.jpg',
           price: 799.99,
-          quantity: 1,
           specs: [
             'Intel Core i3-12100F',
             'NVIDIA GTX 1660 Super 6GB',
@@ -601,21 +619,24 @@
             '512GB NVMe SSD'
           ]
         }
-      ];
+      };
+
+      // Load cart from localStorage or initialize empty
+      let cart = JSON.parse(localStorage.getItem('cart')) || {};
       
       // Save cart to localStorage
       function saveCart() {
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
       }
-      
+
       // Update cart count in header
       function updateCartCount() {
-        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.getElementById('cartCount').textContent = itemCount;
-        localStorage.setItem('cartItems', itemCount);
+        const count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = count;
+        localStorage.setItem('cartItems', count);
       }
-      
+
       // DOM elements
       const cartItemsEl = document.getElementById('cartItems');
       const emptyCartEl = document.getElementById('emptyCart');
@@ -623,12 +644,13 @@
       const subtotalEl = document.getElementById('subtotal');
       const taxEl = document.getElementById('tax');
       const totalEl = document.getElementById('total');
-      const checkoutBtn = document.getElementById('checkoutBtn');
-      
+
       // Render cart items
       function renderCart() {
-        if (cart.length === 0) {
-          emptyCartEl.style.display = 'block';
+        const cartItems = Object.values(cart);
+        
+        if (cartItems.length === 0) {
+          emptyCartEl.style.display = 'grid';
           cartSummaryEl.style.display = 'none';
           updateCartCount();
           return;
@@ -638,7 +660,7 @@
         cartSummaryEl.style.display = 'block';
         
         // Calculate totals
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const tax = subtotal * 0.21; // 21% VAT
         const total = subtotal + tax;
         
@@ -649,7 +671,7 @@
         
         // Render cart items
         cartItemsEl.innerHTML = '';
-        cart.forEach(item => {
+        cartItems.forEach(item => {
           const itemEl = document.createElement('div');
           itemEl.className = 'cart-item';
           itemEl.innerHTML = `
@@ -679,11 +701,10 @@
         document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            const item = cart.find(i => i.id === id);
-            if (item.quantity > 1) {
-              item.quantity--;
+            if (cart[id].quantity > 1) {
+              cart[id].quantity--;
             } else {
-              cart = cart.filter(i => i.id !== id);
+              delete cart[id];
             }
             saveCart();
             renderCart();
@@ -693,8 +714,7 @@
         document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            const item = cart.find(i => i.id === id);
-            item.quantity++;
+            cart[id].quantity++;
             saveCart();
             renderCart();
           });
@@ -703,19 +723,19 @@
         document.querySelectorAll('.remove-btn').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            cart = cart.filter(i => i.id !== id);
+            delete cart[id];
             saveCart();
             renderCart();
           });
         });
       }
-      
-      checkoutBtn.addEventListener('click', function() {
-        alert('Proceeding to checkout! (no checkout yet me poor)');
-      });
-      
+
       renderCart();
       updateCartCount();
+
+      document.getElementById('checkoutBtn').addEventListener('click', function() {
+        alert('Proceeding to checkout!');
+      });
     });
   </script>
 </body>
