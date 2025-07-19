@@ -29,9 +29,13 @@
       color: var(--light);
       min-height: 100vh;
       position: relative;
+      overflow-x: hidden;
     }
     
-    /* Header Styles */
+    .glow {
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+    }
+    
     header {
       background: linear-gradient(to right, var(--darker), rgba(10, 10, 18, 0.9));
       backdrop-filter: blur(10px);
@@ -62,7 +66,16 @@
       color: var(--secondary);
     }
     
-    /* Navigation */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    
     nav {
       display: flex;
       align-items: center;
@@ -125,14 +138,12 @@
       font-weight: bold;
     }
     
-    /* Main Content */
     .container {
       max-width: 1400px;
       margin: 6rem auto 0;
       padding: 2rem;
     }
     
-    /* PC Showcase */
     .pc-showcase {
       display: grid;
       grid-template-columns: 1fr;
@@ -145,7 +156,6 @@
       }
     }
     
-    /* Image Section */
     .image-section {
       position: relative;
     }
@@ -195,7 +205,6 @@
       box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
     }
     
-    /* Info Section */
     .info-section {
       display: flex;
       flex-direction: column;
@@ -249,32 +258,6 @@
       color: white;
     }
     
-    .tag-blue {
-      background: #0071c5;
-      color: white;
-    }
-    
-    .tag-green {
-      background: #76b900;
-      color: black;
-    }
-    
-    .tag-purple {
-      background: #5352ed;
-      color: white;
-    }
-    
-    .tag-orange {
-      background: #ffa502;
-      color: black;
-    }
-    
-    .tag-teal {
-      background: #2ed573;
-      color: white;
-    }
-    
-    /* Quantity Controls */
     .quantity-controls {
       display: flex;
       align-items: center;
@@ -307,7 +290,6 @@
       text-align: center;
     }
     
-    /* Action Buttons */
     .action-buttons {
       display: flex;
       flex-direction: column;
@@ -364,7 +346,6 @@
       transform: translateY(-3px);
     }
     
-    /* Specs Section */
     .content-section {
       background: var(--gray);
       border-radius: 12px;
@@ -401,7 +382,6 @@
       font-size: 1.1rem;
     }
     
-    /* Extras Card */
     .extras-card {
       background: linear-gradient(135deg, rgba(255,45,117,0.1) 0%, rgba(0,240,255,0.1) 100%);
       border-radius: 10px;
@@ -455,7 +435,6 @@
       font-weight: bold;
     }
     
-    /* Benchmark Section */
     .benchmark-section {
       margin: 3rem 0;
     }
@@ -524,7 +503,6 @@
       color: rgba(255, 255, 255, 0.8);
     }
     
-    /* YouTube Link */
     .youtube-link {
       display: inline-flex;
       align-items: center;
@@ -554,7 +532,6 @@
       font-size: 1.3rem;
     }
     
-    /* Footer */
     footer {
       background: var(--darker);
       padding: 3rem 2rem 2rem;
@@ -572,13 +549,48 @@
       display: inline-block;
     }
     
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .footer-link {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-link:hover {
+      color: var(--primary);
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .social-link {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.5rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .social-link:hover {
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+    
     .copyright {
       color: rgba(255, 255, 255, 0.5);
       font-size: 0.9rem;
       margin-top: 1.5rem;
     }
     
-    /* Cart Notification */
     .cart-notification {
       position: fixed;
       top: 20px;
@@ -599,8 +611,39 @@
       transform: translateX(-50%) translateY(0);
     }
     
-    /* Responsive Design */
     @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--darker);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        padding: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        border-left: 1px solid rgba(0, 240, 255, 0.1);
+      }
+      
+      nav.active {
+        right: 0;
+      }
+      
       .container {
         margin-top: 5rem;
         padding: 1rem;
@@ -632,24 +675,17 @@
     }
     
     @media (max-width: 480px) {
-      header {
-        padding: 1rem;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .nav-link {
-        font-size: 0.9rem;
-      }
-      
       .build-name {
         font-size: 1.8rem;
       }
       
       .quantity-controls {
         margin: 1.5rem 0;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
       }
     }
   </style>
@@ -659,7 +695,14 @@
     <a href="index.html" class="logo">
       <i class="fas fa-desktop logo-icon"></i> TLPrebuilts
     </a>
-    <nav>
+    
+    <button class="menu-toggle" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <nav id="mainNav">
       <a href="index.html" class="nav-link">Home</a>
       <a href="#" class="nav-link">Builds</a>
       <a href="#" class="nav-link">Support</a>
@@ -689,12 +732,8 @@
         <div class="tags-container">
           <span class="tag tag-primary">Gaming</span>
           <span class="tag tag-secondary">Budget</span>
-          <span class="tag tag-teal">Ready to Ship</span>
-          <span class="tag tag-blue">Intel</span>
-          <span class="tag tag-green">NVIDIA</span>
-          <span class="tag tag-purple">Drivers Installed</span>
-          <span class="tag tag-orange">WiFi Ready</span>
-          <span class="tag tag-gray">Windows 11</span>
+          <span class="tag tag-primary">Ready to Ship</span>
+          <span class="tag tag-secondary">Windows 11</span>
         </div>
         
         <div class="quantity-controls">
@@ -707,10 +746,10 @@
           <a href="https://paypal.me/Treyplayz1" class="btn btn-primary" target="_blank">
             <i class="fas fa-bolt"></i> BUY NOW
           </a>
-          <button class="btn btn-tertiary" id="addToCart">
+          <button class="btn btn-secondary" id="addToCart">
             <i class="fas fa-cart-plus"></i> ADD TO CART
           </button>
-          <button class="btn btn-secondary" id="toggleContent">
+          <button class="btn btn-tertiary" id="toggleContent">
             <i class="fas fa-info-circle"></i> SHOW SPECS
           </button>
         </div>
@@ -801,6 +840,22 @@
 
   <footer>
     <div class="footer-logo">TLPrebuilts</div>
+    
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Home</a>
+      <a href="#" class="footer-link">Builds</a>
+      <a href="#" class="footer-link">About Us</a>
+      <a href="#" class="footer-link">Support</a>
+      <a href="#" class="footer-link">Contact</a>
+    </div>
+    
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+    </div>
+    
     <p class="copyright">
       © 2025 TLPrebuilts. All rights reserved.<br>
       Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> for gamers worldwide
@@ -809,6 +864,24 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu toggle
+      const menuToggle = document.getElementById('menuToggle');
+      const mainNav = document.getElementById('mainNav');
+      const overlay = document.getElementById('overlay');
+      
+      menuToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        menuToggle.innerHTML = mainNav.classList.contains('active') ? 
+          '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+      });
+      
+      overlay.addEventListener('click', function() {
+        mainNav.classList.remove('active');
+        overlay.classList.remove('active');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+
       // Image gallery functionality
       const images = ['images/frostbyte1.jpg', 'images/frostbyte2.jpg', 'images/frostbyte3.jpg'];
       const pcImage = document.getElementById('pcImage');

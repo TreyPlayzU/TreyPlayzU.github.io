@@ -701,7 +701,6 @@
     </nav>
   </header>
 
-  <!-- Business Info Overlay -->
   <div class="business-overlay" id="businessOverlay">
     <div class="business-container">
       <button class="close-overlay" id="closeOverlay">
@@ -709,7 +708,7 @@
       </button>
       <div class="business-content">
         <div class="business-images">
-          <img src="images/build-process1.jpg" alt="PC Building Process" class="main-business-image">
+          <img src="images/buildprocess1.jpg" alt="PC Building Process" class="main-business-image">
           <img src="images/workshop1.jpg" alt="Our Workshop">
           <img src="images/testing1.jpg" alt="Quality Testing">
         </div>
@@ -733,8 +732,8 @@
               <p class="feature-text">72-hour stress testing on all systems</p>
             </div>
             <div class="feature-item">
-              <i class="fas fa-shield-alt feature-icon"></i>
-              <p class="feature-text">2-year comprehensive warranty</p>
+              <i class="fas fa-broom feature-icon"></i>
+              <p class="feature-text">All PCs undergo thorough cleaning and maintenance before shipping</p>
             </div>
           </div>
         </div>
@@ -854,7 +853,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Mobile menu functionality
       const menuToggle = document.getElementById('menuToggle');
       const mainNav = document.getElementById('mainNav');
       const overlay = document.getElementById('overlay');
@@ -872,12 +870,10 @@
         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
 
-      // Business overlay functionality
       const businessOverlay = document.getElementById('businessOverlay');
       const closeOverlay = document.getElementById('closeOverlay');
       const learnMoreBtn = document.getElementById('learnMoreBtn');
       
-      // Open overlay from Learn More and Help links
       document.querySelectorAll('.nav-link[href="#"], #learnMoreBtn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           if (this.textContent.includes('Learn More') || this.textContent.includes('Help') || this.textContent.includes('About')) {
@@ -887,19 +883,16 @@
         });
       });
       
-      // Close overlay
       closeOverlay.addEventListener('click', function() {
         businessOverlay.classList.remove('active');
       });
       
-      // Close when clicking outside content
       businessOverlay.addEventListener('click', function(e) {
         if (e.target === this) {
           this.classList.remove('active');
         }
       });
 
-      // Update cart count
       function updateCartCount() {
         const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
         document.getElementById('cartCount').textContent = cartItems;
@@ -907,7 +900,6 @@
       
       updateCartCount();
       
-      // Animation for cards
       const observerOptions = {
         threshold: 0.1
       };
