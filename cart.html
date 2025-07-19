@@ -502,8 +502,8 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Cart data
-      const cart = [
+      // Load cart from localStorage or initialize with default item
+      let cart = JSON.parse(localStorage.getItem('cart')) || [
         {
           id: 'frostbyte-x',
           name: 'FrostByte X',
@@ -519,6 +519,19 @@
         }
       ];
       
+      // Save cart to localStorage
+      function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+      }
+      
+      // Update cart count in header
+      function updateCartCount() {
+        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = itemCount;
+        localStorage.setItem('cartItems', itemCount);
+      }
+      
       // DOM elements
       const cartItemsEl = document.getElementById('cartItems');
       const emptyCartEl = document.getElementById('emptyCart');
@@ -527,14 +540,13 @@
       const taxEl = document.getElementById('tax');
       const totalEl = document.getElementById('total');
       const checkoutBtn = document.getElementById('checkoutBtn');
-      const cartCountEl = document.getElementById('cartCount');
       
       // Render cart items
       function renderCart() {
         if (cart.length === 0) {
           emptyCartEl.style.display = 'block';
           cartSummaryEl.style.display = 'none';
-          cartCountEl.textContent = '0';
+          updateCartCount();
           return;
         }
         
@@ -550,11 +562,6 @@
         subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
         taxEl.textContent = `€${tax.toFixed(2)}`;
         totalEl.textContent = `€${total.toFixed(2)}`;
-        
-        // Update cart count
-        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountEl.textContent = itemCount;
-        localStorage.setItem('cartItems', itemCount);
         
         // Render cart items
         cartItemsEl.innerHTML = '';
@@ -591,8 +598,11 @@
             const item = cart.find(i => i.id === id);
             if (item.quantity > 1) {
               item.quantity--;
-              renderCart();
+            } else {
+              cart = cart.filter(i => i.id !== id);
             }
+            saveCart();
+            renderCart();
           });
         });
         
@@ -601,6 +611,7 @@
             const id = this.getAttribute('data-id');
             const item = cart.find(i => i.id === id);
             item.quantity++;
+            saveCart();
             renderCart();
           });
         });
@@ -608,20 +619,19 @@
         document.querySelectorAll('.remove-btn').forEach(btn => {
           btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            const index = cart.findIndex(i => i.id === id);
-            if (index !== -1) {
-              cart.splice(index, 1);
-              renderCart();
-            }
+            cart = cart.filter(i => i.id !== id);
+            saveCart();
+            renderCart();
           });
         });
       }
       
       checkoutBtn.addEventListener('click', function() {
-        alert('Proceeding to checkout!(no checj out yet me poor)');
+        alert('Proceeding to checkout! (no checkout yet me poor)');
       });
       
       renderCart();
+      updateCartCount();
     });
   </script>
 </body>
