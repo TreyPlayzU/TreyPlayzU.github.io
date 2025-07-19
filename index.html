@@ -149,6 +149,8 @@
       color: var(--primary);
       transform: scale(1.2);
     }
+
+    
     
     .cart-count {
       position: absolute;
@@ -166,6 +168,157 @@
       font-weight: bold;
       transition: var(--transition);
     }
+
+    /* Settings Icon */
+.settings-icon {
+  color: var(--light);
+  font-size: 1.3rem;
+  transition: var(--transition);
+  position: relative;
+}
+
+.settings-icon:hover {
+  color: var(--primary);
+  transform: rotate(30deg) scale(1.2);
+}
+
+/* Settings Panel */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100vh;
+  background: var(--darker);
+  z-index: 2000;
+  padding: 2rem;
+  border-left: 1px solid rgba(0, 240, 255, 0.2);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.settings-panel.active {
+  right: 0;
+}
+
+.settings-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settings-group {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+  padding-bottom: 1.5rem;
+}
+
+.settings-group-title {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.setting-label {
+  color: var(--light);
+  font-size: 0.95rem;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray);
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+body.light-mode {
+  --dark: #f5f5f7;
+  --darker: #e0e0e8;
+  --light: #1a1a1a;
+  --gray: #d0d0d8;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+body.light-mode .build-card,
+body.light-mode .feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .nav-link,
+body.light-mode .footer-link,
+body.light-mode .social-link,
+body.light-mode .settings-icon,
+body.light-mode .cart-icon {
+  color: var(--light);
+}
+
+body.light-mode .nav-link:hover,
+body.light-mode .footer-link:hover,
+body.light-mode .social-link:hover {
+  color: var(--primary);
+}
+
+body.light-mode .copyright {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .settings-panel {
+    width: 100%;
+    right: -100%;
+  }
+}
     
     .hero {
       padding: 12rem 2rem 6rem;
@@ -933,6 +1086,9 @@
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-count" id="cartCount">0</span>
       </a>
+      <a href="#" class="settings-icon" id="settingsToggle">
+        <i class="fas fa-cog"></i>
+      </a>
     </nav>
   </header>
 
@@ -1109,7 +1265,6 @@
 
   const menuToggle = document.getElementById('menuToggle');
   const mainNav = document.getElementById('mainNav');
-  const overlay = document.getElementById('overlay');
 
   menuToggle.addEventListener('click', function() {
     mainNav.classList.toggle('active');
@@ -1206,8 +1361,114 @@
       }
     });
   });
+
+  // Settings Panel Toggle
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsPanel = document.getElementById('settingsPanel');
+const overlay = document.getElementById('overlay');
+
+settingsToggle.addEventListener('click', function(e) {
+  e.preventDefault();
+  settingsPanel.classList.toggle('active');
+  overlay.classList.toggle('active');
+  document.body.style.overflow = settingsPanel.classList.contains('active') ? 'hidden' : '';
+});
+
+// Theme Management
+const darkModeToggle = document.getElementById('darkModeToggle');
+const animationsToggle = document.getElementById('animationsToggle');
+const hardwareAccelToggle = document.getElementById('hardwareAccelToggle');
+const resetSettingsBtn = document.getElementById('resetSettings');
+
+// Load saved settings
+function loadSettings() {
+  const darkMode = localStorage.getItem('darkMode') !== 'false';
+  const animations = localStorage.getItem('animations') !== 'false';
+  const hardwareAccel = localStorage.getItem('hardwareAccel') !== 'false';
+  
+  darkModeToggle.checked = darkMode;
+  animationsToggle.checked = animations;
+  hardwareAccelToggle.checked = hardwareAccel;
+  
+  updateTheme(darkMode, animations, hardwareAccel);
+}
+
+// Update theme based on settings
+function updateTheme(darkMode, animations, hardwareAccel) {
+  if (darkMode) {
+    document.body.classList.remove('light-mode');
+  } else {
+    document.body.classList.add('light-mode');
+  }
+  
+  document.body.style.animationPlayState = animations ? 'running' : 'paused';
+  document.documentElement.style.willChange = hardwareAccel ? 'transform, opacity' : 'auto';
+}
+
+// Save settings
+function saveSettings() {
+  localStorage.setItem('darkMode', darkModeToggle.checked);
+  localStorage.setItem('animations', animationsToggle.checked);
+  localStorage.setItem('hardwareAccel', hardwareAccelToggle.checked);
+  updateTheme(darkModeToggle.checked, animationsToggle.checked, hardwareAccelToggle.checked);
+}
+
+// Event listeners
+darkModeToggle.addEventListener('change', saveSettings);
+animationsToggle.addEventListener('change', saveSettings);
+hardwareAccelToggle.addEventListener('change', saveSettings);
+
+// Reset settings
+resetSettingsBtn.addEventListener('click', function() {
+  localStorage.clear();
+  loadSettings();
+});
+
+// Initialize
+loadSettings();
 });
 
 </script>
+<div class="settings-panel" id="settingsPanel">
+  <h3 class="settings-title">
+    <i class="fas fa-cog"></i> SETTINGS
+  </h3>
+  
+  <div class="settings-group">
+    <h4 class="settings-group-title">Appearance</h4>
+    
+    <div class="setting-item">
+      <span class="setting-label">Dark Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="setting-item">
+      <span class="setting-label">Animations</span>
+      <label class="switch">
+        <input type="checkbox" id="animationsToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+  
+  <div class="settings-group">
+    <h4 class="settings-group-title">Performance</h4>
+    
+    <div class="setting-item">
+      <span class="setting-label">Hardware Acceleration</span>
+      <label class="switch">
+        <input type="checkbox" id="hardwareAccelToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+  
+  <button class="btn btn-primary" id="resetSettings" style="width: 100%; margin-top: 2rem;">
+    <i class="fas fa-undo"></i> Reset Settings
+  </button>
+</div>
 </body>
 </html>
