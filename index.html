@@ -15,6 +15,7 @@
       --light: #f0f0f0;
       --gray: #25252e;
       --success: #00ff88;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
     * {
@@ -54,6 +55,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: var(--transition);
+      transform: translateY(0);
+    }
+    
+    header.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-5px);
     }
     
     .logo {
@@ -66,10 +75,16 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: translateY(-2px) scale(1.05);
     }
     
     .logo-icon {
       color: var(--secondary);
+      transition: var(--transition);
     }
     
     .menu-toggle {
@@ -80,6 +95,12 @@
       font-size: 1.5rem;
       cursor: pointer;
       z-index: 1001;
+      transition: var(--transition);
+    }
+    
+    .menu-toggle:hover {
+      color: var(--primary);
+      transform: scale(1.2);
     }
     
     nav {
@@ -93,12 +114,13 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1rem;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       position: relative;
     }
     
     .nav-link:hover {
       color: var(--primary);
+      transform: translateY(-2px);
     }
     
     .nav-link::after {
@@ -109,7 +131,7 @@
       width: 0;
       height: 2px;
       background: var(--primary);
-      transition: width 0.3s ease;
+      transition: var(--transition);
     }
     
     .nav-link:hover::after {
@@ -120,12 +142,12 @@
       position: relative;
       color: var(--light);
       font-size: 1.3rem;
-      transition: all 0.3s ease;
+      transition: var(--transition);
     }
     
     .cart-icon:hover {
       color: var(--primary);
-      transform: scale(1.1);
+      transform: scale(1.2);
     }
     
     .cart-count {
@@ -142,6 +164,7 @@
       justify-content: center;
       font-size: 0.7rem;
       font-weight: bold;
+      transition: var(--transition);
     }
     
     .hero {
@@ -150,6 +173,12 @@
       position: relative;
       overflow: hidden;
       background: radial-gradient(circle at center, rgba(0,240,255,0.1) 0%, transparent 70%);
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .hero::before {
@@ -174,6 +203,12 @@
       color: transparent;
       line-height: 1.2;
       text-transform: uppercase;
+      animation: textGlow 2s infinite alternate;
+    }
+    
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
+      100% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.7); }
     }
     
     .hero-subtitle {
@@ -181,6 +216,7 @@
       max-width: 700px;
       margin: 0 auto 3rem;
       color: rgba(255, 255, 255, 0.9);
+      animation: fadeIn 1s ease-out 0.3s both;
     }
     
     .hero-buttons {
@@ -188,6 +224,7 @@
       gap: 2rem;
       justify-content: center;
       margin-top: 3rem;
+      animation: fadeIn 1s ease-out 0.6s both;
     }
     
     .hero-btn {
@@ -195,7 +232,7 @@
       border-radius: 8px;
       font-weight: 700;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -215,8 +252,8 @@
     .hero-btn-primary:hover {
       background: transparent;
       color: var(--primary);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
     
     .hero-btn-secondary {
@@ -228,8 +265,8 @@
     .hero-btn-secondary:hover {
       background: var(--primary);
       color: var(--dark);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
     
     .featured {
@@ -242,6 +279,7 @@
       border-radius: 20px;
       border: 1px solid rgba(0, 240, 255, 0.1);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.8s ease-out 0.9s both;
     }
     
     .section-title {
@@ -260,6 +298,12 @@
       flex: 1;
       height: 2px;
       background: linear-gradient(to right, var(--primary), transparent);
+      animation: expandLine 1s ease-out;
+    }
+    
+    @keyframes expandLine {
+      from { width: 0; }
+      to { width: 100%; }
     }
     
     .builds-grid {
@@ -273,18 +317,30 @@
       background: rgba(37, 37, 46, 0.7);
       border-radius: 16px;
       overflow: hidden;
-      transition: all 0.4s ease;
+      transition: var(--transition);
       border: 1px solid rgba(0, 240, 255, 0.2);
       position: relative;
       max-width: 400px;
       cursor: pointer;
       backdrop-filter: blur(5px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      animation: cardEntrance 0.6s ease-out both;
+    }
+    
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
     
     .build-card:hover {
       transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 25px 50px rgba(0, 240, 255, 0.15);
+      box-shadow: 0 25px 50px rgba(0, 240, 255, 0.2);
       border-color: rgba(0, 240, 255, 0.4);
     }
     
@@ -322,6 +378,7 @@
       margin-bottom: 1rem;
       color: var(--primary);
       letter-spacing: 1px;
+      transition: var(--transition);
     }
     
     .build-price {
@@ -329,6 +386,7 @@
       font-weight: 700;
       margin-bottom: 1.5rem;
       color: var(--light);
+      transition: var(--transition);
     }
     
     .build-price::before {
@@ -352,7 +410,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      transition: all 0.3s ease;
+      transition: var(--transition);
     }
     
     .tag-primary {
@@ -361,7 +419,7 @@
     }
     
     .tag-primary:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.05);
       box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
     
@@ -371,7 +429,7 @@
     }
     
     .tag-secondary:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.05);
       box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
     }
     
@@ -382,7 +440,7 @@
     
     .tag-gray:hover {
       background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.05);
     }
     
     .tag-accent {
@@ -391,7 +449,7 @@
     }
     
     .tag-accent:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.05);
       box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
     
@@ -406,7 +464,7 @@
       border-radius: 8px;
       font-weight: 700;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -425,8 +483,8 @@
     .btn-primary:hover {
       background: transparent;
       color: var(--primary);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
     
     .btn-secondary {
@@ -438,8 +496,8 @@
     .btn-secondary:hover {
       background: var(--primary);
       color: var(--dark);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
     
     .features {
@@ -447,6 +505,7 @@
       background: linear-gradient(to bottom, var(--darker), var(--dark));
       margin-top: 4rem;
       position: relative;
+      animation: fadeIn 0.8s ease-out 1.2s both;
     }
     
     .features::before {
@@ -474,21 +533,31 @@
       border-radius: 16px;
       padding: 2.5rem;
       border: 1px solid rgba(0, 240, 255, 0.1);
-      transition: all 0.4s ease;
+      transition: var(--transition);
       backdrop-filter: blur(5px);
+      animation: cardEntrance 0.6s ease-out both;
     }
     
+    .feature-card:nth-child(1) { animation-delay: 1.3s; }
+    .feature-card:nth-child(2) { animation-delay: 1.5s; }
+    .feature-card:nth-child(3) { animation-delay: 1.7s; }
+    
     .feature-card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-10px) scale(1.02);
       border-color: var(--primary);
       background: rgba(0, 240, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2);
     }
     
     .feature-icon {
       font-size: 3rem;
       margin-bottom: 2rem;
       color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.2) rotate(10deg);
     }
     
     .feature-title {
@@ -496,12 +565,18 @@
       font-size: 1.5rem;
       margin-bottom: 1.5rem;
       color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover .feature-title {
+      color: var(--secondary);
     }
     
     .feature-desc {
       color: rgba(255, 255, 255, 0.8);
       line-height: 1.7;
       font-size: 1.1rem;
+      transition: var(--transition);
     }
     
     footer {
@@ -510,6 +585,7 @@
       text-align: center;
       border-top: 1px solid rgba(0, 240, 255, 0.1);
       position: relative;
+      animation: fadeIn 0.8s ease-out 2s both;
     }
     
     footer::before {
@@ -531,6 +607,12 @@
       color: var(--primary);
       margin-bottom: 2rem;
       display: inline-block;
+      transition: var(--transition);
+    }
+    
+    .footer-logo:hover {
+      color: var(--secondary);
+      transform: translateY(-3px) scale(1.05);
     }
     
     .footer-links {
@@ -546,12 +628,12 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1rem;
-      transition: all 0.3s ease;
+      transition: var(--transition);
     }
     
     .footer-link:hover {
       color: var(--primary);
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.1);
     }
     
     .social-links {
@@ -564,18 +646,19 @@
     .social-link {
       color: rgba(255, 255, 255, 0.7);
       font-size: 1.8rem;
-      transition: all 0.3s ease;
+      transition: var(--transition);
     }
     
     .social-link:hover {
       color: var(--primary);
-      transform: translateY(-5px) scale(1.1);
+      transform: translateY(-5px) scale(1.2);
     }
     
     .copyright {
       color: rgba(255, 255, 255, 0.5);
       font-size: 1rem;
       margin-top: 2rem;
+      transition: var(--transition);
     }
     
     /* Business Info Overlay */
@@ -592,7 +675,7 @@
       padding: 2rem;
       overflow-y: auto;
       opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateY(20px);
     }
     
@@ -610,7 +693,7 @@
       border: 1px solid var(--primary);
       box-shadow: 0 0 50px rgba(0, 240, 255, 0.3);
       position: relative;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .close-overlay {
@@ -627,10 +710,11 @@
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: all 0.3s ease;
+      transition: var(--transition);
     }
     
     .close-overlay:hover {
+      background: var(--secondary-dark);
       transform: rotate(90deg) scale(1.1);
     }
     
@@ -709,12 +793,22 @@
       display: flex;
       gap: 1rem;
       align-items: flex-start;
+      transition: var(--transition);
+    }
+    
+    .feature-item:hover {
+      transform: translateX(5px);
     }
     
     .feature-icon {
       color: var(--primary);
       font-size: 1.3rem;
       margin-top: 0.3rem;
+      transition: var(--transition);
+    }
+    
+    .feature-item:hover .feature-icon {
+      color: var(--secondary);
     }
     
     .feature-text {
@@ -820,7 +914,7 @@
   </style>
 </head>
 <body>
-  <header>
+  <header id="mainHeader">
     <a href="index.html" class="logo">
       <i class="fas fa-desktop logo-icon"></i> TLPrebuilts
     </a>
@@ -988,6 +1082,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const header = document.getElementById('mainHeader');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
       const menuToggle = document.getElementById('menuToggle');
       const mainNav = document.getElementById('mainNav');
       const overlay = document.getElementById('overlay');
@@ -995,6 +1098,7 @@
       menuToggle.addEventListener('click', function() {
         mainNav.classList.toggle('active');
         overlay.classList.toggle('active');
+        document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
         menuToggle.innerHTML = mainNav.classList.contains('active') ? 
           '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
       });
@@ -1002,6 +1106,7 @@
       overlay.addEventListener('click', function() {
         mainNav.classList.remove('active');
         overlay.classList.remove('active');
+        document.body.style.overflow = '';
         menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
       });
 
@@ -1012,13 +1117,18 @@
       const supportLink = document.getElementById('supportLink');
       
       function showBusinessOverlay() {
-        businessOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        businessOverlay.style.display = 'grid';
+        void businessOverlay.offsetWidth;
+        businessOverlay.classList.add('active');
       }
       
       function hideBusinessOverlay() {
         businessOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        setTimeout(() => {
+          businessOverlay.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 400);
       }
       
       [learnMoreBtn, aboutLink, supportLink].forEach(btn => {
