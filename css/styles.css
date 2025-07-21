@@ -1,0 +1,57 @@
+:root {
+  --primary: #00f0ff;
+  --primary-dark: #00c4d1;
+  --primary-light: #0066ff;
+  --secondary: #ff2d75;
+  --secondary-dark: #e02466;
+  --secondary-light: #ff3366;
+  --dark: #0a0a12;
+  --darker: #050508;
+  --darkest: #020203;
+  --light: #f0f0f0;
+  --lighter: #ffffff;
+  --gray: #25252e;
+  --gray-light: #3a3a48;
+  --success: #00ff88;
+  --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme="light"] {
+  --primary: var(--primary-light);
+  --secondary: var(--secondary-light);
+  --dark: #f5f5f7;
+  --darker: #e0e0e8;
+  --light: var(--light-dark);
+  --gray: var(--gray-light);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.6;
+  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  background-color: rgba(10, 10, 18, 0.9);
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+[data-theme="light"] body {
+  background-color: rgba(245, 245, 247, 0.9);
+  background-blend-mode: soft-light;
+}
+
+/* All other CSS rules from your original code */
+/* ... (include all the CSS from your original file) ... */
