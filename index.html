@@ -51,6 +51,9 @@
       background-blend-mode: overlay;
       background-color: rgba(10, 10, 18, 0.9);
       transition: background-color 0.5s ease, color 0.3s ease;
+    }
+
+    body.animations-enabled {
       opacity: 0;
       animation: fadeIn 1s ease-out forwards;
     }
@@ -73,7 +76,21 @@
       transform: translateX(-50%);
       z-index: 10;
       text-align: center;
+    }
+
+    body.animations-enabled .brand-logo {
       animation: fadeInDown 1s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInDown {
+      from { 
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
     }
 
     .tl-logo {
@@ -104,20 +121,12 @@
       width: 100%;
       height: 3px;
       background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+
+    body.animations-enabled .prebuilts-logo::after {
       transform: scaleX(0);
       transform-origin: left;
       animation: scaleIn 1s ease-out 0.8s forwards;
-    }
-
-    @keyframes fadeInDown {
-      from { 
-        opacity: 0;
-        transform: translate(-50%, -20px);
-      }
-      to { 
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
     }
 
     @keyframes scaleIn {
@@ -142,7 +151,6 @@
       justify-content: space-between;
       align-items: center;
       transition: var(--transition);
-      transform: translateY(0);
     }
 
     [data-theme="light"] header {
@@ -153,7 +161,6 @@
     header.scrolled {
       padding: 0.8rem 2rem;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-      transform: translateY(-5px);
     }
     
     .logo {
@@ -250,6 +257,10 @@
 
     .settings-icon {
       animation: spinSlow 8s linear infinite;
+    }
+
+    body.animations-disabled .settings-icon {
+      animation: none;
     }
 
     @keyframes spinSlow {
@@ -483,6 +494,9 @@
       padding: 180px 2rem 4rem;
       position: relative;
       overflow: hidden;
+    }
+
+    body.animations-enabled .hero {
       animation: fadeInHero 1.5s ease-out 0.3s both;
     }
 
@@ -530,6 +544,9 @@
       line-height: 1.1;
       text-transform: uppercase;
       letter-spacing: 2px;
+    }
+
+    body.animations-enabled .hero-title {
       animation: textGlow 2s infinite alternate;
     }
 
@@ -544,6 +561,9 @@
       margin: 0 auto 3rem;
       color: rgba(255, 255, 255, 0.9);
       line-height: 1.6;
+    }
+
+    body.animations-enabled .hero-subtitle {
       animation: fadeIn 1s ease-out 0.8s both;
     }
 
@@ -557,6 +577,9 @@
       justify-content: center;
       flex-wrap: wrap;
       margin-top: 3rem;
+    }
+
+    body.animations-enabled .hero-buttons {
       animation: fadeIn 1s ease-out 1s both;
     }
     
@@ -636,6 +659,9 @@
       gap: 1.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
+    }
+
+    body.animations-enabled .section-title {
       animation: fadeIn 1s ease-out 1.2s both;
     }
     
@@ -664,6 +690,9 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
+    }
+
+    body.animations-enabled .build-card {
       animation: cardEntrance 0.6s ease-out both;
     }
 
@@ -689,7 +718,7 @@
     }
 
     [data-theme="dark"] .build-card:hover {
-      border-color: #00ff88; /* Changed to green for better visibility in dark mode */
+      border-color: var(--secondary);
     }
 
     [data-theme="light"] .build-card:hover {
@@ -1104,7 +1133,7 @@
     }
   </style>
 </head>
-<body>
+<body class="animations-enabled">
   <!-- Brand Logo -->
   <div class="brand-logo">
     <span class="tl-logo">TL</span>
@@ -1539,27 +1568,24 @@
         const animationsEnabled = localStorage.getItem('animations') !== 'false';
         animationsToggle.checked = animationsEnabled;
         
-        if (!animationsEnabled) {
-          document.body.style.animation = 'none';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = 'none';
-          });
+        if (animationsEnabled) {
+          document.body.classList.add('animations-enabled');
+          document.body.classList.remove('animations-disabled');
+        } else {
+          document.body.classList.remove('animations-enabled');
+          document.body.classList.add('animations-disabled');
         }
       }
 
       animationsToggle.addEventListener('change', (e) => {
         localStorage.setItem('animations', e.target.checked);
         
-        if (!e.target.checked) {
-          document.body.style.animation = 'none';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = 'none';
-          });
+        if (e.target.checked) {
+          document.body.classList.add('animations-enabled');
+          document.body.classList.remove('animations-disabled');
         } else {
-          document.body.style.animation = '';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = '';
-          });
+          document.body.classList.remove('animations-enabled');
+          document.body.classList.add('animations-disabled');
         }
       });
 
