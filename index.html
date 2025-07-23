@@ -750,20 +750,16 @@
     }
     
     .btn-primary {
-      background: var(--primary);
-      color: var(--dark);
+      background: transparent;
+      color: var(--primary);
       border: 2px solid var(--primary);
     }
     
     .btn-primary:hover {
-      background: transparent;
-      color: var(--primary);
+      background: var(--primary);
+      color: var(--dark);
       transform: translateY(-3px);
       box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
-    }
-
-    .btn-primary:hover::before {
-      transform: translateY(100%);
     }
     
     .btn-secondary {
@@ -798,7 +794,7 @@
       background: rgba(255, 255, 255, 0.03);
       border-radius: 16px;
       padding: 2rem;
-      border: 1px solid rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--primary);
       transition: var(--transition);
       backdrop-filter: blur(5px);
       text-align: center;
@@ -806,14 +802,14 @@
 
     [data-theme="light"] .feature-card {
       background: rgba(0, 0, 0, 0.03);
-      border: 1px solid rgba(0, 102, 255, 0.1);
+      border: 1px solid var(--primary-light);
     }
     
     .feature-card:hover {
       transform: translateY(-10px);
-      border-color: var(--primary);
-      background: rgba(0, 240, 255, 0.05);
-      box-shadow: 0 15px 30px rgba(0, 240, 255, 0.2);
+      border-color: var(--secondary);
+      background: rgba(255, 45, 117, 0.05);
+      box-shadow: 0 15px 30px rgba(255, 45, 117, 0.2);
     }
     
     .feature-icon {
@@ -825,6 +821,7 @@
     }
     
     .feature-card:hover .feature-icon {
+      color: var(--secondary);
       transform: scale(1.2);
     }
     
@@ -833,12 +830,22 @@
       font-size: 1.3rem;
       margin-bottom: 1rem;
       color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover .feature-title {
+      color: var(--secondary);
     }
     
     .feature-desc {
       color: rgba(255, 255, 255, 0.8);
       line-height: 1.6;
       font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover .feature-desc {
+      color: rgba(255, 255, 255, 0.9);
     }
 
     [data-theme="light"] .feature-desc {
@@ -1139,7 +1146,7 @@
       <!-- FrostByte X -->
       <a href="frostbytex.html" class="build-card">
         <div class="build-image-container">
-          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="FrostByte X" class="build-image">
+          <img src="images/frostbytex1.jpg" alt="FrostByte X" class="build-image">
           <div class="build-badge">READY TO SHIP</div>
         </div>
         <div class="build-content">
@@ -1179,7 +1186,7 @@
       <!-- FrostByte XS ZERO -->
       <a href="frostbytexszero.html" class="build-card">
         <div class="build-image-container">
-          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS ZERO" class="build-image">
+          <img src="images/frostbyte1.jpg" alt="FrostByte XS ZERO" class="build-image">
           <div class="build-badge">BUDGET FRIENDLY</div>
         </div>
         <div class="build-content">
@@ -1219,7 +1226,7 @@
       <!-- FrostByte XS PRO -->
       <a href="frostbytexspro.html" class="build-card">
         <div class="build-image-container">
-          <img src="https://images.unsplash.com/photo-1581093196276-63549ffb4391?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS PRO" class="build-image">
+          <img src="images/frostbyte1.jpg" alt="FrostByte XS PRO" class="build-image">
           <div class="build-badge">BEST SELLER</div>
         </div>
         <div class="build-content">
