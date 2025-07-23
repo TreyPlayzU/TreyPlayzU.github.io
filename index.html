@@ -44,7 +44,25 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
+      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      background-color: rgba(10, 10, 18, 0.9);
       transition: background-color 0.5s ease, color 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    [data-theme="light"] body {
+      background-color: rgba(245, 245, 247, 0.9);
+      background-blend-mode: soft-light;
     }
 
     .glow {
@@ -394,7 +412,7 @@
       opacity: 1;
     }
 
-    /* New Hero Section */
+    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -405,6 +423,20 @@
       padding: 8rem 2rem 4rem;
       position: relative;
       overflow: hidden;
+      animation: fadeInHero 1.5s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInHero {
+      from { 
+        opacity: 0; 
+        transform: translateY(50px);
+        filter: blur(5px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+        filter: blur(0);
+      }
     }
 
     .hero::before {
@@ -438,6 +470,12 @@
       line-height: 1.1;
       text-transform: uppercase;
       letter-spacing: 2px;
+      animation: textGlow 2s infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
+      100% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.7); }
     }
 
     .hero-subtitle {
@@ -446,6 +484,7 @@
       margin: 0 auto 3rem;
       color: rgba(255, 255, 255, 0.9);
       line-height: 1.6;
+      animation: fadeIn 1s ease-out 0.8s both;
     }
 
     [data-theme="light"] .hero-subtitle {
@@ -458,6 +497,7 @@
       justify-content: center;
       flex-wrap: wrap;
       margin-top: 3rem;
+      animation: fadeIn 1s ease-out 1s both;
     }
     
     .hero-btn {
@@ -508,7 +548,7 @@
     
     .hero-btn-secondary {
       background: transparent;
-      color: var(--primary);
+      color: var(--light);
       border: 2px solid var(--primary);
     }
     
@@ -536,6 +576,7 @@
       gap: 1.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
+      animation: fadeIn 1s ease-out 1.2s both;
     }
     
     .section-title::after {
@@ -556,13 +597,25 @@
       border-radius: 16px;
       overflow: hidden;
       transition: var(--transition);
-      border: 1px solid rgba(0, 240, 255, 0.2);
+      border: 1px solid var(--primary);
       position: relative;
       cursor: pointer;
       backdrop-filter: blur(5px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
+      animation: cardEntrance 0.6s ease-out both;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     [data-theme="light"] .build-card {
@@ -572,8 +625,8 @@
     
     .build-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0, 240, 255, 0.2);
-      border-color: rgba(0, 240, 255, 0.4);
+      border-color: var(--secondary);
+      box-shadow: 0 15px 40px rgba(255, 45, 117, 0.2);
     }
 
     .build-image-container {
@@ -587,6 +640,7 @@
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
     }
     
     .build-card:hover .build-image {
@@ -621,6 +675,11 @@
       margin-bottom: 0.5rem;
       color: var(--primary);
       letter-spacing: 1px;
+      transition: var(--transition);
+    }
+    
+    .build-card:hover .build-name {
+      color: var(--secondary);
     }
 
     .build-price {
@@ -647,6 +706,11 @@
       color: var(--primary);
       width: 20px;
       text-align: center;
+      transition: var(--transition);
+    }
+    
+    .build-card:hover .build-spec i {
+      color: var(--secondary);
     }
     
     .build-actions {
@@ -1073,7 +1137,7 @@
 
     <div class="builds-grid">
       <!-- FrostByte X -->
-      <div class="build-card">
+      <a href="frostbytex.html" class="build-card">
         <div class="build-image-container">
           <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="FrostByte X" class="build-image">
           <div class="build-badge">READY TO SHIP</div>
@@ -1102,18 +1166,18 @@
           </div>
           
           <div class="build-actions">
-            <a href="frostbytex.html" class="btn btn-primary">
+            <div class="btn btn-primary">
               <i class="fas fa-info-circle"></i> Details
-            </a>
-            <a href="cart.html" class="btn btn-secondary">
+            </div>
+            <div class="btn btn-secondary">
               <i class="fas fa-cart-plus"></i> Add to Cart
-            </a>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- FrostByte XS ZERO -->
-      <div class="build-card">
+      <a href="frostbytexszero.html" class="build-card">
         <div class="build-image-container">
           <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS ZERO" class="build-image">
           <div class="build-badge">BUDGET FRIENDLY</div>
@@ -1142,18 +1206,18 @@
           </div>
           
           <div class="build-actions">
-            <a href="frostbytexszero.html" class="btn btn-primary">
+            <div class="btn btn-primary">
               <i class="fas fa-info-circle"></i> Details
-            </a>
-            <a href="cart.html" class="btn btn-secondary">
+            </div>
+            <div class="btn btn-secondary">
               <i class="fas fa-cart-plus"></i> Add to Cart
-            </a>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- FrostByte XS PRO -->
-      <div class="build-card">
+      <a href="frostbytexspro.html" class="build-card">
         <div class="build-image-container">
           <img src="https://images.unsplash.com/photo-1581093196276-63549ffb4391?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS PRO" class="build-image">
           <div class="build-badge">BEST SELLER</div>
@@ -1182,15 +1246,15 @@
           </div>
           
           <div class="build-actions">
-            <a href="frostbytexspro.html" class="btn btn-primary">
+            <div class="btn btn-primary">
               <i class="fas fa-info-circle"></i> Details
-            </a>
-            <a href="cart.html" class="btn btn-secondary">
+            </div>
+            <div class="btn btn-secondary">
               <i class="fas fa-cart-plus"></i> Add to Cart
-            </a>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
