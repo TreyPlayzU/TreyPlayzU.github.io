@@ -44,18 +44,7 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
-      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-blend-mode: overlay;
-      background-color: rgba(10, 10, 18, 0.9);
       transition: background-color 0.5s ease, color 0.3s ease;
-    }
-
-    [data-theme="light"] body {
-      background-color: rgba(245, 245, 247, 0.9);
-      background-blend-mode: soft-light;
     }
 
     .glow {
@@ -168,8 +157,6 @@
       width: 100%;
     }
 
-    /* Start */
-    
     .control-icon {
       position: relative;
       color: var(--light);
@@ -209,204 +196,19 @@
       transition: var(--transition);
     }
 
-    /* Enhanced Settings Panel */
-    .settings-panel {
-      position: fixed;
-      top: 0;
-      right: -400px;
-      width: 400px;
-      height: 100vh;
-      background: var(--darker);
-      z-index: 2000;
-      padding: 2rem;
-      border-left: 1px solid var(--primary);
-      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .settings-panel.active {
-      right: 0;
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-    }
-
-    .settings-header h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      color: var(--light);
-      font-size: 1.3rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .close-settings:hover {
-      color: var(--secondary);
-      transform: rotate(90deg);
-    }
-
-    .settings-content {
+    /* New Hero Section */
+    .hero {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-    }
-
-    .setting-group {
-      background: rgba(0, 240, 255, 0.05);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid rgba(0, 240, 255, 0.1);
-    }
-
-    [data-theme="light"] .setting-group {
-      background: rgba(0, 102, 255, 0.05);
-      border: 1px solid rgba(0, 102, 255, 0.1);
-    }
-
-    .setting-group-header {
-      display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .setting-group h4 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--primary);
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .setting-item {
-      margin-bottom: 1.5rem;
-    }
-
-    .theme-option {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid transparent;
-      background: rgba(0, 240, 255, 0.03);
-    }
-
-    [data-theme="light"] .theme-option {
-      background: rgba(0, 102, 255, 0.03);
-    }
-
-    .theme-option:hover {
-      background: rgba(0, 240, 255, 0.1);
-      border-color: var(--primary);
-    }
-
-    [data-theme="light"] .theme-option:hover {
-      background: rgba(0, 102, 255, 0.1);
-    }
-
-    .theme-option i {
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .theme-preview {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-left: auto;
-      border: 2px solid var(--light);
-    }
-
-    input[type="radio"] {
-      display: none;
-    }
-
-    input[type="radio"]:checked + .theme-option {
-      background: rgba(0, 240, 255, 0.2);
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-    }
-
-    [data-theme="light"] input[type="radio"]:checked + .theme-option {
-      background: rgba(0, 102, 255, 0.2);
-      box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
-    }
-
-    .cyber-switch {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .cyber-slider {
-      position: relative;
-      width: 50px;
-      height: 24px;
-      background-color: var(--gray);
-      border-radius: 34px;
-      transition: var(--transition);
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .cyber-slider-knob {
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: var(--transition);
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    input:checked + .cyber-slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .cyber-slider .cyber-slider-knob {
-      transform: translateX(26px);
-      background-color: white;
-    }
-
-    /* Rest of your existing styles... */
-    .hero {
-      padding: 12rem 2rem 6rem;
       text-align: center;
+      padding: 8rem 2rem 4rem;
       position: relative;
       overflow: hidden;
-      background: radial-gradient(circle at center, rgba(0,240,255,0.1) 0%, transparent 70%);
-      animation: fadeIn 0.8s ease-out;
     }
 
-    [data-theme="light"] .hero {
-      background: radial-gradient(circle at center, rgba(0,102,255,0.1) 0%, transparent 70%);
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
     .hero::before {
       content: '';
       position: absolute;
@@ -414,44 +216,38 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('images/tech-pattern.png') center/cover;
-      opacity: 0.05;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(255, 45, 117, 0.1) 0%, transparent 30%);
       z-index: -1;
     }
-    
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
     .hero-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 4.5rem;
+      font-size: clamp(2.5rem, 8vw, 5rem);
       margin-bottom: 1.5rem;
       background: linear-gradient(to right, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      line-height: 1.2;
+      line-height: 1.1;
       text-transform: uppercase;
-      animation: textGlow 2s infinite alternate;
-    }
-    
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
-      100% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.7); }
+      letter-spacing: 2px;
     }
 
-    [data-theme="light"] .hero-title {
-      animation: textGlowLight 2s infinite alternate;
-    }
-
-    @keyframes textGlowLight {
-      0% { text-shadow: 0 0 10px rgba(0, 102, 255, 0.3); }
-      100% { text-shadow: 0 0 20px rgba(0, 102, 255, 0.7); }
-    }
-    
     .hero-subtitle {
-      font-size: 1.5rem;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
       max-width: 700px;
       margin: 0 auto 3rem;
       color: rgba(255, 255, 255, 0.9);
-      animation: fadeIn 1s ease-out 0.3s both;
+      line-height: 1.6;
     }
 
     [data-theme="light"] .hero-subtitle {
@@ -460,43 +256,56 @@
     
     .hero-buttons {
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
       justify-content: center;
+      flex-wrap: wrap;
       margin-top: 3rem;
-      animation: fadeIn 1s ease-out 0.6s both;
     }
     
     .hero-btn {
-      padding: 1.2rem 2.5rem;
-      border-radius: 8px;
+      padding: 1rem 2rem;
+      border-radius: 50px;
       font-weight: 700;
       text-decoration: none;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      font-size: 1.2rem;
-      min-width: 220px;
+      gap: 0.8rem;
+      min-width: 200px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .hero-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      z-index: -1;
+      transition: var(--transition);
     }
     
     .hero-btn-primary {
-      background: var(--primary);
       color: var(--dark);
       border: 2px solid var(--primary);
     }
     
     .hero-btn-primary:hover {
-      background: transparent;
       color: var(--primary);
-      transform: translateY(-5px) scale(1.05);
+      transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
 
-    [data-theme="light"] .hero-btn-primary:hover {
-      box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+    .hero-btn-primary:hover::before {
+      transform: translateY(100%);
     }
     
     .hero-btn-secondary {
@@ -508,41 +317,27 @@
     .hero-btn-secondary:hover {
       background: var(--primary);
       color: var(--dark);
-      transform: translateY(-5px) scale(1.05);
+      transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
     }
 
-    [data-theme="light"] .hero-btn-secondary:hover {
-      box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
-    }
-    
+    /* Featured Builds Section */
     .featured {
       padding: 6rem 2rem;
       max-width: 1400px;
       margin: 0 auto;
-      position: relative;
-      backdrop-filter: blur(5px);
-      background: rgba(5, 5, 8, 0.7);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 240, 255, 0.1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 0.8s ease-out 0.9s both;
     }
 
-    [data-theme="light"] .featured {
-      background: rgba(224, 224, 232, 0.7);
-      border: 1px solid rgba(0, 102, 255, 0.1);
-    }
-    
     .section-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
       margin-bottom: 3rem;
       color: var(--primary);
       display: flex;
       align-items: center;
       gap: 1.5rem;
       text-transform: uppercase;
+      letter-spacing: 2px;
     }
     
     .section-title::after {
@@ -550,19 +345,12 @@
       flex: 1;
       height: 2px;
       background: linear-gradient(to right, var(--primary), transparent);
-      animation: expandLine 1s ease-out;
     }
-    
-    @keyframes expandLine {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-    
+
     .builds-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 3rem;
-      justify-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
     }
     
     .build-card {
@@ -572,11 +360,11 @@
       transition: var(--transition);
       border: 1px solid rgba(0, 240, 255, 0.2);
       position: relative;
-      max-width: 400px;
       cursor: pointer;
       backdrop-filter: blur(5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-      animation: cardEntrance 0.6s ease-out both;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
     }
 
     [data-theme="light"] .build-card {
@@ -584,154 +372,119 @@
       border: 1px solid rgba(0, 102, 255, 0.2);
     }
     
-    @keyframes cardEntrance {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
     .build-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 25px 50px rgba(0, 240, 255, 0.2);
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 240, 255, 0.2);
       border-color: rgba(0, 240, 255, 0.4);
     }
 
-    [data-theme="light"] .build-card:hover {
-      box-shadow: 0 25px 50px rgba(0, 102, 255, 0.2);
-      border-color: rgba(0, 102, 255, 0.4);
-    }
-    
-    .build-card-link {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
+    .build-image-container {
+      height: 250px;
+      overflow: hidden;
+      position: relative;
     }
     
     .build-image {
-      height: 250px;
       width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
       transition: transform 0.5s ease;
-    }
-
-    [data-theme="light"] .build-image {
-      border-bottom: 1px solid rgba(0, 102, 255, 0.1);
     }
     
     .build-card:hover .build-image {
       transform: scale(1.05);
     }
-    
-    .build-content {
-      padding: 2rem;
-      position: relative;
-      z-index: 2;
-      pointer-events: none;
-    }
-    
-    .build-name {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-      letter-spacing: 1px;
-      transition: var(--transition);
-    }
-    
-    .build-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 2rem;
-      pointer-events: auto;
-    }
-    
-    .tag {
-      padding: 0.6rem 1rem;
-      border-radius: 20px;
+
+    .build-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--secondary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
       font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      transition: var(--transition);
+      z-index: 2;
     }
     
-    .tag-primary {
-      background: var(--primary);
-      color: var(--dark);
+    .build-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     
-    .tag-primary:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    .build-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      letter-spacing: 1px;
     }
 
-    [data-theme="light"] .tag-primary:hover {
-      box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
-    }
-    
-    .tag-secondary {
-      background: var(--secondary);
-      color: white;
-    }
-    
-    .tag-secondary:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
-    }
-    
-    .tag-gray {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-    }
-    
-    .tag-gray:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px) scale(1.05);
-    }
-    
-    .tag-accent {
-      background: linear-gradient(45deg, var(--primary), var(--secondary));
-      color: white;
-    }
-    
-    .tag-accent:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    .build-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--light);
     }
 
-    [data-theme="light"] .tag-accent:hover {
-      box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+    .build-specs {
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .build-spec {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .build-spec i {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
     }
     
     .build-actions {
       display: flex;
-      gap: 1.5rem;
-      pointer-events: auto;
+      gap: 1rem;
+      margin-top: auto;
     }
     
     .btn {
-      padding: 1rem 2rem;
-      border-radius: 8px;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
       font-weight: 700;
       text-decoration: none;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 0.5rem;
       flex: 1;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      z-index: -1;
+      transition: var(--transition);
     }
     
     .btn-primary {
@@ -743,12 +496,12 @@
     .btn-primary:hover {
       background: transparent;
       color: var(--primary);
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
 
-    [data-theme="light"] .btn-primary:hover {
-      box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+    .btn-primary:hover::before {
+      transform: translateY(100%);
     }
     
     .btn-secondary {
@@ -760,95 +513,33 @@
     .btn-secondary:hover {
       background: var(--primary);
       color: var(--dark);
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
 
-    [data-theme="light"] .btn-secondary:hover {
-      box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
-    }
-    
-    /* Custom Build Card Specific Styles */
-    .custom-build-card .build-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: calc(100% - 250px); /* Adjust based on image height */
-    }
-    
-    .custom-build-card .build-name {
-      margin-bottom: 0.5rem;
-    }
-    
-    .custom-build-card .build-description {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      flex-grow: 1;
-    }
-
-    [data-theme="light"] .custom-build-card .build-description {
-      color: rgba(0, 0, 0, 0.8);
-    }
-    
-    .custom-build-card .build-features {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .custom-build-card .build-feature {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-    }
-    
-    .custom-build-card .build-feature i {
-      color: var(--primary);
-    }
-    
+    /* Features Section */
     .features {
       padding: 6rem 2rem;
       background: linear-gradient(to bottom, var(--darker), var(--dark));
-      margin-top: 4rem;
       position: relative;
-      animation: fadeIn 0.8s ease-out 1.2s both;
     }
 
-    [data-theme="light"] .features {
-      background: linear-gradient(to bottom, var(--darker), var(--dark));
-    }
-    
-    .features::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('images/tech-pattern.png') center/cover;
-      opacity: 0.05;
-      z-index: -1;
-    }
-    
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 3rem;
-      max-width: 1400px;
+      gap: 2rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
     
     .feature-card {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 16px;
-      padding: 2.5rem;
+      padding: 2rem;
       border: 1px solid rgba(0, 240, 255, 0.1);
       transition: var(--transition);
       backdrop-filter: blur(5px);
-      animation: cardEntrance 0.6s ease-out both;
+      text-align: center;
     }
 
     [data-theme="light"] .feature-card {
@@ -856,79 +547,84 @@
       border: 1px solid rgba(0, 102, 255, 0.1);
     }
     
-    .feature-card:nth-child(1) { animation-delay: 1.3s; }
-    .feature-card:nth-child(2) { animation-delay: 1.5s; }
-    .feature-card:nth-child(3) { animation-delay: 1.7s; }
-    
     .feature-card:hover {
-      transform: translateY(-10px) scale(1.02);
+      transform: translateY(-10px);
       border-color: var(--primary);
       background: rgba(0, 240, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2);
-    }
-
-    [data-theme="light"] .feature-card:hover {
-      background: rgba(0, 102, 255, 0.05);
-      box-shadow: 0 20px 40px rgba(0, 102, 255, 0.2);
+      box-shadow: 0 15px 30px rgba(0, 240, 255, 0.2);
     }
     
     .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
       color: var(--primary);
       transition: var(--transition);
+      display: inline-block;
     }
     
     .feature-card:hover .feature-icon {
-      transform: scale(1.2) rotate(10deg);
+      transform: scale(1.2);
     }
     
     .feature-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
       color: var(--primary);
-      transition: var(--transition);
-    }
-    
-    .feature-card:hover .feature-title {
-      color: var(--secondary);
     }
     
     .feature-desc {
       color: rgba(255, 255, 255, 0.8);
-      line-height: 1.7;
-      font-size: 1.1rem;
-      transition: var(--transition);
+      line-height: 1.6;
+      font-size: 1rem;
     }
 
     [data-theme="light"] .feature-desc {
       color: rgba(0, 0, 0, 0.8);
     }
-    
-    footer {
-      background: var(--darker);
-      padding: 4rem 2rem 2.5rem;
+
+    /* CTA Section */
+    .cta-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(255, 45, 117, 0.1) 100%);
       text-align: center;
-      border-top: 1px solid rgba(0, 240, 255, 0.1);
       position: relative;
-      animation: fadeIn 0.8s ease-out 2s both;
     }
 
-    [data-theme="light"] footer {
-      border-top: 1px solid rgba(0, 102, 255, 0.1);
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
     }
-    
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('images/tech-pattern.png') center/cover;
-      opacity: 0.03;
-      z-index: 0;
+
+    .cta-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .cta-text {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--darker);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 240, 255, 0.1);
     }
     
     .footer-logo {
@@ -943,13 +639,13 @@
     
     .footer-logo:hover {
       color: var(--secondary);
-      transform: translateY(-3px) scale(1.05);
+      transform: translateY(-3px);
     }
     
     .footer-links {
       display: flex;
       justify-content: center;
-      gap: 2.5rem;
+      gap: 2rem;
       margin-bottom: 3rem;
       flex-wrap: wrap;
     }
@@ -958,7 +654,7 @@
       color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: var(--transition);
     }
 
@@ -968,7 +664,7 @@
     
     .footer-link:hover {
       color: var(--primary);
-      transform: translateY(-3px) scale(1.1);
+      transform: translateY(-3px);
     }
     
     .social-links {
@@ -980,7 +676,7 @@
     
     .social-link {
       color: rgba(255, 255, 255, 0.7);
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       transition: var(--transition);
     }
 
@@ -990,220 +686,20 @@
     
     .social-link:hover {
       color: var(--primary);
-      transform: translateY(-5px) scale(1.2);
+      transform: translateY(-5px);
     }
     
     .copyright {
       color: rgba(255, 255, 255, 0.5);
-      font-size: 1rem;
+      font-size: 0.9rem;
       margin-top: 2rem;
-      transition: var(--transition);
     }
 
     [data-theme="light"] .copyright {
       color: rgba(0, 0, 0, 0.5);
     }
-    
-    /* Business Info Overlay */
-    .business-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 2000;
-      display: none;
-      place-items: center;
-      padding: 2rem;
-      overflow-y: auto;
-      opacity: 0;
-      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateY(20px);
-    }
-    
-    .business-overlay.active {
-      display: grid;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .business-container {
-      max-width: 1000px;
-      background: var(--darker);
-      border-radius: 16px;
-      padding: 3rem;
-      border: 1px solid var(--primary);
-      box-shadow: 0 0 50px rgba(0, 240, 255, 0.3);
-      position: relative;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
 
-    [data-theme="light"] .business-container {
-      box-shadow: 0 0 50px rgba(0, 102, 255, 0.3);
-    }
-    
-    .close-overlay {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: var(--secondary);
-      color: white;
-      border: none;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      font-size: 1.3rem;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: var(--transition);
-    }
-    
-    .close-overlay:hover {
-      background: var(--secondary);
-      transform: rotate(90deg) scale(1.1);
-    }
-    
-    .business-content {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-    
-    @media (min-width: 992px) {
-      .business-content {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    
-    .business-images {
-      display: grid;
-      gap: 1.5rem;
-      grid-template-columns: 1fr 1fr;
-    }
-    
-    .business-images img {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      transition: transform 0.5s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    [data-theme="light"] .business-images img {
-      border: 1px solid rgba(0, 102, 255, 0.3);
-    }
-    
-    .business-images img:hover {
-      transform: scale(1.03);
-    }
-    
-    .main-business-image {
-      grid-column: span 2;
-    }
-    
-    .business-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    .business-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1.2;
-    }
-    
-    .business-subtitle {
-      font-size: 1.5rem;
-      color: var(--primary);
-      font-weight: 500;
-    }
-    
-    .business-description {
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 1.1rem;
-    }
-
-    [data-theme="light"] .business-description {
-      color: rgba(0, 0, 0, 0.85);
-    }
-    
-    .business-features {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    
-    .feature-item {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      transition: var(--transition);
-    }
-    
-    .feature-item:hover {
-      transform: translateX(5px);
-    }
-    
-    .feature-icon {
-      color: var(--primary);
-      font-size: 1.3rem;
-      margin-top: 0.3rem;
-      transition: var(--transition);
-    }
-    
-    .feature-item:hover .feature-icon {
-      color: var(--secondary);
-    }
-    
-    .feature-text {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1.1rem;
-    }
-
-    [data-theme="light"] .feature-text {
-      color: rgba(0, 0, 0, 0.8);
-    }
-    
-    /* Overlay for modals */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    .overlay.active {
-      display: block;
-      opacity: 1;
-    }
-    
-    @media (max-width: 1200px) {
-      .hero-title {
-        font-size: 3.5rem;
-      }
-      
-      .hero-subtitle {
-        font-size: 1.3rem;
-      }
-    }
-    
+    /* Responsive adjustments */
     @media (max-width: 768px) {
       header {
         padding: 1rem;
@@ -1226,15 +722,11 @@
         background: var(--darker);
         flex-direction: column;
         justify-content: center;
-        gap: 2.5rem;
+        gap: 2rem;
         padding: 2rem;
         transition: right 0.4s ease-out;
         z-index: 1000;
         border-left: 1px solid rgba(0, 240, 255, 0.1);
-      }
-
-      [data-theme="light"] nav {
-        border-left: 1px solid rgba(0, 102, 255, 0.1);
       }
       
       nav.active {
@@ -1245,57 +737,18 @@
         padding: 8rem 1rem 4rem;
       }
       
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      
-      .hero-subtitle {
-        font-size: 1.1rem;
-      }
-      
       .hero-buttons {
         flex-direction: column;
         align-items: center;
       }
       
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .builds-grid {
-        grid-template-columns: 1fr;
-      }
-      
       .build-actions {
         flex-direction: column;
       }
-      
-      .business-content {
-        grid-template-columns: 1fr;
-      }
 
-      .settings-panel {
-        width: 90%;
-        right: -90%;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-      
       .footer-links {
         flex-direction: column;
-        gap: 1.5rem;
-      }
-      
-      .business-images {
-        grid-template-columns: 1fr;
-      }
-      
-      .main-business-image {
-        grid-column: span 1;
+        gap: 1rem;
       }
     }
   </style>
@@ -1326,282 +779,150 @@
     </nav>
   </header>
 
-  <!-- Overlay for modals -->
-  <div class="overlay" id="overlay"></div>
-
-  <!-- Settings Panel -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="settings-header">
-      <h3><i class="fas fa-sliders-h"></i> SYSTEM CONTROL</h3>
-      <button class="close-settings" id="closeSettings">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    
-    <div class="settings-content">
-      <div class="setting-group">
-        <div class="setting-group-header">
-          <i class="fas fa-palette"></i>
-          <h4>VISUAL PROFILE</h4>
-        </div>
-        
-        <div class="setting-item">
-          <label>
-            <input type="radio" name="theme" value="dark" checked>
-            <span class="theme-option dark-theme">
-              <i class="fas fa-moon"></i>
-              <span>Neon Dark Mode</span>
-              <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 100%);"></div>
-            </span>
-          </label>
-        </div>
-        
-        <div class="setting-item">
-          <label>
-            <input type="radio" name="theme" value="light">
-            <span class="theme-option light-theme">
-              <i class="fas fa-sun"></i>
-              <span>Hacker Light Mode</span>
-              <div class="theme-preview" style="background: linear-gradient(135deg, #f5f5f7 0%, #e0e0e8 100%);"></div>
-            </span>
-          </label>
-        </div>
-      </div>
-      
-      <div class="setting-group">
-        <div class="setting-group-header">
-          <i class="fas fa-tachometer-alt"></i>
-          <h4>PERFORMANCE</h4>
-        </div>
-        
-        <div class="setting-item">
-          <div class="cyber-switch">
-            <span><i class="fas fa-wave-square"></i> Enable Animations</span>
-            <label class="cyber-switch">
-              <input type="checkbox" id="animationsToggle" checked>
-              <span class="cyber-slider">
-                <span class="cyber-slider-knob"></span>
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
-      
-      <button class="btn btn-primary" id="resetSettings" style="width: 100%; margin-top: 1rem;">
-        <i class="fas fa-undo"></i> Reset to Defaults
-      </button>
-    </div>
-  </div>
-
-  <!-- Business Info Overlay -->
-  <div class="business-overlay" id="businessOverlay">
-    <div class="business-container">
-      <button class="close-overlay" id="closeOverlay">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="business-content">
-        <div class="business-images">
-          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="PC Building Process" class="main-business-image">
-          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Our Workshop">
-          <img src="https://images.unsplash.com/photo-1581093196276-63549ffb4391?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Quality Testing">
-        </div>
-        <div class="business-text">
-          <h2 class="business-title">TL PREBUILTS</h2>
-          <h3 class="business-subtitle">Premium Gaming PCs Built With Passion</h3>
-          <p class="business-description">
-            At TL Prebuilts, we combine cutting-edge hardware with meticulous craftsmanship to deliver gaming PCs that outperform expectations. Each system is hand-built by our experts, optimized for peak performance, and rigorously tested before shipping.
-          </p>
-          <div class="business-features">
-            <div class="feature-item">
-              <i class="fas fa-microchip feature-icon"></i>
-              <p class="feature-text">High-quality components from trusted brands</p>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-tachometer-alt feature-icon"></i>
-              <p class="feature-text">Performance-optimized BIOS settings</p>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-check-circle feature-icon"></i>
-              <p class="feature-text">72-hour stress testing on all systems</p>
-            </div>
-            <div class="feature-item">
-              <i class="fas fa-broom feature-icon"></i>
-              <p class="feature-text">All PCs undergo thorough cleaning and maintenance before shipping</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Hero Section -->
   <section class="hero">
-    <h1 class="hero-title">TL PREBUILTS</h1>
-    <p class="hero-subtitle">Premium gaming PCs optimized for performance and aesthetics. Ready to ship with all drivers installed and BIOS configured.</p>
-    <div class="hero-buttons">
-      <a href="#featured" class="hero-btn hero-btn-primary">
-        <i class="fas fa-gamepad"></i> View Builds
-      </a>
-      <button class="hero-btn hero-btn-secondary" id="learnMoreBtn">
-        <i class="fas fa-question-circle"></i> Learn More
-      </button>
+    <div class="hero-content">
+      <h1 class="hero-title">UNLEASH YOUR GAMING POTENTIAL</h1>
+      <p class="hero-subtitle">Premium prebuilt gaming PCs optimized for peak performance. Ready to play right out of the box.</p>
+      <div class="hero-buttons">
+        <a href="#featured" class="hero-btn hero-btn-primary">
+          <i class="fas fa-gamepad"></i> View Builds
+        </a>
+        <a href="#about" class="hero-btn hero-btn-secondary">
+          <i class="fas fa-question-circle"></i> Learn More
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- Featured Builds -->
-<section class="featured" id="featured">
-  <h2 class="section-title">
-    <i class="fas fa-star"></i> FEATURED BUILDS
-  </h2>
+  <section class="featured" id="featured">
+    <h2 class="section-title">
+      <i class="fas fa-star"></i> FEATURED BUILDS
+    </h2>
 
-  <!-- FrostByte X PC build card-->
-  
-  <div class="builds-grid">
-
-     <div class="build-card">
-   <a href="frostbytex.html" class="build-card-link"></a>
-   <img src="images/frostbytex1.jpg" alt="FrostByte X" class="build-image">
-   <div class="build-content">
-     <h3 class="build-name">FROSTBYTE X</h3>
-     <div class="build-price">€1,099.99</div>
-     
-     <div class="build-tags">
-       <span class="tag tag-primary">🔥 READY TO SHIP</span>
-       <span class="tag tag-secondary">🏆 Windows 11 Home</span>
-       <span class="tag tag-accent">⚡ FROSTBYTE X</span>
-     </div>
-     
-     <div class="build-actions">
-       <a href="frostbytex.html" class="btn btn-primary">
-         <i class="fas fa-info-circle"></i> Details
-       </a>
-       <a href="cart.html" class="btn btn-secondary">
-         <i class="fas fa-cart-plus"></i> Add to Cart
-       </a>
-     </div>
-   </div>
- </div>
-
-    <!-- FrostByte XS ZERO PC build card -->
-<div class="build-card">
-  <a href="frostbytexszero.html" class="build-card-link"></a>
-  <img src="images/frostbyte1.jpg" alt="FrostByte XS ZERO" class="build-image">
-  <div class="build-content">
-    <h3 class="build-name">FROSTBYTE XS ZERO</h3>
-    <div class="build-price">€299.99</div>
-    
-    <div class="build-tags">
-      <span class="tag tag-primary">🔥 READY TO SHIP</span>
-      <span class="tag tag-secondary">🏆 Windows 10 Home</span>
-      <span class="tag tag-accent">⚡   ZERO</span>
-    </div>
-    
-    <div class="build-actions">
-      <a href="frostbytexszero.html" class="btn btn-primary">
-        <i class="fas fa-info-circle"></i> Details
-      </a>
-      <a href="cart.html" class="btn btn-secondary">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </a>
-    </div>
-  </div>
-</div>
-
-    
-    <!-- FrostByteX PC build card -->
-    <div class="build-card">
-      <a href="frostbytexs.html" class="build-card-link"></a>
-      <img src="images/frostbyte1.jpg" alt="FrostByte XS" class="build-image">
-      <div class="build-content">
-        <h3 class="build-name">FROSTBYTE XS</h3>
-        <div class="build-price">€699.99</div>
-        
-        <div class="build-tags">
-          <span class="tag tag-primary">🔥 READY TO SHIP</span>
-          <span class="tag tag-secondary">🏆 Windows 11 Home</span>
-          <span class="tag tag-accent">⚡ PERFORMANCE</span>
+    <div class="builds-grid">
+      <!-- FrostByte X -->
+      <div class="build-card">
+        <div class="build-image-container">
+          <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="FrostByte X" class="build-image">
+          <div class="build-badge">READY TO SHIP</div>
         </div>
-        
-        <div class="build-actions">
-          <a href="frostbytexs.html" class="btn btn-primary">
-            <i class="fas fa-info-circle"></i> Details
-          </a>
-          <a href="cart.html" class="btn btn-secondary">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </a>
+        <div class="build-content">
+          <h3 class="build-name">FROSTBYTE X</h3>
+          <div class="build-price">€1,099.99</div>
+          
+          <div class="build-specs">
+            <div class="build-spec">
+              <i class="fas fa-microchip"></i>
+              <span>Intel Core i7-13700K</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-memory"></i>
+              <span>32GB DDR5 RAM</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-hdd"></i>
+              <span>1TB NVMe SSD</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>RTX 4070 Ti 12GB</span>
+            </div>
+          </div>
+          
+          <div class="build-actions">
+            <a href="frostbytex.html" class="btn btn-primary">
+              <i class="fas fa-info-circle"></i> Details
+            </a>
+            <a href="cart.html" class="btn btn-secondary">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FrostByte XS ZERO -->
+      <div class="build-card">
+        <div class="build-image-container">
+          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS ZERO" class="build-image">
+          <div class="build-badge">BUDGET FRIENDLY</div>
+        </div>
+        <div class="build-content">
+          <h3 class="build-name">FROSTBYTE XS ZERO</h3>
+          <div class="build-price">€299.99</div>
+          
+          <div class="build-specs">
+            <div class="build-spec">
+              <i class="fas fa-microchip"></i>
+              <span>Intel Core i3-12100F</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-memory"></i>
+              <span>8GB DDR4 RAM</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-hdd"></i>
+              <span>256GB SSD</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>GTX 1650 4GB</span>
+            </div>
+          </div>
+          
+          <div class="build-actions">
+            <a href="frostbytexszero.html" class="btn btn-primary">
+              <i class="fas fa-info-circle"></i> Details
+            </a>
+            <a href="cart.html" class="btn btn-secondary">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FrostByte XS PRO -->
+      <div class="build-card">
+        <div class="build-image-container">
+          <img src="https://images.unsplash.com/photo-1581093196276-63549ffb4391?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="FrostByte XS PRO" class="build-image">
+          <div class="build-badge">BEST SELLER</div>
+        </div>
+        <div class="build-content">
+          <h3 class="build-name">FROSTBYTE XS PRO</h3>
+          <div class="build-price">€899.99</div>
+          
+          <div class="build-specs">
+            <div class="build-spec">
+              <i class="fas fa-microchip"></i>
+              <span>AMD Ryzen 7 5800X</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-memory"></i>
+              <span>16GB DDR4 RAM</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-hdd"></i>
+              <span>512GB NVMe SSD</span>
+            </div>
+            <div class="build-spec">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>RTX 3060 Ti 8GB</span>
+            </div>
+          </div>
+          
+          <div class="build-actions">
+            <a href="frostbytexspro.html" class="btn btn-primary">
+              <i class="fas fa-info-circle"></i> Details
+            </a>
+            <a href="cart.html" class="btn btn-secondary">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </a>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- FrostByteX PRO PC build card -->
-
-    <div class="build-card">
-  <a href="frostbytexspro.html" class="build-card-link"></a>
-  <img src="images/frostbyte3.jpg" alt="FrostByte XS Pro" class="build-image">
-  <div class="build-content">
-    <h3 class="build-name">FROSTBYTE XS PRO</h3>
-    <div class="build-price">€899.99</div>
-    
-    <div class="build-tags">
-      <span class="tag tag-primary">🔥 READY TO SHIP</span>
-      <span class="tag tag-secondary">🏆 BEST SELLER</span>
-      <span class="tag tag-accent">⚡ PERFORMANCE</span>
-    </div>
-    
-    <div class="build-actions">
-      <a href="frostbytexs.html" class="btn btn-primary">
-        <i class="fas fa-info-circle"></i> Details
-      </a>
-      <a href="cart.html" class="btn btn-secondary">
-        <i class="fas fa-cart-plus"></i> Add to Cart
-      </a>
-    </div>
-  </div>
-</div>
-
-    <!-- New Custom Build Card -->
-    <div class="build-card custom-build-card">
-      <a href="custombuild.html" class="build-card-link"></a>
-      <img src="images/buildprocess1.jpg" alt="Custom PC Build" class="build-image">
-      <div class="build-content">
-        <h3 class="build-name">CUSTOM PC BUILDER</h3>
-        
-        <div class="build-description">
-          Design your dream PC with premium components and expert assembly
-        </div>
-        
-        <div class="build-features">
-          <div class="build-feature">
-            <i class="fas fa-microchip"></i>
-            <span>100+ Component Options</span>
-          </div>
-          <div class="build-feature">
-            <i class="fas fa-sliders-h"></i>
-            <span>Fully Customizable</span>
-          </div>
-          <div class="build-feature">
-            <i class="fas fa-shield-alt"></i>
-            <span>3-Year Warranty</span>
-          </div>
-        </div>
-        
-        <div class="build-tags">
-          <span class="tag tag-accent">🛠️ FULLY CUSTOM</span>
-          <span class="tag tag-primary">✨ PREMIUM PARTS</span>
-        </div>
-        
-        <div class="build-actions">
-          <a href="custombuild.html" class="btn btn-primary">
-            <i class="fas fa-cogs"></i> Start Building
-          </a>
-          <a href="#contact" class="btn btn-secondary">
-            <i class="fas fa-headset"></i> Expert Help
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- About Section -->
   <section class="features" id="about">
@@ -1632,6 +953,22 @@
         </div>
         <h3 class="feature-title">Premium Quality</h3>
         <p class="feature-desc">We use only high-quality components and each build undergoes rigorous testing and weekly maintenance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-container">
+      <h2 class="cta-title">READY TO LEVEL UP?</h2>
+      <p class="cta-text">Get the gaming PC of your dreams with expert assembly, optimization, and support.</p>
+      <div class="cta-buttons">
+        <a href="#featured" class="hero-btn hero-btn-primary">
+          <i class="fas fa-desktop"></i> View All Builds
+        </a>
+        <a href="#support" class="hero-btn hero-btn-secondary">
+          <i class="fas fa-headset"></i> Contact Support
+        </a>
       </div>
     </div>
   </section>
@@ -1669,22 +1006,6 @@
     </div>
   </section>
 
-  <!-- Call to Action -->
-  <section class="product-cta">
-    <div class="cta-container">
-      <h2 class="cta-title">READY TO UPGRADE YOUR GAMING EXPERIENCE?</h2>
-      <p class="cta-text">Browse our selection of high-performance prebuilt PCs designed for gamers by gamers.</p>
-      <div class="action-buttons">
-        <a href="#featured" class="btn btn-primary btn-large">
-          <i class="fas fa-desktop"></i> View All Builds
-        </a>
-        <a href="#" class="btn btn-secondary btn-large" id="contactBtn">
-          <i class="fas fa-question-circle"></i> Get Help Choosing
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
     <div class="footer-logo">TLPrebuilts</div>
@@ -1694,7 +1015,7 @@
       <a href="#featured" class="footer-link">Builds</a>
       <a href="#about" class="footer-link">About Us</a>
       <a href="#support" class="footer-link">Support</a>
-      <a href="#" class="footer-link" id="contactLink">Contact</a>
+      <a href="#" class="footer-link">Contact</a>
     </div>
     
     <div class="social-links">
@@ -1724,11 +1045,9 @@
       // Mobile menu toggle
       const menuToggle = document.getElementById('menuToggle');
       const mainNav = document.getElementById('mainNav');
-      const overlay = document.getElementById('overlay');
 
       menuToggle.addEventListener('click', function() {
         mainNav.classList.toggle('active');
-        overlay.classList.toggle('active');
         document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
         menuToggle.innerHTML = mainNav.classList.contains('active') ?
           '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
@@ -1738,66 +1057,9 @@
       document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function() {
           mainNav.classList.remove('active');
-          overlay.classList.remove('active');
           document.body.style.overflow = '';
           menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
         });
-      });
-
-      // Business overlay
-      const businessOverlay = document.getElementById('businessOverlay');
-      const closeOverlay = document.getElementById('closeOverlay');
-      const learnMoreBtn = document.getElementById('learnMoreBtn');
-      const contactBtn = document.getElementById('contactBtn');
-      const contactLink = document.getElementById('contactLink');
-
-      function showBusinessOverlay() {
-        document.body.style.overflow = 'hidden';
-        overlay.classList.add('active');
-        businessOverlay.style.display = 'grid';
-        // Trigger reflow to restart animation
-        void businessOverlay.offsetWidth;
-        businessOverlay.classList.add('active');
-      }
-
-      function hideBusinessOverlay() {
-        businessOverlay.classList.remove('active');
-        overlay.classList.remove('active');
-        setTimeout(() => {
-          businessOverlay.style.display = 'none';
-          document.body.style.overflow = '';
-        }, 400);
-      }
-
-      if (learnMoreBtn) {
-        learnMoreBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          showBusinessOverlay();
-        });
-      }
-
-      if (contactBtn) {
-        contactBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          showBusinessOverlay();
-        });
-      }
-
-      if (contactLink) {
-        contactLink.addEventListener('click', function(e) {
-          e.preventDefault();
-          showBusinessOverlay();
-        });
-      }
-
-      closeOverlay.addEventListener('click', hideBusinessOverlay);
-
-      overlay.addEventListener('click', function() {
-        hideBusinessOverlay();
-        // Also close settings panel if open
-        settingsPanel.classList.remove('active');
-        this.classList.remove('active');
-        document.body.style.overflow = '';
       });
 
       // Cart count
@@ -1808,137 +1070,23 @@
 
       updateCartCount();
 
-      // Intersection observer for animations
-      const observerOptions = {
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.build-card, .feature-card').forEach(card => {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'all 0.5s ease';
-        observer.observe(card);
-      });
-
-      // CTA buttons
-      const ctaButtons = document.querySelectorAll('.action-buttons .btn');
-      ctaButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-          if (this.getAttribute('href') === '#featured') {
-            e.preventDefault();
-            const target = document.querySelector('#featured');
-            if (target) {
-              window.scrollTo({
-                top: target.offsetTop - 80,
-                behavior: 'smooth'
-              });
-            }
-          }
-        });
-      });
-
-      // Enhanced Settings Panel Functionality
-      const settingsToggle = document.getElementById('settingsToggle');
-      const settingsPanel = document.getElementById('settingsPanel');
-      const closeSettings = document.getElementById('closeSettings');
-      const resetSettingsBtn = document.getElementById('resetSettings');
-      const themeRadios = document.querySelectorAll('input[name="theme"]');
-      const animationsToggle = document.getElementById('animationsToggle');
-      const html = document.documentElement;
-
-      // Toggle settings panel
-      settingsToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        settingsPanel.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = settingsPanel.classList.contains('active') ? 'hidden' : '';
-      });
-
-      closeSettings.addEventListener('click', function() {
-        settingsPanel.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-
-      // Close settings when clicking outside
-      overlay.addEventListener('click', function() {
-        if (settingsPanel.classList.contains('active')) {
-          settingsPanel.classList.remove('active');
-          this.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-
-      // Theme management
-      function loadTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        html.setAttribute('data-theme', savedTheme);
-        document.querySelector(`input[value="${savedTheme}"]`).checked = true;
-        
-        // Update background blend mode
-        document.body.style.backgroundBlendMode = savedTheme === 'dark' ? 'overlay' : 'soft-light';
-      }
-
-      themeRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          const theme = e.target.value;
-          html.setAttribute('data-theme', theme);
-          localStorage.setItem('theme', theme);
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
           
-          // Update background blend mode
-          document.body.style.backgroundBlendMode = theme === 'dark' ? 'overlay' : 'soft-light';
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
         });
       });
-
-      // Animations toggle
-      function loadAnimations() {
-        const animationsEnabled = localStorage.getItem('animations') !== 'false';
-        animationsToggle.checked = animationsEnabled;
-        
-        if (!animationsEnabled) {
-          document.body.style.animation = 'none';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = 'none';
-          });
-        }
-      }
-
-      animationsToggle.addEventListener('change', (e) => {
-        localStorage.setItem('animations', e.target.checked);
-        
-        if (!e.target.checked) {
-          document.body.style.animation = 'none';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = 'none';
-          });
-        } else {
-          document.body.style.animation = '';
-          document.querySelectorAll('*').forEach(el => {
-            el.style.animation = '';
-          });
-        }
-      });
-
-      // Reset settings
-      resetSettingsBtn.addEventListener('click', function() {
-        localStorage.removeItem('theme');
-        localStorage.removeItem('animations');
-        loadTheme();
-        loadAnimations();
-      });
-
-      // Initialize
-      loadTheme();
-      loadAnimations();
     });
   </script>
 </body>
