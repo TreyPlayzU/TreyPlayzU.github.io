@@ -256,6 +256,57 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    .btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border: none !important;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+  border: none !important;
+}
+
+[data-theme="dark"] .btn-primary {
+  background: var(--primary);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: var(--secondary);
+}
+
+    .build-card {
+  background: rgba(37, 37, 46, 0.7);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid var(--primary);
+  position: relative;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: cardEntrance 0.6s ease-out both;
+}
+
+[data-theme="light"] .build-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.build-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .build-card:hover {
+  border-color: var(--secondary);
+}
+
+[data-theme="light"] .build-card:hover {
+  border-color: var(--primary-light);
+}
     
     .cart-count {
       position: absolute;
@@ -651,21 +702,6 @@
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
-    
-    .build-card {
-      background: rgba(37, 37, 46, 0.7);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid var(--primary);
-      position: relative;
-      cursor: pointer;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      animation: cardEntrance 0.6s ease-out both;
-    }
 
     @keyframes cardEntrance {
       from {
@@ -678,16 +714,6 @@
       }
     }
 
-    [data-theme="light"] .build-card {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(0, 102, 255, 0.2);
-    }
-    
-    .build-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--secondary);
-      box-shadow: 0 15px 40px rgba(255, 45, 117, 0.2);
-    }
 
     .build-image-container {
       height: 250px;
@@ -703,9 +729,6 @@
       border-bottom: 1px solid rgba(0, 240, 255, 0.1);
     }
     
-    .build-card:hover .build-image {
-      transform: scale(1.05);
-    }
 
     .build-badge {
       position: absolute;
@@ -739,10 +762,7 @@
       letter-spacing: 1px;
       transition: var(--transition);
     }
-    
-    .build-card:hover .build-name {
-      color: var(--secondary);
-    }
+  
 
     .build-price {
       font-size: 1.8rem;
@@ -812,20 +832,11 @@
       z-index: -1;
       transition: var(--transition);
     }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border: none !important;
-    }
+
     
     .btn-primary:hover {
       transform: translateY(-3px) !important;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
-    }
-    
-    .btn-secondary {
-      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
-      border: none !important;
     }
     
     .btn-secondary:hover {
