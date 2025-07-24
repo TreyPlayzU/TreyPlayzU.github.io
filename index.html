@@ -1097,7 +1097,7 @@
       }
       
       .hero {
-        padding: 160px 1rem 4rem;
+        padding: 140px 1rem 4rem;
       }
       
       .hero-buttons {
@@ -1121,14 +1121,76 @@
 
       /* Brand Logo Adjustments */
       .brand-logo {
-        top: 100px;
+        top: 80px;
       }
       .tl-logo {
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
       .prebuilts-logo {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         letter-spacing: 4px;
+      }
+
+      /* Hero title adjustments */
+      .hero-title {
+        font-size: clamp(2rem, 7vw, 3rem);
+        margin-bottom: 0.5rem;
+      }
+
+      /* Hide settings panel by default and prevent scrolling */
+      .settings-panel {
+        display: none;
+        right: -100%;
+        width: 100%;
+      }
+  
+      .settings-panel.active {
+        display: block;
+        right: 0;
+      }
+  
+      /* Remove card highlight effect on mobile */
+      .build-card:hover {
+        transform: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+  
+      [data-theme="dark"] .build-card:hover {
+        border-color: var(--primary);
+      }
+  
+      [data-theme="light"] .build-card:hover {
+        border-color: var(--primary-light);
+      }
+  
+      /* Adjust hero section spacing */
+      .hero-content {
+        padding-top: 40px;
+      }
+    }
+
+    /* Additional fix for very small screens */
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .brand-logo {
+        top: 70px;
+      }
+      
+      .tl-logo {
+        font-size: 1.8rem;
+      }
+      
+      .prebuilts-logo {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
       }
     }
   </style>
