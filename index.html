@@ -37,13 +37,10 @@
       color: var(--light);
       line-height: 1.6;
       overflow-x: hidden;
-      background-image:
-              radial-gradient(circle at 15% 50%, rgba(126, 34, 206, 0.1) 0%, transparent 25%),
-              radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.1) 0%, transparent 25%);
       min-height: 100vh;
     }
 
-    /* Animated background elements */
+    /* Performance-optimized background */
     .bg-animation {
       position: fixed;
       top: 0;
@@ -52,6 +49,7 @@
       height: 100%;
       z-index: -1;
       overflow: hidden;
+      pointer-events: none;
     }
 
     .floating-circle {
@@ -60,6 +58,7 @@
       background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
       opacity: 0.1;
       animation: float 15s infinite ease-in-out;
+      will-change: transform;
     }
 
     .floating-circle:nth-child(1) {
@@ -100,10 +99,8 @@
               linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 50px 50px;
       z-index: -1;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-      transform: rotateX(60deg) translateZ(-200px);
       animation: grid-move 20s infinite linear;
+      will-change: background-position;
     }
 
     @keyframes float {
@@ -133,14 +130,14 @@
       padding: 0 2rem;
     }
 
-    /* Header */
+    /* Improved Header */
     header {
-      background-color: rgba(15, 23, 42, 0.8);
+      background-color: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(10px);
       position: sticky;
       top: 0;
-      z-index: 100;
-      padding: 1.2rem 0;
+      z-index: 1000;
+      padding: 1rem 0;
       border-bottom: 1px solid rgba(126, 34, 206, 0.2);
     }
 
@@ -157,6 +154,7 @@
       text-decoration: none;
       position: relative;
       overflow: hidden;
+      z-index: 1;
     }
 
     .logo::before {
@@ -223,9 +221,14 @@
       transform-origin: left;
     }
 
+    /* Improved Navigation */
+    .nav-container {
+      position: relative;
+    }
+
     nav {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
     }
 
     .nav-link {
@@ -236,6 +239,9 @@
       transition: var(--transition);
       position: relative;
       padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .nav-link::before {
@@ -255,6 +261,62 @@
 
     .nav-link:hover::before {
       width: 100%;
+    }
+
+    /* Mega menu */
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(126, 34, 206, 0.2);
+      border-bottom: 2px solid var(--primary);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .nav-container:hover .mega-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .mega-menu-column h4 {
+      color: var(--light);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(126, 34, 206, 0.3);
+    }
+
+    .mega-menu-links {
+      list-style: none;
+    }
+
+    .mega-menu-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .mega-menu-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: var(--transition);
+      display: block;
+      padding: 0.3rem 0;
+    }
+
+    .mega-menu-links a:hover {
+      color: var(--primary);
+      transform: translateX(5px);
     }
 
     .header-controls {
@@ -319,9 +381,9 @@
       color: var(--primary);
     }
 
-    /* Hero Section */
+    /* Enhanced Hero Section */
     .hero {
-      padding: 6rem 0 4rem;
+      padding: 5rem 0 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -339,7 +401,7 @@
 
     .hero-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: 800;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -371,7 +433,7 @@
     }
 
     .hero-subtitle {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: var(--gray-light);
       margin-bottom: 2.5rem;
       line-height: 1.6;
@@ -380,6 +442,7 @@
     .hero-buttons {
       display: flex;
       gap: 1.2rem;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -395,6 +458,8 @@
       position: relative;
       overflow: hidden;
       z-index: 1;
+      border: none;
+      cursor: pointer;
     }
 
     .btn::before {
@@ -448,6 +513,7 @@
       transform-style: preserve-3d;
       perspective: 1000px;
       animation: float-image 8s infinite ease-in-out;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     }
 
     @keyframes float-image {
@@ -490,7 +556,36 @@
       opacity: 1;
     }
 
-    /* Featured Builds */
+    /* Performance stats */
+    .performance-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Enhanced Featured Builds */
     .featured {
       padding: 5rem 0;
     }
@@ -502,7 +597,7 @@
 
     .section-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--light);
@@ -688,12 +783,6 @@
     .build-actions {
       display: flex;
       gap: 1rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: var(--transition);
-    }
-
-    .build-card:hover .build-actions {
       opacity: 1;
       transform: translateY(0);
     }
@@ -703,7 +792,7 @@
       font-size: 0.95rem;
     }
 
-    /* Features Section */
+    /* Enhanced Features Section */
     .features {
       padding: 6rem 0;
       background: linear-gradient(to bottom, var(--darker), var(--dark));
@@ -778,7 +867,7 @@
       color: var(--light);
     }
 
-    /* CTA Section */
+    /* Enhanced CTA Section */
     .cta {
       padding: 8rem 0;
       background: linear-gradient(135deg, rgba(126, 34, 206, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
@@ -817,7 +906,7 @@
 
     .cta-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.5rem;
+      font-size: 3.2rem;
       font-weight: 700;
       margin-bottom: 1.5rem;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
@@ -872,7 +961,7 @@
       opacity: 1;
     }
 
-    /* Footer */
+    /* Enhanced Footer */
     footer {
       background-color: var(--darker);
       color: white;
@@ -978,6 +1067,44 @@
       font-size: 0.95rem;
     }
 
+    /* Newsletter signup */
+    .newsletter {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .newsletter input {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid rgba(126, 34, 206, 0.3);
+      background: rgba(15, 23, 42, 0.5);
+      color: var(--light);
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .newsletter input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.3);
+    }
+
+    .newsletter button {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(126, 34, 206, 0.4);
+    }
+
     /* Responsive Design */
     @media (max-width: 1100px) {
       .hero-content {
@@ -985,7 +1112,7 @@
       }
 
       .hero-title {
-        font-size: 3.2rem;
+        font-size: 3rem;
       }
     }
 
@@ -1005,7 +1132,11 @@
       }
 
       .hero-title {
-        font-size: 3rem;
+        font-size: 2.8rem;
+      }
+
+      .mega-menu {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       nav {
@@ -1034,11 +1165,11 @@
 
     @media (max-width: 768px) {
       .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
       }
 
       .section-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
       }
 
       .builds-grid {
@@ -1068,6 +1199,14 @@
       .social-links {
         justify-content: center;
       }
+
+      .mega-menu {
+        grid-template-columns: 1fr;
+      }
+
+      .performance-stats {
+        justify-content: center;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1088,11 +1227,15 @@
       }
 
       .cta-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
 
       .cta-text {
         font-size: 1.1rem;
+      }
+
+      .newsletter {
+        flex-direction: column;
       }
     }
   </style>
@@ -1115,12 +1258,61 @@
         <div class="logo-text">TL<span class="logo-accent">Prebuilts</span></div>
       </a>
 
-      <nav id="mainNav">
-        <a href="#featured" class="nav-link">Builds</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#support" class="nav-link">Support</a>
-        <a href="#about" class="nav-link">About</a>
-      </nav>
+      <div class="nav-container">
+        <nav id="mainNav">
+          <a href="#featured" class="nav-link">
+            <span>Builds</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#support" class="nav-link">Support</a>
+          <a href="#about" class="nav-link">About</a>
+        </nav>
+
+        <!-- Mega Menu -->
+        <div class="mega-menu">
+          <div class="mega-menu-column">
+            <h4>Gaming PCs</h4>
+            <ul class="mega-menu-links">
+              <li><a href="#">Budget Builds</a></li>
+              <li><a href="#">Mid-Range Builds</a></li>
+              <li><a href="#">High-End Builds</a></li>
+              <li><a href="#">Ultimate Builds</a></li>
+              <li><a href="#">Custom Configurator</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu-column">
+            <h4>By Game</h4>
+            <ul class="mega-menu-links">
+              <li><a href="#">Fortnite Ready</a></li>
+              <li><a href="#">Call of Duty</a></li>
+              <li><a href="#">Valorant Optimized</a></li>
+              <li><a href="#">VR Ready</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu-column">
+            <h4>Components</h4>
+            <ul class="mega-menu-links">
+              <li><a href="#">Graphics Cards</a></li>
+              <li><a href="#">Processors</a></li>
+              <li><a href="#">Memory</a></li>
+              <li><a href="#">Storage</a></li>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu-column">
+            <h4>Special Offers</h4>
+            <ul class="mega-menu-links">
+              <li><a href="#">Ready to Ship</a></li>
+              <li><a href="#">Clearance</a></li>
+              <li><a href="#">Bundle Deals</a></li>
+              <li><a href="#">Financing</a></li>
+              <li><a href="#">Student Discount</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <div class="header-controls">
         <a href="#" class="control-icon">
@@ -1156,6 +1348,21 @@
             <i class="fas fa-question-circle"></i> Learn More
           </a>
         </div>
+
+        <div class="performance-stats">
+          <div class="stat">
+            <div class="stat-value">240+</div>
+            <div class="stat-label">FPS Average</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Stress Testing</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">3Y</div>
+            <div class="stat-label">Warranty</div>
+          </div>
+        </div>
       </div>
       <div class="hero-image">
         <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Premium Gaming PC">
@@ -1174,7 +1381,7 @@
 
     <div class="builds-grid">
       <!-- Build 1 -->
-      <div class="build-card" onclick="window.location.href='#frostbyte-x'">
+      <div class="build-card">
         <div class="build-image">
           <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=80" alt="FrostByte X">
           <div class="build-badge">READY TO SHIP</div>
@@ -1214,7 +1421,7 @@
       </div>
 
       <!-- Build 2 -->
-      <div class="build-card" onclick="window.location.href='#nova-pro'">
+      <div class="build-card">
         <div class="build-image">
           <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=80" alt="Nova Pro">
           <div class="build-badge">BEST SELLER</div>
@@ -1254,7 +1461,7 @@
       </div>
 
       <!-- Build 3 -->
-      <div class="build-card" onclick="window.location.href='#apex-ultimate'">
+      <div class="build-card">
         <div class="build-image">
           <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=900&q=80" alt="Apex Ultimate">
           <div class="build-badge">ULTIMATE</div>
@@ -1358,6 +1565,12 @@
       <div>
         <a href="#" class="footer-logo">TL<span>Prebuilts</span></a>
         <p class="footer-desc">Premium gaming PCs built with passion and expertise for gamers worldwide.</p>
+
+        <div class="newsletter">
+          <input type="email" placeholder="Your email address">
+          <button>Subscribe</button>
+        </div>
+
         <div class="social-links">
           <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
           <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -1445,12 +1658,39 @@
     document.querySelectorAll('.build-card').forEach(card => {
       card.style.cursor = 'pointer';
 
+      card.addEventListener('click', function(e) {
+        // Only navigate if the click wasn't on a button
+        if (!e.target.closest('.btn')) {
+          window.location.href = this.querySelector('a.btn-primary').href;
+        }
+      });
+
       // Prevent buttons from triggering the card click
       card.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
         });
       });
+    });
+
+    // Performance optimization - only run animations when in viewport
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, observerOptions);
+
+    // Observe animated elements
+    document.querySelectorAll('.feature-card, .build-card, .floating-circle').forEach(el => {
+      observer.observe(el);
     });
   });
 </script>
