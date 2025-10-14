@@ -1,1694 +1,798 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TLPrebuilts | Premium Gaming PCs</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>TechCraft PC | Custom Gaming Rigs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #00f0ff;
-      --primary-light: #0066ff;
-      --secondary: #ff2d75;
-      --secondary-light: #ff3366;
-      --dark: #0a0a12;
-      --darker: #050508;
-      --light: #f0f0f0;
-      --light-dark: #1a1a1a;
-      --gray: #25252e;
-      --gray-light: #d0d0d8;
-      --success: #00ff88;
-      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    [data-theme="light"] {
-      --primary: var(--primary-light);
-      --secondary: var(--secondary-light);
-      --dark: #f5f5f7;
-      --darker: #e0e0e8;
-      --light: var(--light-dark);
-      --gray: var(--gray-light);
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
+    :root {
+      --primary: #00f7ff;
+      --secondary: #ff00d6;
+      --dark: #0a0a1a;
+      --darker: #050510;
+      --light: #e0f8ff;
+      --card-bg: rgba(16, 18, 40, 0.8);
+    }
+
     body {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Exo 2', sans-serif;
       background-color: var(--dark);
       color: var(--light);
-      min-height: 100vh;
-      position: relative;
       overflow-x: hidden;
-      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-blend-mode: overlay;
-      background-color: rgba(10, 10, 18, 0.9);
-      transition: background-color 0.5s ease, color 0.3s ease;
+      line-height: 1.6;
     }
 
-    body.animations-enabled {
-      opacity: 0;
-      animation: fadeIn 1s ease-out forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    [data-theme="light"] body {
-      background-color: rgba(245, 245, 247, 0.9);
-      background-blend-mode: soft-light;
-    }
-
-    /* Brand Logo Styles */
-    .brand-logo {
-      position: absolute;
-      top: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      text-align: center;
-    }
-
-    body.animations-enabled .brand-logo {
-      animation: fadeInDown 1s ease-out 0.2s both;
-    }
-
-    @keyframes fadeInDown {
-      from { 
-        opacity: 0;
-        transform: translate(-50%, -20px);
-      }
-      to { 
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-    }
-
-    .tl-logo {
+    h1, h2, h3, h4 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--primary);
-      text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
-      letter-spacing: 5px;
-      margin-right: 10px;
-    }
-
-    .prebuilts-logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
       font-weight: 700;
-      color: white;
-      text-transform: uppercase;
-      letter-spacing: 8px;
-      position: relative;
     }
 
-    .prebuilts-logo::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
+    /* Background Animation */
+    .bg-animation {
+      position: fixed;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 3px;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
     }
 
-    body.animations-enabled .prebuilts-logo::after {
-      transform: scaleX(0);
-      transform-origin: left;
-      animation: scaleIn 1s ease-out 0.8s forwards;
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+      opacity: 0.1;
+      animation: float 15s infinite linear;
     }
 
-    @keyframes scaleIn {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-20px) translateX(10px); }
+      50% { transform: translateY(-40px) translateX(20px); }
+      75% { transform: translateY(-20px) translateX(10px); }
+      100% { transform: translateY(0) translateX(0); }
     }
 
-    .glow {
-      text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
-    }
-    
+    /* Header Styles */
     header {
-      background: linear-gradient(to right, var(--darker), rgba(10, 10, 18, 0.9));
+      background: rgba(10, 10, 26, 0.9);
       backdrop-filter: blur(10px);
       padding: 1.5rem 2rem;
-      position: fixed;
-      width: 100%;
+      position: sticky;
       top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+      z-index: 100;
+      border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: var(--transition);
     }
 
-    [data-theme="light"] header {
-      background: linear-gradient(to right, var(--darker), rgba(224, 224, 232, 0.9));
-      border-bottom: 1px solid rgba(0, 102, 255, 0.1);
-    }
-    
-    header.scrolled {
-      padding: 0.8rem 2rem;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    }
-    
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      color: var(--primary);
+      font-size: 2rem;
+    }
+
+    .logo-text {
       font-family: 'Orbitron', sans-serif;
       font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: var(--transition);
-    }
-    
-    .logo:hover {
-      transform: translateY(-2px) scale(1.05);
-    }
-    
-    .logo-icon {
-      color: var(--secondary);
-      transition: var(--transition);
-    }
-    
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--light);
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 1001;
-      transition: var(--transition);
-    }
-    
-    .menu-toggle:hover {
-      color: var(--primary);
-      transform: scale(1.2);
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
     }
 
-    .header-controls {
+    nav ul {
       display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    
-    nav {
-      display: flex;
-      align-items: center;
+      list-style: none;
       gap: 2rem;
     }
-    
-    .nav-link {
+
+    nav a {
       color: var(--light);
       text-decoration: none;
       font-weight: 600;
-      font-size: 1rem;
-      transition: var(--transition);
+      transition: all 0.3s ease;
       position: relative;
+      padding: 0.5rem 0;
     }
-    
-    .nav-link:hover {
+
+    nav a:hover {
       color: var(--primary);
-      transform: translateY(-2px);
     }
-    
-    .nav-link::after {
+
+    nav a::after {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: 0;
       left: 0;
       width: 0;
       height: 2px;
       background: var(--primary);
-      transition: var(--transition);
+      transition: width 0.3s ease;
     }
-    
-    .nav-link:hover::after {
+
+    nav a:hover::after {
       width: 100%;
-    }
-
-    .control-icon {
-      position: relative;
-      color: var(--light);
-      font-size: 1.3rem;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    
-    .control-icon:hover {
-      color: var(--primary);
-      transform: scale(1.2);
-    }
-
-    .settings-icon {
-      animation: spinSlow 8s linear infinite;
-    }
-
-    body.animations-disabled .settings-icon {
-      animation: none;
-    }
-
-    @keyframes spinSlow {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .cart-count {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: var(--secondary);
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: bold;
-      transition: var(--transition);
-    }
-
-    /* Settings Panel */
-    .settings-panel {
-      position: fixed;
-      top: 0;
-      right: -400px;
-      width: 400px;
-      height: 100vh;
-      background: var(--darker);
-      z-index: 2000;
-      padding: 2rem;
-      border-left: 1px solid var(--primary);
-      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .settings-panel.active {
-      right: 0;
-    }
-
-    .settings-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-    }
-
-    .settings-header h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .close-settings {
-      background: none;
-      border: none;
-      color: var(--light);
-      font-size: 1.3rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .close-settings:hover {
-      color: var(--secondary);
-      transform: rotate(90deg);
-    }
-
-    .settings-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .setting-group {
-      background: rgba(0, 240, 255, 0.05);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid rgba(0, 240, 255, 0.1);
-    }
-
-    [data-theme="light"] .setting-group {
-      background: rgba(0, 102, 255, 0.05);
-      border: 1px solid rgba(0, 102, 255, 0.1);
-    }
-
-    .setting-group-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .setting-group h4 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--primary);
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .setting-item {
-      margin-bottom: 1.5rem;
-    }
-
-    .theme-option {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid transparent;
-      background: rgba(0, 240, 255, 0.03);
-    }
-
-    [data-theme="light"] .theme-option {
-      background: rgba(0, 102, 255, 0.03);
-    }
-
-    .theme-option:hover {
-      background: rgba(0, 240, 255, 0.1);
-      border-color: var(--primary);
-    }
-
-    [data-theme="light"] .theme-option:hover {
-      background: rgba(0, 102, 255, 0.1);
-    }
-
-    .theme-option i {
-      font-size: 1.2rem;
-      color: var(--primary);
-    }
-
-    .theme-preview {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-left: auto;
-      border: 2px solid var(--light);
-    }
-
-    input[type="radio"] {
-      display: none;
-    }
-
-    input[type="radio"]:checked + .theme-option {
-      background: rgba(0, 240, 255, 0.2);
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-    }
-
-    [data-theme="light"] input[type="radio"]:checked + .theme-option {
-      background: rgba(0, 102, 255, 0.2);
-      box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
-    }
-
-    .cyber-switch {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .cyber-slider {
-      position: relative;
-      width: 50px;
-      height: 24px;
-      background-color: var(--gray);
-      border-radius: 34px;
-      transition: var(--transition);
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .cyber-slider-knob {
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: var(--transition);
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    input:checked + .cyber-slider {
-      background-color: var(--primary);
-    }
-
-    input:checked + .cyber-slider .cyber-slider-knob {
-      transform: translateX(26px);
-      background-color: white;
-    }
-
-    /* Overlay for modals */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1999;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    .overlay.active {
-      display: block;
-      opacity: 1;
     }
 
     /* Hero Section */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 6rem 2rem;
       text-align: center;
-      padding: 180px 2rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.animations-enabled .hero {
-      animation: fadeInHero 1.5s ease-out 0.3s both;
-    }
-
-    @keyframes fadeInHero {
-      from { 
-        opacity: 0; 
-        transform: translateY(50px);
-        filter: blur(5px);
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0);
-        filter: blur(0);
-      }
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 30%),
-        radial-gradient(circle at 80% 70%, rgba(255, 45, 117, 0.1) 0%, transparent 30%);
-      z-index: -1;
-    }
-
-    .hero-content {
       max-width: 1200px;
       margin: 0 auto;
       position: relative;
-      z-index: 2;
     }
 
-    .hero-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
+    .hero h1 {
+      font-size: 4rem;
       margin-bottom: 1.5rem;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      line-height: 1.1;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+      animation: glow 2s infinite alternate;
     }
 
-    body.animations-enabled .hero-title {
-      animation: textGlow 2s infinite alternate;
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(0, 247, 255, 0.5); }
+      to { text-shadow: 0 0 20px rgba(0, 247, 255, 0.8), 0 0 30px rgba(0, 247, 255, 0.6); }
     }
 
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
-      100% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.7); }
+    .hero p {
+      font-size: 1.4rem;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      color: #a0e6ff;
     }
 
-    .hero-subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      color: rgba(255, 255, 255, 0.9);
-      line-height: 1.6;
-    }
-
-    body.animations-enabled .hero-subtitle {
-      animation: fadeIn 1s ease-out 0.8s both;
-    }
-
-    [data-theme="light"] .hero-subtitle {
-      color: rgba(0, 0, 0, 0.8);
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 3rem;
-    }
-
-    body.animations-enabled .hero-buttons {
-      animation: fadeIn 1s ease-out 1s both;
-    }
-    
-    .hero-btn {
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      font-weight: 700;
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: var(--dark);
       text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
-      min-width: 200px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
       position: relative;
       overflow: hidden;
-      z-index: 1;
     }
-    
-    .hero-btn::before {
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(0, 247, 255, 0.8);
+    }
+
+    .cta-button::after {
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
+      left: -100%;
       width: 100%;
       height: 100%;
-      background: var(--primary);
-      z-index: -1;
-      transition: var(--transition);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
     }
-    
-    .hero-btn-primary {
-      color: var(--dark);
-      border: 2px solid var(--primary);
+
+    .cta-button:hover::after {
+      left: 100%;
     }
-    
-    .hero-btn-primary:hover {
+
+    /* Search Section */
+    .search-section {
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 2rem;
+    }
+
+    .search-container {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 247, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .search-container h2 {
+      margin-bottom: 1.5rem;
       color: var(--primary);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+      text-align: center;
     }
 
-    .hero-btn-primary:hover::before {
-      transform: translateY(100%);
-    }
-    
-    .hero-btn-secondary {
-      background: transparent;
-      color: var(--light);
-      border: 2px solid var(--primary);
-    }
-    
-    .hero-btn-secondary:hover {
-      background: var(--secondary);
-      color: var(--dark);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255, 45, 117, 0.3);
-    }
-
-    /* Featured Builds Section */
-    .featured {
-      padding: 6rem 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      margin-bottom: 3rem;
-      color: var(--primary);
+    .search-box {
       display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    body.animations-enabled .section-title {
-      animation: fadeIn 1s ease-out 1.2s both;
-    }
-    
-    .section-title::after {
-      content: '';
+    .search-input {
       flex: 1;
-      height: 2px;
-      background: linear-gradient(to right, var(--primary), transparent);
+      padding: 1rem 1.5rem;
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      border-radius: 50px;
+      background: rgba(10, 15, 30, 0.7);
+      color: var(--light);
+      font-size: 1rem;
+      transition: all 0.3s ease;
     }
 
-    .builds-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
     }
-    
-    .build-card {
-      background: rgba(37, 37, 46, 0.7);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: var(--transition);
-      border: 1px solid var(--primary);
-      position: relative;
+
+    .search-button {
+      padding: 1rem 2rem;
+      background: var(--primary);
+      color: var(--dark);
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
       cursor: pointer;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
+      transition: all 0.3s ease;
     }
 
-    body.animations-enabled .build-card {
-      animation: cardEntrance 0.6s ease-out both;
-    }
-
-    @keyframes cardEntrance {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    [data-theme="light"] .build-card {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(0, 102, 255, 0.2);
-    }
-    
-    .build-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    [data-theme="dark"] .build-card:hover {
-      border-color: var(--secondary);
-    }
-
-    [data-theme="light"] .build-card:hover {
-      border-color: var(--primary-light);
-    }
-
-    .build-image-container {
-      height: 250px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .build-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-    }
-    
-    .build-card:hover .build-image {
+    .search-button:hover {
+      background: var(--secondary);
       transform: scale(1.05);
     }
 
-    .build-badge {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 2;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-      box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);
-    }
-    
-    .build-content {
-      padding: 1.5rem;
-      flex: 1;
+    .tag-filters {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
     }
-    
-    .build-name {
-      font-family: 'Orbitron', sans-serif;
+
+    .tag {
+      padding: 0.5rem 1.2rem;
+      background: rgba(10, 15, 30, 0.7);
+      border: 1px solid rgba(0, 247, 255, 0.2);
+      border-radius: 50px;
+      color: var(--light);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover, .tag.active {
+      background: var(--primary);
+      color: var(--dark);
+      border-color: var(--primary);
+    }
+
+    /* PC Cards Section */
+    .pc-cards-section {
+      max-width: 1400px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      color: var(--primary);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .pc-cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .pc-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .pc-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 247, 255, 0.2);
+      border-color: rgba(0, 247, 255, 0.4);
+    }
+
+    .pc-image {
+      height: 220px;
+      background: linear-gradient(45deg, #0a1a2a, #1a1a3a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pc-image i {
+      font-size: 5rem;
+      color: var(--primary);
+      opacity: 0.7;
+    }
+
+    .pc-info {
+      padding: 1.5rem;
+    }
+
+    .pc-name {
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
       color: var(--primary);
-      letter-spacing: 1px;
-      transition: var(--transition);
-    }
-    
-    .build-card:hover .build-name {
-      color: var(--secondary);
     }
 
-    .build-price {
+    .pc-price {
       font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      color: var(--light);
-    }
-
-    .build-specs {
-      margin-bottom: 1.5rem;
-      flex: 1;
-    }
-
-    .build-spec {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-    }
-
-    .build-spec i {
-      color: var(--primary);
-      width: 20px;
-      text-align: center;
-      transition: var(--transition);
-    }
-    
-    .build-card:hover .build-spec i {
       color: var(--secondary);
     }
-    
-    .build-actions {
+
+    .pc-description {
+      margin-bottom: 1.5rem;
+      color: #a0e6ff;
+    }
+
+    .pc-tags {
       display: flex;
-      gap: 1rem;
-      margin-top: auto;
-    }
-    
-    .btn {
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
       gap: 0.5rem;
-      flex: 1;
-      text-align: center;
-      font-size: 0.9rem;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      color: white !important;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      margin-bottom: 1.5rem;
     }
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+    .pc-tag {
+      padding: 0.3rem 0.8rem;
+      background: rgba(0, 247, 255, 0.1);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--primary);
+    }
+
+    .pc-button {
+      display: block;
       width: 100%;
-      height: 100%;
+      padding: 0.8rem;
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .pc-button:hover {
       background: var(--primary);
-      z-index: -1;
-      transition: var(--transition);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border: none !important;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
-    }
-    
-    .btn-secondary {
-      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
-      border: none !important;
-    }
-    
-    .btn-secondary:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+      color: var(--dark);
     }
 
-    /* Features Section */
+    /* Why Choose Section */
+    .why-choose {
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+
     .features {
-      padding: 6rem 2rem;
-      background: linear-gradient(to bottom, var(--darker), var(--dark));
-      position: relative;
-    }
-
-    .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .feature-card {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 16px;
-      padding: 2rem;
-      border: 1px solid var(--primary);
-      transition: var(--transition);
-      backdrop-filter: blur(5px);
-      text-align: center;
     }
 
-    [data-theme="light"] .feature-card {
-      background: rgba(0, 0, 0, 0.03);
-      border: 1px solid var(--primary-light);
+    .feature {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+      transition: all 0.3s ease;
     }
-    
-    .feature-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--secondary);
-      background: rgba(255, 45, 117, 0.05);
-      box-shadow: 0 15px 30px rgba(255, 45, 117, 0.2);
+
+    .feature:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 247, 255, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 247, 255, 0.1);
     }
-    
+
     .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 3rem;
       color: var(--primary);
-      transition: var(--transition);
-      display: inline-block;
+      margin-bottom: 1.5rem;
     }
-    
-    .feature-card:hover .feature-icon {
-      color: var(--secondary);
-      transform: scale(1.2);
-    }
-    
-    .feature-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.3rem;
+
+    .feature h3 {
       margin-bottom: 1rem;
       color: var(--primary);
-      transition: var(--transition);
-    }
-    
-    .feature-card:hover .feature-title {
-      color: var(--secondary);
-    }
-    
-    .feature-desc {
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.6;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    .feature-card:hover .feature-desc {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    [data-theme="light"] .feature-desc {
-      color: rgba(0, 0, 0, 0.8);
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 6rem 2rem;
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(255, 45, 117, 0.1) 100%);
-      text-align: center;
-      position: relative;
-    }
-
-    .cta-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .cta-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      margin-bottom: 1.5rem;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .cta-text {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
     }
 
     /* Footer */
     footer {
-      background: var(--darker);
-      padding: 4rem 2rem 2rem;
-      text-align: center;
-      border-top: 1px solid rgba(0, 240, 255, 0.1);
+      background: rgba(5, 5, 16, 0.9);
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(0, 247, 255, 0.2);
     }
-    
-    .footer-logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+    }
+
+    .footer-column h3 {
       color: var(--primary);
-      margin-bottom: 2rem;
-      display: inline-block;
-      transition: var(--transition);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
     }
-    
-    .footer-logo:hover {
-      color: var(--secondary);
-      transform: translateY(-3px);
-    }
-    
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-    }
-    
-    .footer-link {
-      color: rgba(255, 255, 255, 0.7);
+
+    .footer-column p, .footer-column a {
+      color: #a0e6ff;
+      margin-bottom: 1rem;
+      display: block;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: var(--transition);
+      transition: color 0.3s ease;
     }
 
-    [data-theme="light"] .footer-link {
-      color: rgba(0, 0, 0, 0.7);
-    }
-    
-    .footer-link:hover {
+    .footer-column a:hover {
       color: var(--primary);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 247, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .social-icon:hover {
+      background: var(--primary);
+      color: var(--dark);
       transform: translateY(-3px);
     }
-    
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-    
-    .social-link {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1.5rem;
-      transition: var(--transition);
-    }
 
-    [data-theme="light"] .social-link {
-      color: rgba(0, 0, 0, 0.7);
-    }
-    
-    .social-link:hover {
-      color: var(--primary);
-      transform: translateY(-5px);
-    }
-    
     .copyright {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.9rem;
-      margin-top: 2rem;
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0, 247, 255, 0.1);
+      color: #a0e6ff;
     }
 
-    [data-theme="light"] .copyright {
-      color: rgba(0, 0, 0, 0.5);
-    }
-
-    /* Responsive adjustments */
+    /* Responsive Design */
     @media (max-width: 768px) {
-      header {
-        padding: 1rem;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .menu-toggle {
-        display: block;
-      }
-      
-      nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        height: 100vh;
-        background: var(--darker);
+      .header-content {
         flex-direction: column;
-        justify-content: center;
-        gap: 2rem;
-        padding: 2rem;
-        transition: right 0.4s ease-out;
-        z-index: 1000;
-        border-left: 1px solid rgba(0, 240, 255, 0.1);
-      }
-      
-      nav.active {
-        right: 0;
-      }
-      
-      .hero {
-        padding: 140px 1rem 4rem;
-      }
-      
-      .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .build-actions {
-        flex-direction: column;
+        gap: 1.5rem;
       }
 
-      .footer-links {
-        flex-direction: column;
+      nav ul {
         gap: 1rem;
       }
 
-      .settings-panel {
-        width: 90%;
-        right: -90%;
+      .hero h1 {
+        font-size: 2.5rem;
       }
 
-      /* Brand Logo Adjustments */
-      .brand-logo {
-        top: 80px;
-      }
-      .tl-logo {
-        font-size: 2rem;
-      }
-      .prebuilts-logo {
-        font-size: 1.5rem;
-        letter-spacing: 4px;
+      .hero p {
+        font-size: 1.1rem;
       }
 
-      /* Hero title adjustments */
-      .hero-title {
-        font-size: clamp(2rem, 7vw, 3rem);
-        margin-bottom: 0.5rem;
+      .search-box {
+        flex-direction: column;
       }
 
-      /* Hide settings panel by default and prevent scrolling */
-      .settings-panel {
-        display: none;
-        right: -100%;
-        width: 100%;
-      }
-  
-      .settings-panel.active {
-        display: block;
-        right: 0;
-      }
-  
-      /* Remove card highlight effect on mobile */
-      .build-card:hover {
-        transform: none;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-  
-      [data-theme="dark"] .build-card:hover {
-        border-color: var(--primary);
-      }
-  
-      [data-theme="light"] .build-card:hover {
-        border-color: var(--primary-light);
-      }
-  
-      /* Adjust hero section spacing */
-      .hero-content {
-        padding-top: 40px;
-      }
-    }
-
-    /* Additional fix for very small screens */
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 1.8rem;
-        line-height: 1.2;
-      }
-      
-      .hero-subtitle {
-        font-size: 1rem;
-      }
-      
-      .brand-logo {
-        top: 70px;
-      }
-      
-      .tl-logo {
-        font-size: 1.8rem;
-      }
-      
-      .prebuilts-logo {
-        font-size: 1.3rem;
-        letter-spacing: 2px;
+      .pc-cards-container {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-<body class="animations-enabled">
-  <!-- Brand Logo -->
-  <div class="brand-logo">
-    <span class="tl-logo">TL</span>
-    <span class="prebuilts-logo">PREBUILTS</span>
-  </div>
+<body>
+<!-- Background Animation -->
+<div class="bg-animation" id="bgAnimation"></div>
 
-  <header id="mainHeader">
-    <a href="index.html" class="logo">
-      <i class="fas fa-desktop logo-icon"></i> TLPrebuilts
-    </a>
-    
-    <div class="header-controls">
-      <a href="cart.html" class="control-icon cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count" id="cartCount">0</span>
-      </a>
-      <div class="control-icon settings-icon" id="settingsToggle">
-        <i class="fas fa-cog"></i>
-      </div>
-      <button class="menu-toggle" id="menuToggle">
-        <i class="fas fa-bars"></i>
-      </button>
+<!-- Header -->
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <i class="fas fa-desktop logo-icon"></i>
+      <div class="logo-text">TECH<span style="color: var(--secondary)">CRAFT</span> PC</div>
     </div>
-    
-    <nav id="mainNav">
-      <a href="#featured" class="nav-link">Builds</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#support" class="nav-link">Support</a>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Builds</a></li>
+        <li><a href="#">Components</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <!-- Overlay for modals -->
-  <div class="overlay" id="overlay"></div>
+<!-- Hero Section -->
+<section class="hero">
+  <h1>CRAFT YOUR DREAM PC</h1>
+  <p>Premium custom gaming rigs built with cutting-edge components and meticulous attention to detail. Experience performance like never before.</p>
+  <a href="#" class="cta-button">START BUILDING <i class="fas fa-arrow-right"></i></a>
+</section>
 
-  <!-- Settings Panel -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="settings-header">
-      <h3><i class="fas fa-sliders-h"></i> SYSTEM CONTROL</h3>
-      <button class="close-settings" id="closeSettings">
-        <i class="fas fa-times"></i>
-      </button>
+<!-- Search Section -->
+<section class="search-section">
+  <div class="search-container">
+    <h2>FIND YOUR PERFECT PC</h2>
+    <div class="search-box">
+      <input type="text" class="search-input" placeholder="Search by name or components...">
+      <button class="search-button"><i class="fas fa-search"></i> SEARCH</button>
     </div>
-    
-    <div class="settings-content">
-      <div class="setting-group">
-        <div class="setting-group-header">
-          <i class="fas fa-palette"></i>
-          <h4>VISUAL PROFILE</h4>
-        </div>
-        
-        <div class="setting-item">
-          <label>
-            <input type="radio" name="theme" value="dark" checked>
-            <span class="theme-option dark-theme">
-              <i class="fas fa-moon"></i>
-              <span>Neon Dark Mode</span>
-              <div class="theme-preview" style="background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 100%);"></div>
-            </span>
-          </label>
-        </div>
-        
-        <div class="setting-item">
-          <label>
-            <input type="radio" name="theme" value="light">
-            <span class="theme-option light-theme">
-              <i class="fas fa-sun"></i>
-              <span>Hacker Light Mode</span>
-              <div class="theme-preview" style="background: linear-gradient(135deg, #f5f5f7 0%, #e0e0e8 100%);"></div>
-            </span>
-          </label>
-        </div>
-      </div>
-      
-      <div class="setting-group">
-        <div class="setting-group-header">
-          <i class="fas fa-tachometer-alt"></i>
-          <h4>PERFORMANCE</h4>
-        </div>
-        
-        <div class="setting-item">
-          <div class="cyber-switch">
-            <span><i class="fas fa-wave-square"></i> Enable Animations</span>
-            <label class="cyber-switch">
-              <input type="checkbox" id="animationsToggle" checked>
-              <span class="cyber-slider">
-                <span class="cyber-slider-knob"></span>
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
-      
-      <button class="btn btn-primary" id="resetSettings" style="width: 100%; margin-top: 1rem;">
-        <i class="fas fa-undo"></i> Reset to Defaults
-      </button>
+    <div class="tag-filters">
+      <div class="tag active">All</div>
+      <div class="tag">Gaming</div>
+      <div class="tag">Streaming</div>
+      <div class="tag">Workstation</div>
+      <div class="tag">Budget</div>
+      <div class="tag">RGB</div>
+      <div class="tag">Intel</div>
+      <div class="tag">AMD</div>
+      <div class="tag">NVIDIA</div>
     </div>
   </div>
+</section>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title">UNLEASH YOUR GAMING POTENTIAL</h1>
-      <p class="hero-subtitle">Premium prebuilt gaming PCs optimized for peak performance. Ready to play right out of the box.</p>
-      <div class="hero-buttons">
-        <a href="#featured" class="hero-btn hero-btn-primary">
-          <i class="fas fa-gamepad"></i> View Builds
-        </a>
-        <a href="#about" class="hero-btn hero-btn-secondary">
-          <i class="fas fa-question-circle"></i> Learn More
-        </a>
+<!-- PC Cards Section -->
+<section class="pc-cards-section">
+  <h2 class="section-title">FEATURED BUILDS</h2>
+  <div class="pc-cards-container">
+    <!-- PC Card 1 -->
+    <div class="pc-card">
+      <div class="pc-image">
+        <i class="fas fa-desktop"></i>
+      </div>
+      <div class="pc-info">
+        <h3 class="pc-name">NEBULA XTREME</h3>
+        <div class="pc-price">$2,499</div>
+        <p class="pc-description">High-end gaming PC with RTX 4080 and Intel i9-13900K. Perfect for 4K gaming and content creation.</p>
+        <div class="pc-tags">
+          <span class="pc-tag">Gaming</span>
+          <span class="pc-tag">Intel</span>
+          <span class="pc-tag">NVIDIA</span>
+          <span class="pc-tag">RGB</span>
+        </div>
+        <a href="#" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
-  </section>
 
-  <!-- Featured Builds -->
-  <section class="featured" id="featured">
-    <h2 class="section-title">
-      <i class="fas fa-star"></i> FEATURED BUILDS
-    </h2>
-
-    <div class="builds-grid">
-      <!-- FrostByte X -->
-      <a href="frostbytex.html" class="build-card">
-        <div class="build-image-container">
-          <img src="images/frostbytex1.jpg" alt="FrostByte X" class="build-image">
-          <div class="build-badge">READY TO SHIP</div>
-        </div>
-        <div class="build-content">
-          <h3 class="build-name">FROSTBYTE X</h3>
-          <div class="build-price">€1,099.99</div>
-          
-          <div class="build-specs">
-            <div class="build-spec">
-              <i class="fas fa-microchip"></i>
-              <span>Amd Ryzen 5 5600X</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-memory"></i>
-              <span>16GB DDR4 RAM</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-hdd"></i>
-              <span>1TB NVMe SSD</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-tachometer-alt"></i>
-              <span>RTX 3060 Ti 8GB</span>
-            </div>
-          </div>
-          
-          <div class="build-actions">
-            <div class="btn btn-primary">
-              <i class="fas fa-info-circle"></i> Details
-            </div>
-            <div class="btn btn-secondary">
-              <i class="fas fa-cart-plus"></i> Add to Cart
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- FrostByte XS ZERO -->
-      <a href="frostbytexszero.html" class="build-card">
-        <div class="build-image-container">
-          <img src="images/frostbyte1.jpg" alt="FrostByte XS ZERO" class="build-image">
-          <div class="build-badge">BUDGET FRIENDLY</div>
-        </div>
-        <div class="build-content">
-          <h3 class="build-name">FROSTBYTE XS ZERO</h3>
-          <div class="build-price">€299.99</div>
-          
-          <div class="build-specs">
-            <div class="build-spec">
-              <i class="fas fa-microchip"></i>
-              <span>Intel Core i3-9100F</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-memory"></i>
-              <span>16GB DDR4 RAM</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-hdd"></i>
-              <span>128GB SSD | 1TB HDD</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-tachometer-alt"></i>
-              <span>RX 550 4GB</span>
-            </div>
-          </div>
-          
-          <div class="build-actions">
-            <div class="btn btn-primary">
-              <i class="fas fa-info-circle"></i> Details
-            </div>
-            <div class="btn btn-secondary">
-              <i class="fas fa-cart-plus"></i> Add to Cart
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- FrostByte XS PRO -->
-      <a href="frostbytexspro.html" class="build-card">
-        <div class="build-image-container">
-          <img src="images/frostbyte1.jpg" alt="FrostByte XS PRO" class="build-image">
-          <div class="build-badge">BEST SELLER</div>
-        </div>
-        <div class="build-content">
-          <h3 class="build-name">FROSTBYTE XS PRO</h3>
-          <div class="build-price">€899.99</div>
-          
-          <div class="build-specs">
-            <div class="build-spec">
-              <i class="fas fa-microchip"></i>
-              <span>AMD Ryzen 5 5500</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-memory"></i>
-              <span>16GB DDR4 RAM</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-hdd"></i>
-              <span>1TB NVMe SSD</span>
-            </div>
-            <div class="build-spec">
-              <i class="fas fa-tachometer-alt"></i>
-              <span>Saphire Nitro+ RX 5700 XT 8GB </span>
-            </div>
-          </div>
-          
-          <div class="build-actions">
-            <div class="btn btn-primary">
-              <i class="fas fa-info-circle"></i> Details
-            </div>
-            <div class="btn btn-secondary">
-              <i class="fas fa-cart-plus"></i> Add to Cart
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section class="features" id="about">
-    <h2 class="section-title">
-      <i class="fas fa-cogs"></i> WHY CHOOSE US
-    </h2>
-    
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <h3 class="feature-title">Optimized Performance</h3>
-        <p class="feature-desc">Every system is meticulously tuned for maximum performance with optimized BIOS settings and cooling configurations.</p>
+    <!-- PC Card 2 -->
+    <div class="pc-card">
+      <div class="pc-image">
+        <i class="fas fa-desktop"></i>
       </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-check-circle"></i>
+      <div class="pc-info">
+        <h3 class="pc-name">QUANTUM STREAM</h3>
+        <div class="pc-price">$1,899</div>
+        <p class="pc-description">Streaming powerhouse with AMD Ryzen 9 and RTX 4070. Multi-tasking and streaming made easy.</p>
+        <div class="pc-tags">
+          <span class="pc-tag">Streaming</span>
+          <span class="pc-tag">AMD</span>
+          <span class="pc-tag">NVIDIA</span>
+          <span class="pc-tag">RGB</span>
         </div>
-        <h3 class="feature-title">Ready to Play</h3>
-        <p class="feature-desc">Your PC arrives fully assembled with Windows installed, all drivers updated, and essential software pre-configured.</p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3 class="feature-title">Premium Quality</h3>
-        <p class="feature-desc">We use only high-quality components and each build undergoes rigorous testing and weekly maintenance.</p>
+        <a href="#" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
-  </section>
 
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="cta-container">
-      <h2 class="cta-title">READY TO LEVEL UP?</h2>
-      <p class="cta-text">Get the gaming PC of your dreams with expert assembly, optimization, and support.</p>
-      <div class="cta-buttons">
-        <a href="#featured" class="hero-btn hero-btn-primary">
-          <i class="fas fa-desktop"></i> View All Builds
-        </a>
-        <a href="mailto:tlprebuilts@gmail.com" class="hero-btn hero-btn-secondary">
-          <i class="fas fa-headset"></i> Contact Support
-        </a>
+    <!-- PC Card 3 -->
+    <div class="pc-card">
+      <div class="pc-image">
+        <i class="fas fa-desktop"></i>
       </div>
-    </div>
-  </section>
-
-  <!-- Support Section -->
-  <section class="features" id="support">
-    <h2 class="section-title">
-      <i class="fas fa-headset"></i> SUPPORT & WARRANTY
-    </h2>
-    
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-shield-alt"></i>
+      <div class="pc-info">
+        <h3 class="pc-name">ECLIPSE PRO</h3>
+        <div class="pc-price">$3,199</div>
+        <p class="pc-description">Workstation beast with Threadripper PRO and RTX 4090. For professionals who demand the best.</p>
+        <div class="pc-tags">
+          <span class="pc-tag">Workstation</span>
+          <span class="pc-tag">AMD</span>
+          <span class="pc-tag">NVIDIA</span>
         </div>
-        <h3 class="feature-title">3-Year Warranty</h3>
-        <p class="feature-desc">All our systems come with a comprehensive 3-year warranty covering parts and labor for your peace of mind.</p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-headset"></i>
-        </div>
-        <h3 class="feature-title">24/7 Support</h3>
-        <p class="feature-desc">Our expert support team is available around the clock to assist with any questions or issues you may have.</p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-truck"></i>
-        </div>
-        <h3 class="feature-title">Fast Shipping</h3>
-        <p class="feature-desc">Most systems ship within 1-2 business days with careful packaging to ensure safe delivery.</p>
+        <a href="#" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-logo">TLPrebuilts</div>
-    
-    <div class="footer-links">
-      <a href="index.html" class="footer-link">Home</a>
-      <a href="#featured" class="footer-link">Builds</a>
-      <a href="#about" class="footer-link">About Us</a>
-      <a href="#support" class="footer-link">Support</a>
-      <a href="mailto:tlprebuilts@gmail.com" class="footer-link">Contact</a>
+<!-- Why Choose Section -->
+<section class="why-choose">
+  <h2 class="section-title">WHY CHOOSE TECH<span style="color: var(--secondary)">CRAFT</span> PC</h2>
+  <div class="features">
+    <div class="feature">
+      <i class="fas fa-tools feature-icon"></i>
+      <h3>Expert Craftsmanship</h3>
+      <p>Each PC is hand-built by experienced technicians with meticulous cable management and thermal optimization.</p>
     </div>
-    
-    <div class="social-links">
-      <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+    <div class="feature">
+      <i class="fas fa-shield-alt feature-icon"></i>
+      <h3>Premium Components</h3>
+      <p>We use only the highest quality components from trusted brands with comprehensive warranties.</p>
     </div>
-    
-    <p class="copyright">
-      © 2025 TLPrebuilts. All rights reserved.<br>
-      Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> for gamers worldwide
-    </p>
-  </footer>
+    <div class="feature">
+      <i class="fas fa-rocket feature-icon"></i>
+      <h3>Peak Performance</h3>
+      <p>Every system is stress-tested and optimized to deliver maximum performance for your specific needs.</p>
+    </div>
+  </div>
+</section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Header scroll effect
-      const header = document.getElementById('mainHeader');
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      });
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>ABOUT US</h3>
+      <p>TechCraft PC specializes in creating custom high-performance computers for gaming, streaming, and professional work.</p>
+      <div class="social-icons">
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+      </div>
+    </div>
+    <div class="footer-column">
+      <h3>QUICK LINKS</h3>
+      <a href="#">Home</a>
+      <a href="#">Featured Builds</a>
+      <a href="#">Custom Builder</a>
+      <a href="#">Components</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="footer-column">
+      <h3>CONTACT US</h3>
+      <p><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Silicon Valley</p>
+      <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+      <p><i class="fas fa-envelope"></i> info@techcraftpc.com</p>
+    </div>
+  </div>
+  <div class="copyright">
+    &copy; 2023 TechCraft PC. All rights reserved.
+  </div>
+</footer>
 
-      // Mobile menu toggle
-      const menuToggle = document.getElementById('menuToggle');
-      const mainNav = document.getElementById('mainNav');
-      const overlay = document.getElementById('overlay');
+<script>
+  // Background Animation
+  document.addEventListener('DOMContentLoaded', function() {
+    const bgAnimation = document.getElementById('bgAnimation');
+    const colors = ['#00f7ff', '#ff00d6', '#8a2be2', '#00ffaa'];
 
-      menuToggle.addEventListener('click', function() {
-        mainNav.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
-        menuToggle.innerHTML = mainNav.classList.contains('active') ?
-          '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-      });
+    for (let i = 0; i < 20; i++) {
+      const circle = document.createElement('div');
+      circle.classList.add('bg-circle');
 
-      // Close mobile menu when clicking on a nav link
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', function() {
-          mainNav.classList.remove('active');
-          overlay.classList.remove('active');
-          document.body.style.overflow = '';
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        });
-      });
+      const size = Math.random() * 200 + 50;
+      circle.style.width = `${size}px`;
+      circle.style.height = `${size}px`;
 
-      // Settings panel functionality
-      const settingsToggle = document.getElementById('settingsToggle');
-      const settingsPanel = document.getElementById('settingsPanel');
-      const closeSettings = document.getElementById('closeSettings');
-      const resetSettingsBtn = document.getElementById('resetSettings');
-      const themeRadios = document.querySelectorAll('input[name="theme"]');
-      const animationsToggle = document.getElementById('animationsToggle');
-      const html = document.documentElement;
+      circle.style.left = `${Math.random() * 100}%`;
+      circle.style.top = `${Math.random() * 100}%`;
 
-      // Toggle settings panel
-      settingsToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        settingsPanel.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = settingsPanel.classList.contains('active') ? 'hidden' : '';
-      });
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      circle.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
 
-      closeSettings.addEventListener('click', function() {
-        settingsPanel.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-      });
+      const duration = Math.random() * 20 + 10;
+      circle.style.animationDuration = `${duration}s`;
 
-      // Close settings when clicking outside
-      overlay.addEventListener('click', function() {
-        settingsPanel.classList.remove('active');
-        this.classList.remove('active');
-        document.body.style.overflow = '';
-      });
+      bgAnimation.appendChild(circle);
+    }
 
-      // Theme management
-      function loadTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        html.setAttribute('data-theme', savedTheme);
-        document.querySelector(`input[value="${savedTheme}"]`).checked = true;
-      }
+    // Search functionality
+    const searchInput = document.querySelector('.search-input');
+    const searchButton = document.querySelector('.search-button');
+    const tags = document.querySelectorAll('.tag');
+    const pcCards = document.querySelectorAll('.pc-card');
 
-      themeRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          const theme = e.target.value;
-          html.setAttribute('data-theme', theme);
-          localStorage.setItem('theme', theme);
-        });
-      });
+    // Tag filtering
+    tags.forEach(tag => {
+      tag.addEventListener('click', function() {
+        tags.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
 
-      // Animations toggle
-      function loadAnimations() {
-        const animationsEnabled = localStorage.getItem('animations') !== 'false';
-        animationsToggle.checked = animationsEnabled;
-        
-        if (animationsEnabled) {
-          document.body.classList.add('animations-enabled');
-          document.body.classList.remove('animations-disabled');
-        } else {
-          document.body.classList.remove('animations-enabled');
-          document.body.classList.add('animations-disabled');
-        }
-      }
+        const filter = this.textContent.toLowerCase();
 
-      animationsToggle.addEventListener('change', (e) => {
-        localStorage.setItem('animations', e.target.checked);
-        
-        if (e.target.checked) {
-          document.body.classList.add('animations-enabled');
-          document.body.classList.remove('animations-disabled');
-        } else {
-          document.body.classList.remove('animations-enabled');
-          document.body.classList.add('animations-disabled');
-        }
-      });
-
-      // Reset settings
-      resetSettingsBtn.addEventListener('click', function() {
-        localStorage.removeItem('theme');
-        localStorage.removeItem('animations');
-        loadTheme();
-        loadAnimations();
-      });
-
-      // Initialize
-      loadTheme();
-      loadAnimations();
-
-      // Cart count
-      function updateCartCount() {
-        const cartItems = localStorage.getItem('cartItems') ? parseInt(localStorage.getItem('cartItems')) : 0;
-        document.getElementById('cartCount').textContent = cartItems;
-      }
-
-      updateCartCount();
-
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('href');
-          if (targetId === '#') return;
-          
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: 'smooth'
-            });
+        pcCards.forEach(card => {
+          if (filter === 'all') {
+            card.style.display = 'block';
+          } else {
+            const cardTags = Array.from(card.querySelectorAll('.pc-tag')).map(t => t.textContent.toLowerCase());
+            if (cardTags.includes(filter)) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
           }
         });
       });
     });
-  </script>
+
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', function(event) {
+      if (event.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      pcCards.forEach(card => {
+        const cardName = card.querySelector('.pc-name').textContent.toLowerCase();
+        const cardDescription = card.querySelector('.pc-description').textContent.toLowerCase();
+        const cardTags = Array.from(card.querySelectorAll('.pc-tag')).map(t => t.textContent.toLowerCase());
+
+        if (cardName.includes(searchTerm) ||
+                cardDescription.includes(searchTerm) ||
+                cardTags.some(tag => tag.includes(searchTerm))) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
 </body>
 </html>
+
