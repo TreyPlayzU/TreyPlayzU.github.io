@@ -380,6 +380,7 @@
       border: 1px solid rgba(108, 99, 255, 0.1);
       backdrop-filter: blur(10px);
       position: relative;
+      cursor: pointer;
     }
 
     .pc-card:hover {
@@ -729,7 +730,7 @@
   <h2 class="section-title">PREMIUM BUILDS</h2>
   <div class="pc-cards-container">
     <!-- PC Card 1 -->
-    <div class="pc-card">
+    <div class="pc-card" onclick="redirectToPage('frostbytex')">
       <div class="pc-image">
         <i class="fas fa-snowflake"></i>
       </div>
@@ -743,12 +744,12 @@
           <span class="pc-tag">NVIDIA</span>
           <span class="pc-tag">Liquid Cooled</span>
         </div>
-        <a href="#" class="pc-button">VIEW DETAILS</a>
+        <a href="javascript:void(0)" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
 
     <!-- PC Card 2 -->
-    <div class="pc-card">
+    <div class="pc-card" onclick="redirectToPage('frostbytexs')">
       <div class="pc-image">
         <i class="fas fa-bolt"></i>
       </div>
@@ -762,12 +763,12 @@
           <span class="pc-tag">NVIDIA</span>
           <span class="pc-tag">RGB</span>
         </div>
-        <a href="#" class="pc-button">VIEW DETAILS</a>
+        <a href="javascript:void(0)" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
 
     <!-- PC Card 3 -->
-    <div class="pc-card">
+    <div class="pc-card" onclick="redirectToPage('frostbytepro')">
       <div class="pc-image">
         <i class="fas fa-fire"></i>
       </div>
@@ -781,12 +782,12 @@
           <span class="pc-tag">NVIDIA</span>
           <span class="pc-tag">Dual GPU</span>
         </div>
-        <a href="#" class="pc-button">VIEW DETAILS</a>
+        <a href="javascript:void(0)" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
 
     <!-- PC Card 4 -->
-    <div class="pc-card">
+    <div class="pc-card" onclick="redirectToPage('frostbytelite')">
       <div class="pc-image">
         <i class="fas fa-wind"></i>
       </div>
@@ -800,7 +801,7 @@
           <span class="pc-tag">NVIDIA</span>
           <span class="pc-tag">Value</span>
         </div>
-        <a href="#" class="pc-button">VIEW DETAILS</a>
+        <a href="javascript:void(0)" class="pc-button">VIEW DETAILS</a>
       </div>
     </div>
   </div>
@@ -964,6 +965,19 @@
       });
     }
   });
+
+  // Function to redirect to script pages
+  function redirectToPage(pcName) {
+    // Remove spaces and convert to lowercase for the script name
+    const scriptName = pcName.toLowerCase().replace(/\s+/g, '');
+
+    // In a real implementation, this would redirect to the actual script
+    // For demonstration, we'll just show an alert
+    alert(`Redirecting to script: ${scriptName}.js`);
+
+    // Uncomment the line below for actual implementation
+    // window.location.href = `/scripts/${scriptName}.js`;
+  }
 </script>
 </body>
 </html>
