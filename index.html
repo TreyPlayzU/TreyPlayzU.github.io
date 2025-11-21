@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TL Prebuilts - Custom PC Building Service</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: #f0f0f0;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: #00a8ff;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #4cd137;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #00a8ff, #4cd137);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 168, 255, 0.3);
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #00a8ff;
+    }
+
+    .section-title p {
+      font-size: 1.1rem;
+      color: #aaa;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(10, 10, 10, 0.9);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #00a8ff;
+    }
+
+    .logo span {
+      color: #4cd137;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 30px;
+    }
+
+    nav ul li a {
+      color: #f0f0f0;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    nav ul li a:hover {
+      color: #4cd137;
+    }
+
+    .mobile-menu {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('https://images.unsplash.com/photo-1587202372634-32705e3bf49c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #ddd;
+    }
+
+    /* Services Section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid #333;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 168, 255, 0.1);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      color: #00a8ff;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #f0f0f0;
+    }
+
+    .service-card p {
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    /* Featured Builds */
+    .builds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .build-card {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      border: 1px solid #333;
+    }
+
+    .build-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .build-image {
+      height: 200px;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #00a8ff;
+    }
+
+    .build-content {
+      padding: 20px;
+    }
+
+    .build-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: #f0f0f0;
+    }
+
+    .build-content p {
+      color: #aaa;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .build-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #4cd137;
+      margin-bottom: 15px;
+    }
+
+    /* About Section */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #00a8ff;
+    }
+
+    .about-text p {
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    .about-image {
+      background-color: #333;
+      height: 400px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      color: #00a8ff;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .contact-info h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #00a8ff;
+    }
+
+    .contact-info p {
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    .contact-details {
+      margin-top: 30px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .contact-icon {
+      font-size: 1.5rem;
+      color: #00a8ff;
+      margin-right: 15px;
+    }
+
+    .contact-form {
+      background-color: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #f0f0f0;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: #333;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #f0f0f0;
+      font-size: 1rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #00a8ff;
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #111;
+      padding: 50px 0 20px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #00a8ff;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column ul li a {
+      color: #aaa;
+    }
+
+    .footer-column ul li a:hover {
+      color: #4cd137;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: #333;
+      border-radius: 50%;
+      color: #f0f0f0;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background-color: #00a8ff;
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .about-content,
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .about-image {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu {
+        display: block;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: #0a0a0a;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        transition: left 0.3s;
+      }
+
+      nav ul.active {
+        left: 0;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+  <div class="container header-container">
+    <div class="logo">TL <span>Prebuilts</span></div>
+    <div class="mobile-menu">☰</div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#builds">Featured Builds</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Premium Custom PC Building Service</h1>
+      <p>We build high-performance computers tailored to your needs, whether for gaming, content creation, or professional work.</p>
+      <a href="#contact" class="btn">Get Your Custom PC</a>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Services</h2>
+      <p>We offer a range of PC building and support services to meet all your computing needs.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <h3>Custom PC Building</h3>
+        <p>We design and build custom PCs tailored to your specific requirements and budget.</p>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎮</div>
+        <h3>Gaming PCs</h3>
+        <p>High-performance gaming rigs with the latest components for the ultimate gaming experience.</p>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🛠️</div>
+        <h3>PC Repair & Upgrades</h3>
+        <p>We repair, maintain, and upgrade existing systems to extend their lifespan and performance.</p>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Builds Section -->
+<section id="builds" style="background-color: #111;">
+  <div class="container">
+    <div class="section-title">
+      <h2>Featured Builds</h2>
+      <p>Check out some of our popular pre-configured PC builds ready for customization.</p>
+    </div>
+    <div class="builds-grid">
+      <div class="build-card">
+        <div class="build-image">🖥️</div>
+        <div class="build-content">
+          <h3>Starter Gaming PC</h3>
+          <p>Perfect for entry-level gaming with smooth performance in popular titles.</p>
+          <div class="build-price">$899</div>
+          <a href="#contact" class="btn">Customize</a>
+        </div>
+      </div>
+      <div class="build-card">
+        <div class="build-image">💥</div>
+        <div class="build-content">
+          <h3>Performance Pro</h3>
+          <p>High-end components for serious gamers and content creators.</p>
+          <div class="build-price">$1,599</div>
+          <a href="#contact" class="btn">Customize</a>
+        </div>
+      </div>
+      <div class="build-card">
+        <div class="build-image">🚀</div>
+        <div class="build-content">
+          <h3>Ultimate Gaming Rig</h3>
+          <p>Top-tier components for maximum performance in 4K gaming and streaming.</p>
+          <div class="build-price">$2,499</div>
+          <a href="#contact" class="btn">Customize</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+  <div class="container">
+    <div class="section-title">
+      <h2>About TL Prebuilts</h2>
+      <p>Learn more about our passion for building high-quality custom computers.</p>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Your Trusted PC Building Experts</h3>
+        <p>At TL Prebuilts, we're passionate about creating the perfect computer for every customer. With years of experience in the industry, we understand that every user has unique needs.</p>
+        <p>Whether you're a hardcore gamer, a creative professional, or need a reliable workstation, we'll work with you to design and build a system that exceeds your expectations.</p>
+        <p>We pride ourselves on using only high-quality components, careful cable management, and thorough testing to ensure your PC performs flawlessly from day one.</p>
+        <a href="#contact" class="btn">Get in Touch</a>
+      </div>
+      <div class="about-image">TL</div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" style="background-color: #111;">
+  <div class="container">
+    <div class="section-title">
+      <h2>Contact Us</h2>
+      <p>Ready to build your dream PC? Get in touch with us today!</p>
+    </div>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Let's Build Something Amazing</h3>
+        <p>Fill out the form or contact us directly to discuss your custom PC build. We'll respond within 24 hours.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div>contact@tlprebuilts.com</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>(555) 123-4567</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>123 Tech Street, Computer City, CC 12345</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="budget">Budget Range</label>
+            <select id="budget" class="form-control" required>
+              <option value="">Select Budget</option>
+              <option value="$500-$1000">$500 - $1000</option>
+              <option value="$1000-$1500">$1000 - $1500</option>
+              <option value="$1500-$2000">$1500 - $2000</option>
+              <option value="$2000+">$2000+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="purpose">Primary Use</label>
+            <select id="purpose" class="form-control" required>
+              <option value="">Select Purpose</option>
+              <option value="gaming">Gaming</option>
+              <option value="work">Work/Productivity</option>
+              <option value="content-creation">Content Creation</option>
+              <option value="streaming">Streaming</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Additional Details</label>
+            <textarea id="message" class="form-control" placeholder="Tell us about your specific needs, preferred components, or any questions you have..."></textarea>
+          </div>
+          <button type="submit" class="btn">Send Inquiry</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>TL Prebuilts</h4>
+        <p>Your trusted partner for custom PC building and tech solutions.</p>
+        <div class="social-links">
+          <a href="#">FB</a>
+          <a href="#">TW</a>
+          <a href="#">IG</a>
+          <a href="#">YT</a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#builds">Featured Builds</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Custom PC Building</a></li>
+          <li><a href="#">Gaming PCs</a></li>
+          <li><a href="#">PC Repair</a></li>
+          <li><a href="#">Component Upgrades</a></li>
+          <li><a href="#">Consultation</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contact Info</h4>
+        <ul>
+          <li>📧 contact@tlprebuilts.com</li>
+          <li>📞 (555) 123-4567</li>
+          <li>📍 123 Tech Street, Computer City</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 TL Prebuilts. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile Menu Toggle
+  document.querySelector('.mobile-menu').addEventListener('click', function() {
+    document.querySelector('nav ul').classList.toggle('active');
+  });
+
+  // Smooth Scrolling for Anchor Links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const targetId = this.getAttribute('href');
+      if(targetId === '#') return;
+
+      const targetElement = document.querySelector(targetId);
+      if(targetElement) {
+        // Close mobile menu if open
+        document.querySelector('nav ul').classList.remove('active');
+
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Contact Form Submission
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Thank you for your inquiry! We will get back to you within 24 hours.');
+    this.reset();
+  });
+</script>
+</body>
+</html>
