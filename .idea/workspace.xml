@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6469d576-661d-4dcd-a380-f7f6ef923f23" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/cart.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custombuild.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frostbytex.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frostbytexpro.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frostbytexs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frostbytexspro.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frostbytexszero.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/benchmarks.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/cart.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/header.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/product-gallery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/theme-settings.js" beforeDir="false" />
-    </list>
+    <list default="true" id="6469d576-661d-4dcd-a380-f7f6ef923f23" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,6 +48,7 @@
       <workItem from="1760452225794" duration="296000" />
       <workItem from="1760460876155" duration="2611000" />
       <workItem from="1763739554649" duration="365000" />
+      <workItem from="1763741352714" duration="534000" />
     </task>
     <servers />
   </component>
