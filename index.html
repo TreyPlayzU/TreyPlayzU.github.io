@@ -1,10 +1,230 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tl Prebuilts</title>
+    <title>TL PREBUILTS | Fluid Gaming Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,255,255,0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate3d(0,0,0);
+            transition: transform 0.08s ease-out;
+            z-index: 9999;
+        }
+
+        /* Center hero image */
+        .pc-float img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Embedded video responsive */
+        .video-flow iframe {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Tl Prebuilts</h1>
-<p> Here is our current creation:</p>
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+
+<!-- Floating Navigation -->
+<nav class="floating-nav">
+    <a href="#home" class="nav-link">HOME</a>
+    <a href="builds.html" class="nav-link">BUILDS</a>
+    <a href="#video" class="nav-link">VIDEO</a>
+    <a href="#quote" class="nav-link">QUOTE</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero-flow" id="home">
+    <h1 class="hero-title">TL PREBUILTS</h1>
+    <p class="hero-subtitle">Where <span class="neon-text">passion meets performance</span> in every gaming rig</p>
+
+    <div class="pc-float">
+        <img src="images/frostbyte1.jpg" alt="Gaming PC Flow">
+    </div>
+
+    <p class="hero-subtitle">Built by gamers who understand what really matters</p>
+</section>
+
+<!-- Flowing Content Sections -->
+<div class="content-flow">
+    <!-- Section 1 -->
+    <section class="flow-section">
+        <div class="flow-content">
+            <span class="animated-number">01</span>
+            <h2 class="flow-title">We Value Your Money</h2>
+            <p class="flow-text">
+                In a market where prebuilt often means "overpriced and underperforming,"
+                we take a different approach. We're gamers first — we know what components
+                actually matter for performance.
+            </p>
+            <div class="interactive-card">
+                <p><i class="fas fa-bolt neon-text"></i> <strong>RAM Shortage Solution:</strong> We source smart, not expensive.</p>
+                <p><i class="fas fa-chart-line neon-text"></i> <strong>Used Market Mastery:</strong> Quality components at fair prices.</p>
+                <p><i class="fas fa-tools neon-text"></i> <strong>No Gamer Tax:</strong> You pay for performance, not marketing.</p>
+            </div>
+        </div>
+        <div class="flow-visual">
+            <img src="images/frostbytex2.jpg" alt="Value Flow" style="border-radius: 20px; width: 100%;">
+        </div>
+    </section>
+
+    <!-- Section 2 (Reversed) -->
+    <section class="flow-section reverse">
+        <div class="flow-content">
+            <span class="animated-number">02</span>
+            <h2 class="flow-title">We Care About You</h2>
+            <p class="flow-text">
+                This isn't assembly line work. Every system gets personal attention,
+                stress testing, and optimization that we'd demand for our own gaming rigs.
+            </p>
+            <div class="interactive-card">
+                <p><i class="fas fa-gamepad neon-text"></i> <strong>Gamer Tested:</strong> We actually game on these systems.</p>
+                <p><i class="fas fa-thermometer-half neon-text"></i> <strong>Thermal Optimized:</strong> Cooler temps, better performance.</p>
+                <p><i class="fas fa-sliders-h neon-text"></i> <strong>Fine Tuned:</strong> Every setting optimized for your use case.</p>
+            </div>
+        </div>
+        <div class="flow-visual">
+            <img src="images/buildprocess1.Jpg" alt="Care Flow" style="border-radius: 20px; width: 100%;">
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video">
+        <div style="text-align: center; margin-top: 30px;">
+            <h3 style="color: var(--neon-blue); margin-bottom: 10px;">Watch The Build Process</h3>
+            <p style="color: rgba(255,255,255,0.7);">See how passion turns into performance</p>
+
+            <!-- Embedded YouTube video -->
+            <iframe width="800" height="450"
+                    src="https://www.youtube.com/embed/VN8Lu-JJQRE"
+                    title="Tl Prebuilts Build Video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Quote Form -->
+    <section id="quote">
+        <form class="form-fluid">
+            <h2 class="form-title">Get Your Custom Quote</h2>
+
+            <div class="form-group">
+                <input type="text" class="form-input" id="name" placeholder=" ">
+                <label for="name" class="form-label">Your Name</label>
+            </div>
+
+            <div class="form-group">
+                <input type="email" class="form-input" id="email" placeholder=" ">
+                <label for="email" class="form-label">Email Address</label>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-input" id="budget" placeholder=" ">
+                <label for="budget" class="form-label">Budget Range</label>
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-input" id="message" placeholder=" " rows="4"></textarea>
+                <label for="message" class="form-label">Tell us about your dream PC...</label>
+            </div>
+
+            <button type="submit" class="submit-fluid">
+                <i class="fas fa-rocket"></i> Generate Custom Quote
+            </button>
+        </form>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="flow-footer">
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h3>TL PREBUILTS</h3>
+            <p>Fluid performance, solid builds.</p>
+            <p>Gamers building for gamers since day one.</p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Connect</h3>
+            <ul class="footer-links">
+                <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                <li><a href="mailto:tlprebuilts@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Builds</h3>
+            <ul class="footer-links">
+                <li><a href="builds.html">FrostByte Series</a></li>
+                <li><a href="builds.html">Stream Ready Rigs</a></li>
+                <li><a href="builds.html">Budget Warriors</a></li>
+                <li><a href="builds.html">Custom Orders</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <p class="copyright">
+        © 2026 TL PREBUILTS | Every frame matters | Built with passion
+    </p>
+</footer>
+
+<!-- JavaScript for interactivity -->
+<script>
+    // Custom cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorSize = 20; // match CSS
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX - cursorSize / 2;
+        const y = e.clientY - cursorSize / 2;
+        cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.flow-section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // Form animation
+    document.querySelectorAll('.form-input').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+        });
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                input.parentElement.classList.remove('focused');
+            }
+        });
+    });
+</script>
 </body>
 </html>
