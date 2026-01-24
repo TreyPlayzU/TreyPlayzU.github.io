@@ -363,6 +363,72 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .builds-hero {
+                padding: 80px 15px 30px;
+                min-height: 50vh;
+            }
+
+            .builds-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .builds-subtitle {
+                font-size: clamp(1rem, 3.5vw, 1.2rem);
+            }
+
+            .search-box {
+                padding: 15px;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+
+            .filter-tag {
+                font-size: 0.8rem;
+                padding: 6px 15px;
+            }
+
+            .build-card {
+                max-width: 95%;
+                margin: 0 auto;
+            }
+
+            .build-card-header {
+                height: 180px;
+            }
+
+            .build-title {
+                font-size: 1.2rem;
+            }
+
+            .build-price {
+                font-size: 1.4rem;
+            }
+
+            .spec-item {
+                font-size: 0.85rem;
+            }
+
+            .performance-meter .meter-label {
+                font-size: 0.7rem;
+            }
+
+            /* Modal adjustments */
+            div[style*="position: fixed"] > div {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                max-width: 95%;
+            }
+
+            div[style*="position: fixed"] img {
+                margin-bottom: 15px;
+            }
+        }
+
     </style>
 </head>
 <body>
