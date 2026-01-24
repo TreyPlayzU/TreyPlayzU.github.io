@@ -450,6 +450,9 @@
     <p class="builds-subtitle">
         Browse through our curated collection of gaming PCs. Each build is optimized for specific needs and budgets.
     </p>
+    <P CLASS="builds-subtitle">
+        <b>IMPORTANT : Currently only the NightPulse series are real pictures of builds!.</b>
+    </P>
 </section>
 
 <!-- Search and Filter Section -->
@@ -1014,47 +1017,56 @@
         const modalHTML = `
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
                     background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; 
-                    display: flex; align-items: center; justify-content: center; padding: 15px; overflow-y: auto;">
-            <div style="background: rgba(10,14,23,0.95); border-radius: 20px; width: 100%; max-width: 800px; 
-                        border: 1px solid rgba(0,243,255,0.3); overflow: hidden; display: flex; flex-direction: column; gap: 20px; padding: 20px;">
+                    display: flex; align-items: center; justify-content: center; padding: 10px;">
+            <div style="background: rgba(10,14,23,0.95); border-radius: 20px; width: 100%; max-width: 500px; 
+                        max-height: 90vh; border: 1px solid rgba(0,243,255,0.3); overflow: hidden; display: flex; flex-direction: column;">
                 
-                <button onclick="this.parentElement.parentElement.remove()" 
-                        style="align-self: flex-end; background: transparent; border: none; color: #00f3ff; font-size: 1.5rem; cursor: pointer;">
-                    <i class="fas fa-times"></i>
-                </button>
-                
-                <img src="${build.image}" alt="${build.name}" style="width: 100%; border-radius: 15px;">
-
-                <h2 style="color: #fff; margin-bottom: 5px;">${build.name}</h2>
-                <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; 
-                            background: linear-gradient(135deg, #00f3ff, #bc13fe); -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent;">
-                    ${build.price}
+                <!-- Header -->
+                <div style="flex-shrink: 0; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <h2 style="color: #fff; font-size: 1.2rem; margin: 0;">${build.name}</h2>
+                    <button onclick="this.closest('div[style*=\'position: fixed\']').remove()" 
+                            style="background: transparent; border: none; color: #00f3ff; font-size: 1.5rem; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
 
-                <div class="build-tags" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
-                    ${build.tags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}
+                <!-- Scrollable Content -->
+                <div style="overflow-y: auto; padding: 15px; flex: 1;">
+                    <img src="${build.image}" alt="${build.name}" style="width: 100%; border-radius: 15px; margin-bottom: 10px;">
+
+                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; 
+                                background: linear-gradient(135deg, #00f3ff, #bc13fe); -webkit-background-clip: text; 
+                                -webkit-text-fill-color: transparent;">
+                        ${build.price}
+                    </div>
+
+                    <div class="build-tags" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px;">
+                        ${build.tags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}
+                    </div>
+
+                    <h3 style="color: #00f3ff; margin-bottom: 10px; font-size: 1rem;">Full Specifications</h3>
+                    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 0.85rem;">
+                        ${Object.entries(build.specs).map(([key, value]) => `
+                            <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color: rgba(255,255,255,0.7);">${key.toUpperCase()}</span>
+                                <span style="color: #fff; font-weight: 600;">${value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.5; margin-bottom: 10px;">
+                        ${build.description}
+                    </p>
                 </div>
 
-                <h3 style="color: #00f3ff; margin-bottom: 10px;">Full Specifications</h3>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-                    ${Object.entries(build.specs).map(([key, value]) => `
-                        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
-                            <span style="color: rgba(255,255,255,0.7);">${key.toUpperCase()}</span>
-                            <span style="color: #fff; font-weight: 600;">${value}</span>
-                        </div>
-                    `).join('')}
+                <!-- Footer / Quote Button -->
+                <div style="flex-shrink: 0; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <button onclick="requestQuote('${build.name}')" 
+                            style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00f3ff, #bc13fe); 
+                                   border: none; border-radius: 10px; color: #000; font-weight: 700; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-rocket"></i> Request Custom Quote
+                    </button>
                 </div>
-
-                <p style="color: rgba(255,255,255,0.8); line-height: 1.5; margin-bottom: 10px;">
-                    ${build.description}
-                </p>
-
-                <button onclick="requestQuote('${build.name}')" 
-                        style="width: 100%; padding: 12px; background: linear-gradient(135deg, #00f3ff, #bc13fe); 
-                               border: none; border-radius: 10px; color: #000; font-weight: 700; font-size: 1rem; cursor: pointer;">
-                    <i class="fas fa-rocket"></i> Request Custom Quote
-                </button>
             </div>
         </div>
     `;
@@ -1063,6 +1075,7 @@
         modal.innerHTML = modalHTML;
         document.body.appendChild(modal);
     }
+
 
 
     // Request quote for a build
