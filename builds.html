@@ -1,23 +1,1024 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tl Prebuilts</title>
+    <title>TL PREBUILTS | Browse Gaming Builds</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,255,255,0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate3d(0,0,0);
+            transition: transform 0.08s ease-out;
+            z-index: 9999;
+        }
+
+        /* Builds Page Specific Styles */
+        .builds-hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .builds-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00f3ff, #bc13fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .builds-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* Search and Filter Section */
+        .search-filter-container {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .search-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 20px 18px 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00f3ff;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00f3ff;
+            font-size: 1.2rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .filter-tag {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            color: #00f3ff;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        .filter-tag:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .filter-tag.active {
+            background: linear-gradient(135deg, #00f3ff, #bc13fe);
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Build Cards Grid */
+        .builds-grid {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .build-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .build-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 243, 255, 0.15);
+            border-color: rgba(0, 243, 255, 0.4);
+        }
+
+        .build-card-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .build-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .build-card:hover .build-image {
+            transform: scale(1.05);
+        }
+
+        .build-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff2a6d, #bc13fe);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .build-card-content {
+            padding: 25px;
+        }
+
+        .build-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .build-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00f3ff, #bc13fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .build-specs {
+            margin: 20px 0;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .spec-item i {
+            color: #00f3ff;
+            width: 20px;
+        }
+
+        .build-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .build-tag {
+            background: rgba(0, 243, 255, 0.1);
+            color: #00f3ff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .build-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-view {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+        }
+
+        .btn-view:hover {
+            background: rgba(0, 243, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-quote {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #00f3ff, #bc13fe);
+            border: none;
+            color: #000;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .btn-quote:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+        }
+
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .no-results h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Performance Meter */
+        .performance-meter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .meter-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f3ff, #bc13fe);
+            border-radius: 3px;
+        }
+
+        .meter-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            min-width: 60px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .builds-hero {
+                padding: 100px 20px 40px;
+                min-height: 50vh;
+            }
+
+            .search-box {
+                padding: 20px;
+            }
+
+            .builds-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .build-card {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+
+            .build-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .builds-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Our Pcs</h1>
-<img src="frostbyte1.jpg" width="500">
-<h2>Specs:</h2>
-<ul>
-    <li> Cpu : ryzen 5 3600</li>
-    <li> Gpu : Rtx 2060 super</li>
+<!-- Custom Cursor -->
+<div class="cursor"></div>
 
-</ul>
-<p>thats all pls buy from us</p>
+<!-- Floating Navigation -->
+<nav class="floating-nav">
+    <a href="index.html" class="nav-link">HOME</a>
+    <a href="builds.html" class="nav-link active">BUILDS</a>
+    <a href="index.html#video" class="nav-link">VIDEO</a>
+    <a href="index.html#quote" class="nav-link">QUOTE</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
+</nav>
 
-<div style="background: #333; padding: 10px;">
-<a href ="index.html" style = "color: white;">Home</a>
-<a href ="builds.html" style = "color: white;">Builds</a>
-<a href ="contact.html" style = "color: white;">Contact</a>
+<!-- Builds Hero Section -->
+<section class="builds-hero">
+    <h1 class="builds-title">EXPLORE OUR BUILDS</h1>
+    <p class="builds-subtitle">
+        Browse through our curated collection of gaming PCs. Each build is optimized for specific needs and budgets.
+    </p>
+</section>
+
+<!-- Search and Filter Section -->
+<div class="search-filter-container">
+    <div class="search-box">
+        <div class="search-input-container">
+            <input type="text"
+                   class="search-input"
+                   id="searchInput"
+                   placeholder="Search builds by name, component, or tag...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div class="filter-tags" id="categoryFilters">
+            <span class="filter-tag active" data-category="all">All Builds</span>
+            <span class="filter-tag" data-category="frostbyte">FrostByte Series</span>
+            <span class="filter-tag" data-category="streaming">Stream Ready</span>
+            <span class="filter-tag" data-category="budget">Budget Warriors</span>
+            <span class="filter-tag" data-category="premium">Premium Gaming</span>
+            <span class="filter-tag" data-category="esports">Esports Ready</span>
+        </div>
+
+        <div class="filter-tags" id="componentFilters">
+            <span class="filter-tag" data-component="rtx">RTX Series</span>
+            <span class="filter-tag" data-component="rx">RX Series</span>
+            <span class="filter-tag" data-component="intel">Intel CPU</span>
+            <span class="filter-tag" data-component="amd">AMD CPU</span>
+            <span class="filter-tag" data-component="rgb">RGB Lighting</span>
+            <span class="filter-tag" data-component="liquid">Liquid Cooling</span>
+        </div>
+    </div>
 </div>
+
+<!-- Builds Grid -->
+<div class="builds-grid" id="buildsContainer">
+    <!-- Build cards will be dynamically generated here -->
+</div>
+
+<!-- Footer -->
+<footer class="flow-footer">
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h3>TL PREBUILTS</h3>
+            <p>Fluid performance, solid builds.</p>
+            <p>Gamers building for gamers since day one.</p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Connect</h3>
+            <ul class="footer-links">
+                <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                <li><a href="mailto:tlprebuilts@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Categories</h3>
+            <ul class="footer-links">
+                <li><a href="#" data-category="frostbyte">FrostByte Series</a></li>
+                <li><a href="#" data-category="streaming">Stream Ready Rigs</a></li>
+                <li><a href="#" data-category="budget">Budget Warriors</a></li>
+                <li><a href="#" data-category="premium">Premium Gaming</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <p class="copyright">
+        © 2026 TL PREBUILTS | Every frame matters | Built with passion
+    </p>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    // Custom cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorSize = 20;
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX - cursorSize / 2;
+        const y = e.clientY - cursorSize / 2;
+        cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+
+    // Sample Builds Data
+    const buildsData = [
+        {
+            id: 1,
+            name: "FrostByte X1",
+            category: "frostbyte",
+            price: "$699",
+            image: "images/frostbyte1.jpg",
+            specs: {
+                cpu: "AMD Ryzen 5 2600",
+                gpu: "AMD RX 5600 XT",
+                ram: "16GB DDR4 3200MHz",
+                storage: "512GB NVMe SSD GEN 4",
+                cooling: "240mm Liquid Cooler",
+                psu: "be quiet 11 power 450w 80+ gold",
+                os: "Windows 11 Activated",
+                motherboard: "MSI B450 Tomahawk",
+                case: "NZXT H510 Flow",
+                fans: "3x 120mm RGB Fans"
+            },
+            tags: ["RX", "AMD", "RGB", "Windows 11", "1080p Gaming", "Entry Level"],
+            performance: 50,
+            description: "Perfect entry-level gaming PC with excellent 1080p performance"
+        },
+        {
+            id: 2,
+            name: "StreamMaster Pro",
+            category: "streaming",
+            price: "$1,899",
+            image: "images/buildprocess1.jpg",
+            specs: {
+                cpu: "Intel Core i7 13700K",
+                gpu: "NVIDIA RTX 4070",
+                ram: "32GB DDR5 6000MHz",
+                storage: "2TB NVMe SSD",
+                cooling: "360mm Liquid Cooler",
+                psu: "Corsair RM850x 850W 80+ Gold",
+                os: "Windows 11 Pro",
+                motherboard: "ASUS ROG Strix Z790-E",
+                case: "Lian Li O11 Dynamic",
+                fans: "9x 120mm ARGB Fans"
+            },
+            tags: ["RTX", "Intel", "RGB", "Streaming", "1440p Gaming", "Content Creation"],
+            performance: 85,
+            description: "Professional streaming setup with superior multitasking"
+        },
+        {
+            id: 3,
+            name: "Budget Warrior",
+            category: "budget",
+            price: "$899",
+            image: "images/frostbytex2.jpg",
+            specs: {
+                cpu: "AMD Ryzen 5 5600",
+                gpu: "AMD RX 6600 XT",
+                ram: "16GB DDR4 3200MHz",
+                storage: "1TB SSD + 2TB HDD",
+                cooling: "DeepCool AK620 Air Cooler",
+                psu: "EVGA 650W 80+ Bronze",
+                os: "Windows 11 Activated",
+                motherboard: "ASUS TUF B550-Plus",
+                case: "Corsair 4000D Airflow",
+                fans: "4x 120mm PWM Fans"
+            },
+            tags: ["RX", "AMD", "Budget", "1080p", "Value", "Air Cooled"],
+            performance: 65,
+            description: "Best value gaming PC for competitive esports"
+        },
+        {
+            id: 4,
+            name: "Neo Genesis",
+            category: "premium",
+            price: "$2,499",
+            image: "images/frostbyte1.jpg",
+            specs: {
+                cpu: "AMD Ryzen 7 7800X3D",
+                gpu: "NVIDIA RTX 4080",
+                ram: "32GB DDR5 6400MHz",
+                storage: "2TB Gen4 NVMe SSD",
+                cooling: "EKWB Custom Liquid Loop",
+                psu: "Seasonic Prime TX-1000 1000W 80+ Titanium",
+                os: "Windows 11 Pro",
+                motherboard: "ASUS ROG Crosshair X670E Hero",
+                case: "HYTE Y60",
+                fans: "Custom Watercooling Loop"
+            },
+            tags: ["RTX", "AMD", "Premium", "4K Gaming", "Custom Loop", "High-End"],
+            performance: 95,
+            description: "4K gaming beast with custom water cooling"
+        },
+        {
+            id: 5,
+            name: "Esports Fury",
+            category: "esports",
+            price: "$1,499",
+            image: "images/buildprocess1.jpg",
+            specs: {
+                cpu: "Intel Core i5 13600K",
+                gpu: "NVIDIA RTX 4070",
+                ram: "32GB DDR5 6000MHz",
+                storage: "1TB NVMe SSD",
+                cooling: "Arctic Liquid Freezer II 280mm",
+                psu: "Corsair RM750e 750W 80+ Gold",
+                os: "Windows 11 Activated",
+                motherboard: "MSI MAG Z790 Tomahawk",
+                case: "Fractal Design Meshify 2",
+                fans: "5x 140mm PWM Fans"
+            },
+            tags: ["RTX", "Intel", "Esports", "High Refresh", "Competitive", "Optimized"],
+            performance: 80,
+            description: "Optimized for maximum FPS in competitive titles"
+        },
+        {
+            id: 6,
+            name: "FrostByte X2",
+            category: "frostbyte",
+            price: "$1,599",
+            image: "images/frostbytex2.jpg",
+            specs: {
+                cpu: "AMD Ryzen 7 7700X",
+                gpu: "NVIDIA RTX 4070 Ti",
+                ram: "32GB DDR5 6000MHz",
+                storage: "2TB NVMe SSD",
+                cooling: "NZXT Kraken Z73 360mm",
+                psu: "be quiet! Straight Power 11 850W",
+                os: "Windows 11 Pro",
+                motherboard: "ASUS TUF Gaming X670E-Plus",
+                case: "NZXT H9 Flow",
+                fans: "7x 120mm RGB Fans"
+            },
+            tags: ["RTX", "AMD", "RGB", "Liquid Cooling", "1440p Gaming", "Mid-Range"],
+            performance: 85,
+            description: "High-refresh 1440p gaming with stunning aesthetics"
+        },
+        {
+            id: 7,
+            name: "Content Creator Pro",
+            category: "streaming",
+            price: "$2,199",
+            image: "images/frostbyte1.jpg",
+            specs: {
+                cpu: "Intel Core i9 13900K",
+                gpu: "NVIDIA RTX 4070 Ti",
+                ram: "64GB DDR5 6400MHz",
+                storage: "4TB NVMe SSD (2x 2TB RAID 0)",
+                cooling: "Corsair iCUE H150i Elite 420mm",
+                psu: "Corsair HX1000i 1000W 80+ Platinum",
+                os: "Windows 11 Pro",
+                motherboard: "Gigabyte Z790 AORUS Master",
+                case: "Lian Li Lancool III",
+                fans: "10x 140mm ARGB Fans"
+            },
+            tags: ["RTX", "Intel", "Content Creation", "Multitasking", "Workstation", "High RAM"],
+            performance: 90,
+            description: "Professional content creation and streaming powerhouse"
+        },
+        {
+            id: 8,
+            name: "Mini ITX Stealth",
+            category: "premium",
+            price: "$1,799",
+            image: "images/buildprocess1.jpg",
+            specs: {
+                cpu: "AMD Ryzen 7 7700",
+                gpu: "NVIDIA RTX 4070",
+                ram: "32GB DDR5 6000MHz",
+                storage: "2TB NVMe SSD",
+                cooling: "EKWB AIO 280mm Basic",
+                psu: "Corsair SF750 750W 80+ Platinum",
+                os: "Windows 11 Pro",
+                motherboard: "ASUS ROG Strix B650E-I",
+                case: "Cooler Master NR200P Max",
+                fans: "2x 140mm + 2x 120mm PWM Fans"
+            },
+            tags: ["RTX", "AMD", "SFF", "Mini ITX", "Portable", "Compact"],
+            performance: 80,
+            description: "Compact powerhouse for space-constrained setups"
+        },
+        {
+            id: 9,
+            name: "RTX 4060 Value",
+            category: "budget",
+            price: "$1,099",
+            image: "images/frostbytex2.jpg",
+            specs: {
+                cpu: "AMD Ryzen 5 7600X",
+                gpu: "NVIDIA RTX 4060",
+                ram: "16GB DDR5 5600MHz",
+                storage: "1TB NVMe SSD",
+                cooling: "DeepCool AG620 Air Cooler",
+                psu: "EVGA 600W 80+ Bronze",
+                os: "Windows 11 Activated",
+                motherboard: "Gigabyte B650 Gaming X",
+                case: "Phanteks Eclipse G360A",
+                fans: "3x 120mm ARGB Fans"
+            },
+            tags: ["RTX", "AMD", "Budget", "1080p", "DLSS 3", "Efficient"],
+            performance: 70,
+            description: "Excellent 1080p gaming with DLSS 3 support"
+        },
+        {
+            id: 10,
+            name: "AMD Advantage Elite",
+            category: "premium",
+            price: "$2,299",
+            image: "images/frostbyte1.jpg",
+            specs: {
+                cpu: "AMD Ryzen 9 7900X",
+                gpu: "AMD RX 7900 XTX",
+                ram: "64GB DDR5 6000MHz",
+                storage: "4TB NVMe SSD (2x 2TB)",
+                cooling: "Arctic Liquid Freezer II 420mm",
+                psu: "Seasonic Vertex GX-1200 1200W",
+                os: "Windows 11 Pro",
+                motherboard: "ASRock X670E Taichi",
+                case: "be quiet! Silent Base 802",
+                fans: "7x 140mm Silent Wings 4"
+            },
+            tags: ["RX", "AMD", "All-AMD", "4K Gaming", "Silent", "Workstation"],
+            performance: 92,
+            description: "All-AMD powerhouse for gaming and productivity"
+        },
+        {
+            id: 11,
+            name: "FrostByte Lite",
+            category: "frostbyte",
+            price: "$599",
+            image: "images/buildprocess1.jpg",
+            specs: {
+                cpu: "AMD Ryzen 5 3600",
+                gpu: "AMD RX 5500 XT",
+                ram: "16GB DDR4 3000MHz",
+                storage: "500GB SSD + 1TB HDD",
+                cooling: "AMD Wraith Stealth Cooler",
+                psu: "be quiet! System Power 9 500W",
+                os: "Windows 11 Activated",
+                motherboard: "ASRock B450 Steel Legend",
+                case: "Thermaltake Versa H18",
+                fans: "2x 120mm Case Fans"
+            },
+            tags: ["RX", "AMD", "Entry Level", "Windows 11", "Value", "Compact"],
+            performance: 45,
+            description: "Affordable entry into PC gaming with solid 1080p performance"
+        },
+        {
+            id: 12,
+            name: "4K Ultra Beast",
+            category: "premium",
+            price: "$3,499",
+            image: "images/frostbytex2.jpg",
+            specs: {
+                cpu: "Intel Core i9 14900K",
+                gpu: "NVIDIA RTX 4090",
+                ram: "64GB DDR5 7200MHz",
+                storage: "4TB Gen5 NVMe SSD + 8TB HDD",
+                cooling: "Corsair iCUE LINK QX120 Custom Loop",
+                psu: "Corsair AX1600i 1600W 80+ Titanium",
+                os: "Windows 11 Pro",
+                motherboard: "ASUS ROG Maximus Z790 Extreme",
+                case: "Corsair Obsidian 1000D",
+                fans: "16x 120mm RGB Fans"
+            },
+            tags: ["RTX", "Intel", "4K Gaming", "Top-Tier", "Overkill", "Showpiece"],
+            performance: 99,
+            description: "The ultimate gaming PC for 4K 144Hz+ gaming"
+        }
+    ];
+
+    // Filter and Search Variables
+    let currentCategory = 'all';
+    let activeComponentFilters = [];
+    let currentSearchTerm = '';
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+        renderBuilds();
+        setupEventListeners();
+        updateActiveNav();
+    });
+
+    // Render all builds
+    function renderBuilds(filteredBuilds = buildsData) {
+        const container = document.getElementById('buildsContainer');
+
+        if (filteredBuilds.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>No Builds Found</h3>
+                    <p>Try adjusting your search or filters</p>
+                    <button class="btn-quote" onclick="clearFilters()" style="margin-top: 20px;">
+                        Clear All Filters
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = filteredBuilds.map(build => `
+            <div class="build-card" data-id="${build.id}">
+                <div class="build-card-header">
+                    <img src="${build.image}" alt="${build.name}" class="build-image">
+                    <span class="build-badge">${build.category.toUpperCase()}</span>
+                </div>
+                <div class="build-card-content">
+                    <h3 class="build-title">${build.name}</h3>
+                    <div class="build-price">${build.price}</div>
+                    
+                    <div class="performance-meter">
+                        <span class="meter-label">Performance</span>
+                        <div class="meter-bar">
+                            <div class="meter-fill" style="width: ${build.performance}%"></div>
+                        </div>
+                        <span class="meter-label">${build.performance}%</span>
+                    </div>
+                    
+                    <div class="build-specs">
+                        <div class="spec-item">
+                            <i class="fas fa-microchip"></i>
+                            <span>${build.specs.cpu}</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-gamepad"></i>
+                            <span>${build.specs.gpu}</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-memory"></i>
+                            <span>${build.specs.ram}</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-hdd"></i>
+                            <span>${build.specs.storage}</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fas fa-fan"></i>
+                            <span>${build.specs.cooling}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="build-tags">
+                        ${build.tags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 15px 0;">
+                        ${build.description}
+                    </p>
+                    
+                    <div class="build-actions">
+                        <button class="btn-view" onclick="viewBuildDetails(${build.id})">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        <button class="btn-quote" onclick="requestQuote('${build.name}')">
+                            <i class="fas fa-rocket"></i> Get Quote
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Search input
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearchTerm = e.target.value.toLowerCase();
+            filterBuilds();
+        });
+
+        // Category filters
+        document.querySelectorAll('#categoryFilters .filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('#categoryFilters .filter-tag').forEach(t =>
+                    t.classList.remove('active'));
+                tag.classList.add('active');
+                currentCategory = tag.dataset.category;
+                filterBuilds();
+            });
+        });
+
+        // Component filters
+        document.querySelectorAll('#componentFilters .filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                tag.classList.toggle('active');
+                const component = tag.dataset.component;
+
+                if (tag.classList.contains('active')) {
+                    if (!activeComponentFilters.includes(component)) {
+                        activeComponentFilters.push(component);
+                    }
+                } else {
+                    activeComponentFilters = activeComponentFilters.filter(c => c !== component);
+                }
+
+                filterBuilds();
+            });
+        });
+
+        // Footer category links
+        document.querySelectorAll('.footer-links a[data-category]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const category = link.dataset.category;
+
+                // Set category filter
+                document.querySelectorAll('#categoryFilters .filter-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                    if (tag.dataset.category === category) {
+                        tag.classList.add('active');
+                        currentCategory = category;
+                    }
+                });
+
+                filterBuilds();
+
+                // Scroll to builds grid
+                document.querySelector('.builds-grid').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    }
+
+    // Filter builds based on current filters
+    function filterBuilds() {
+        let filtered = buildsData;
+
+        // Apply category filter
+        if (currentCategory !== 'all') {
+            filtered = filtered.filter(build => build.category === currentCategory);
+        }
+
+        // Apply component filters
+        if (activeComponentFilters.length > 0) {
+            filtered = filtered.filter(build =>
+                activeComponentFilters.some(component =>
+                    build.tags.some(tag => tag.toLowerCase().includes(component.toLowerCase()))
+                )
+            );
+        }
+
+        // Apply search filter
+        if (currentSearchTerm) {
+            filtered = filtered.filter(build =>
+                build.name.toLowerCase().includes(currentSearchTerm) ||
+                build.description.toLowerCase().includes(currentSearchTerm) ||
+                build.tags.some(tag => tag.toLowerCase().includes(currentSearchTerm)) ||
+                Object.values(build.specs).some(spec => spec.toLowerCase().includes(currentSearchTerm))
+            );
+        }
+
+        renderBuilds(filtered);
+    }
+
+    // Clear all filters
+    function clearFilters() {
+        currentCategory = 'all';
+        activeComponentFilters = [];
+        currentSearchTerm = '';
+
+        // Reset UI
+        document.querySelectorAll('#categoryFilters .filter-tag').forEach(tag => {
+            tag.classList.toggle('active', tag.dataset.category === 'all');
+        });
+
+        document.querySelectorAll('#componentFilters .filter-tag').forEach(tag => {
+            tag.classList.remove('active');
+        });
+
+        document.getElementById('searchInput').value = '';
+
+        filterBuilds();
+    }
+
+    // View build details
+    function viewBuildDetails(buildId) {
+        const build = buildsData.find(b => b.id === buildId);
+        if (!build) return;
+
+        // Create modal with build details
+        const modalHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); 
+                 backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                <div style="background: rgba(10, 14, 23, 0.95); border-radius: 20px; max-width: 800px; width: 100%; 
+                     border: 1px solid rgba(0, 243, 255, 0.3); overflow: hidden; position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; 
+                                   color: #00f3ff; font-size: 1.5rem; cursor: pointer; z-index: 10;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 40px;">
+                        <div>
+                            <img src="${build.image}" alt="${build.name}" 
+                                 style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+                            <h2 style="color: #fff; margin-bottom: 10px;">${build.name}</h2>
+                            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 20px; 
+                                 background: linear-gradient(135deg, #00f3ff, #bc13fe); 
+                                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                ${build.price}
+                            </div>
+                            <div class="build-tags" style="margin-bottom: 20px;">
+                                ${build.tags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #00f3ff; margin-bottom: 20px;">Full Specifications</h3>
+                            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                                ${Object.entries(build.specs).map(([key, value]) => `
+                                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                        <span style="color: rgba(255,255,255,0.7);">${key.toUpperCase()}</span>
+                                        <span style="color: #fff; font-weight: 600;">${value}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <p style="color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 30px;">
+                                ${build.description}
+                            </p>
+                            
+                            <button onclick="requestQuote('${build.name}')" 
+                                    style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00f3ff, #bc13fe); 
+                                           border: none; border-radius: 10px; color: #000; font-weight: 700; 
+                                           cursor: pointer; font-size: 1.1rem; transition: all 0.3s;"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,243,255,0.3)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                <i class="fas fa-rocket"></i> Request Custom Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const modal = document.createElement('div');
+        modal.innerHTML = modalHTML;
+        document.body.appendChild(modal);
+    }
+
+    // Request quote for a build
+    function requestQuote(buildName) {
+        // Redirect to quote page with build name
+        window.location.href = `index.html#quote?build=${encodeURIComponent(buildName)}`;
+    }
+
+    // Update active navigation
+    function updateActiveNav() {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+        });
+    }
+</script>
 </body>
 </html>
