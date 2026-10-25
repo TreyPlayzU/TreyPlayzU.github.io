@@ -36,7 +36,7 @@ button.alt{background:var(--bg);color:var(--ink);border:1px solid var(--ln)}butt
 <div id="sheet"><div id="pl"></div><div id="fm"></div></div>
 <div id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 const SB_URL='https://ydeklhewghijsrkcrkux.supabase.co',SB_KEY='sb_publishable_CoYZrj3RwPif3QfPzVhHUw_qHt0TJwe'; // anon key is public by design; data is protected by schema.sql
 if(!/^https:\/\//.test(SB_URL)){document.getElementById('sheet').innerHTML='<h2>Not set up yet</h2><p>Open index.html in a text editor and replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY at the top of the script with your Supabase values (README step 4). Then host it over HTTPS.</p>';throw new Error('Supabase not configured')}
