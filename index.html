@@ -1,686 +1,208 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TL PREBUILTS | Fluid Gaming Experience</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Custom cursor */
-        .cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background: rgba(0,255,255,0.7);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate3d(0,0,0);
-            transition: transform 0.08s ease-out;
-            z-index: 9999;
-        }
-
-        /* Center hero image */
-        .pc-float img {
-            display: block;
-            margin: 20px auto;
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Embedded video responsive */
-        .video-flow iframe {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* ===== QUOTE SYSTEM STYLES ===== */
-        /* Status message styles */
-        .quote-status {
-            display: none;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 30px auto;
-            max-width: 600px;
-            text-align: center;
-            animation: glow 2s infinite alternate;
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); }
-            to { box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); }
-        }
-
-        .quote-status.success {
-            background: rgba(0, 255, 0, 0.1);
-            border-color: rgba(0, 255, 0, 0.4);
-        }
-
-        .quote-status.error {
-            background: rgba(255, 0, 0, 0.1);
-            border-color: rgba(255, 0, 0, 0.4);
-        }
-
-        /* Budget info box */
-        .budget-details {
-            background: rgba(0, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0 30px 0;
-            border-left: 4px solid var(--neon-blue, #00ffff);
-        }
-
-        .budget-details h4 {
-            color: var(--neon-blue, #00ffff);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .budget-details p {
-            margin: 5px 0;
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Select dropdown styling */
-        .form-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .select-arrow {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--neon-blue, #00ffff);
-            pointer-events: none;
-        }
-
-        /* Required field indicator */
-        .form-label[for="name"]::after,
-        .form-label[for="email"]::after,
-        .form-label[for="budget"]::after,
-        .form-label[for="phone"]::after {
-            content: '*';
-            color: #ff5555;
-            margin-left: 4px;
-        }
-
-        /* Form select specific styling */
-        .form-input[type="text"],
-        .form-input[type="email"],
-        .form-input[type="tel"],
-        .form-input[type="select"],
-        .form-input[type="textarea"],
-        select.form-input {
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        select.form-input {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            cursor: pointer;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--neon-blue, #00ffff);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-        }
-
-        /* Submit button */
-        .submit-fluid {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #00ffff 0%, #0080ff 100%);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Space Grotesk', sans-serif;
-            margin-top: 10px;
-        }
-
-        .submit-fluid:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
-        }
-
-        .submit-fluid:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        /* Dynamic info */
-        .dynamic-info {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0, 255, 255, 0.1);
-            border-radius: 5px;
-            border-left: 3px solid var(--neon-blue, #00ffff);
-        }
-    </style>
-</head>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Manhunt</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--bg:#0d1a26;--pn:#14293b;--ink:#e8f1f7;--mu:#7f98ab;--am:#ffb000;--hu:#ff5a4f;--hi:#35e0c2;--ln:#24425a}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-top:env(safe-area-inset-top)}
+#top{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--pn);border-bottom:4px solid var(--am)}
+#top.hunter{border-color:var(--hu)}#top.hider{border-color:var(--hi)}
+#role{font-weight:800;font-size:15px;padding:4px 10px;border-radius:6px;background:var(--bg)}
+#ph{color:var(--mu);font-size:13px;flex:1}
+#tm{font-size:40px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+#net{background:var(--hu);color:#fff;text-align:center;padding:4px;font-size:14px}
+#map{flex:1;min-height:200px}
+#sheet{max-height:48vh;overflow:auto;background:var(--pn);padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--ln)}
+h2{margin:0 0 8px;font-size:20px}
+input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:12px;width:100%;margin:4px 0}
+button{background:var(--am);color:#1a1200;font-weight:700;border:0;min-height:48px}
+button.alt{background:var(--bg);color:var(--ink);border:1px solid var(--ln)}button.bad{background:var(--hu);color:#fff}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}label{font-size:13px;color:var(--mu)}
+.p{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--ln)}
+.b{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--mu)}.b.on{color:var(--hi)}.b.off{color:var(--hu)}
+.err,.warn{color:var(--hu);font-weight:700}small,.mu{color:var(--mu)}
+.big{font-size:22px;font-weight:800}details{margin:8px 0}summary{padding:8px 0;color:var(--am)}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(60px + env(safe-area-inset-bottom));background:var(--ink);color:#000;padding:12px;border-radius:8px;z-index:9999;display:none}
+.leaflet-tooltip{background:var(--bg);color:var(--ink);border:1px solid var(--hi);font-weight:700}
+@media (prefers-reduced-motion:no-preference){.me{animation:pl 1.6s infinite}}@keyframes pl{50%{opacity:.4}}
+</style></head>
 <body>
-<!-- Custom Cursor -->
-<div class="cursor"></div>
-
-<!-- Floating Navigation -->
-<nav class="floating-nav">
-    <a href="#home" class="nav-link">HOME</a>
-    <a href="builds.html" class="nav-link">BUILDS</a>
-    <a href="#video" class="nav-link">VIDEO</a>
-    <a href="#quote" class="nav-link">QUOTE</a>
-    <a href="contact.html" class="nav-link">CONTACT</a>
-</nav>
-
-
-<!-- Hero Section -->
-<section class="hero-flow" id="home">
-    <h1 class="hero-title">TL PREBUILTS</h1>
-    <p class="hero-subtitle">Where <span class="neon-text">passion meets performance</span> in every gaming rig</p>
-
-    <div class="pc-float">
-        <img src="images/pc1.png" alt="Gaming PC Flow">
-    </div>
-
-    <p class="hero-subtitle">Built by gamers who understand what really matters</p>
-</section>
-
-<!-- Flowing Content Sections -->
-<div class="content-flow">
-    <!-- Section 1 -->
-    <section class="flow-section">
-        <div class="flow-content">
-            <span class="animated-number">01</span>
-            <h2 class="flow-title">We Value Your Money</h2>
-            <p class="flow-text">
-                In a market where prebuilt often means "overpriced and underperforming,"
-                we take a different approach. We're gamers first — we know what components
-                actually matter for performance.
-            </p>
-            <div class="interactive-card">
-                <p><i class="fas fa-bolt neon-text"></i> <strong>RAM Shortage Solution:</strong> We source smart, not expensive.</p>
-                <p><i class="fas fa-chart-line neon-text"></i> <strong>Used Market Mastery:</strong> Quality components at fair prices.</p>
-                <p><i class="fas fa-tools neon-text"></i> <strong>No Gamer Tax:</strong> You pay for performance, not marketing.</p>
-            </div>
-        </div>
-        <div class="flow-visual">
-            <img src="images/frostbytex2.jpg" alt="Value Flow" style="border-radius: 20px; width: 100%;">
-        </div>
-    </section>
-
-    <!-- Section 2 (Reversed) -->
-    <section class="flow-section reverse">
-        <div class="flow-content">
-            <span class="animated-number">02</span>
-            <h2 class="flow-title">We Care About You</h2>
-            <p class="flow-text">
-                This isn't assembly line work. Every system gets personal attention,
-                stress testing, and optimization that we'd demand for our own gaming rigs.
-            </p>
-            <div class="interactive-card">
-                <p><i class="fas fa-gamepad neon-text"></i> <strong>Gamer Tested:</strong> We actually game on these systems.</p>
-                <p><i class="fas fa-thermometer-half neon-text"></i> <strong>Thermal Optimized:</strong> Cooler temps, better performance.</p>
-                <p><i class="fas fa-sliders-h neon-text"></i> <strong>Fine Tuned:</strong> Every setting optimized for your use case.</p>
-            </div>
-        </div>
-        <div class="flow-visual">
-            <img src="images/buildprocess1.Jpg" alt="Care Flow" style="border-radius: 20px; width: 100%;">
-        </div>
-    </section>
-
-    <!-- Video Section -->
-    <section id="video">
-        <div style="text-align: center; margin-top: 30px;">
-            <h3 style="color: var(--neon-blue); margin-bottom: 10px;">Watch The Build Process</h3>
-            <p style="color: rgba(255,255,255,0.7);">See how passion turns into performance</p>
-
-            <!-- Embedded YouTube video -->
-            <iframe width="800" height="450"
-                    src="https://www.youtube.com/embed/VN8Lu-JJQRE"
-                    title="Tl Prebuilts Build Video"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-            </iframe>
-        </div>
-    </section>
-
-    <!-- Quote Form -->
-    <section id="quote">
-        <!-- Status display area -->
-        <div id="quoteStatus" class="quote-status" style="display: none;"></div>
-
-        <form class="form-fluid" id="quoteForm">
-            <h2 class="form-title">Get Your Custom Quote</h2>
-
-            <!-- Budget information section -->
-            <div class="budget-details">
-                <h4><i class="fas fa-info-circle"></i> What to Expect:</h4>
-                <p>• 24-hour response time</p>
-                <p>• Itemized breakdown of components</p>
-                <p>• Build time estimate</p>
-                <p>• Shipping options available</p>
-                <p>• No obligation quote</p>
-            </div>
-
-            <div class="form-group">
-                <input type="text" class="form-input" id="name" placeholder=" " required>
-                <label for="name" class="form-label">Your Name *</label>
-            </div>
-
-            <div class="form-group">
-                <input type="email" class="form-input" id="email" placeholder=" " required>
-                <label for="email" class="form-label">Email Address *</label>
-            </div>
-
-            <div class="form-group">
-                <input type="tel" class="form-input" id="phone" placeholder=" " required>
-                <label for="phone" class="form-label">Phone Number *</label>
-            </div>
-
-            <div class="form-group">
-                <select class="form-input" id="budget" required>
-                    <option value="" disabled selected> </option>
-                    <option value="500-800">$500 - $800 (Entry Level Gaming)</option>
-                    <option value="800-1200">$800 - $1,200 (1080p High/1440p Medium)</option>
-                    <option value="1200-1800">$1,200 - $1,800 (1440p High/4K Medium)</option>
-                    <option value="1800-2500">$1,800 - $2,500 (4K High/Streaming Ready)</option>
-                    <option value="2500+">$2,500+ (Elite Performance)</option>
-                    <option value="custom">Custom Budget (Specify below)</option>
-                </select>
-                <label for="budget" class="form-label">Budget Range *</label>
-                <i class="fas fa-chevron-down select-arrow"></i>
-            </div>
-
-            <div class="form-group">
-                <textarea class="form-input" id="message" placeholder=" " rows="4"></textarea>
-                <label for="message" class="form-label">Tell us about your dream PC (games, preferences, RGB, etc.)</label>
-            </div>
-
-            <button type="submit" class="submit-fluid" id="submitBtn">
-                <i class="fas fa-rocket"></i> <span id="btnText">Generate Custom Quote</span>
-            </button>
-
-            <p style="text-align: center; margin-top: 15px; color: rgba(255,255,255,0.6); font-size: 0.9rem;">
-                <i class="fas fa-shield-alt"></i> We'll never share your information
-            </p>
-        </form>
-    </section>
-</div>
-
-<!-- Footer -->
-<footer class="flow-footer">
-    <div class="footer-grid">
-        <div class="footer-column">
-            <h3>TL PREBUILTS</h3>
-            <p>Fluid performance, solid builds.</p>
-            <p>Gamers building for gamers since day one.</p>
-        </div>
-
-        <div class="footer-column">
-            <h3>Connect</h3>
-            <ul class="footer-links">
-                <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
-                <li><a href="mailto:tlprebuilts@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h3>Builds</h3>
-            <ul class="footer-links">
-                <li><a href="builds.html">FrostByte Series</a></li>
-                <li><a href="builds.html">Stream Ready Rigs</a></li>
-                <li><a href="builds.html">Budget Warriors</a></li>
-                <li><a href="builds.html">Custom Orders</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <p class="copyright">
-        © 2026 TL PREBUILTS | Every frame matters | Built with passion
-    </p>
-</footer>
-
-<!-- JavaScript -->
+<div id="top"><span id="role">Manhunt</span><span id="ph"></span><span id="tm"></span></div>
+<div id="net" hidden>Connection lost. Reconnecting…</div>
+<div id="map"></div>
+<div id="sheet"><div id="pl"></div><div id="fm"></div></div>
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-    // Custom cursor
-    const cursor = document.querySelector('.cursor');
-    const cursorSize = 20;
-    document.addEventListener('mousemove', (e) => {
-        const x = e.clientX - cursorSize / 2;
-        const y = e.clientY - cursorSize / 2;
-        cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    });
+const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY'; // anon key is public by design; data is protected by schema.sql
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let code=(new URLSearchParams(location.search).get('c')||localStorage.mhc||'').toUpperCase(),S=null,off=0,map,ly={},pts=[],mk=[],built='',pos=null,lastSent=0,watching=0,busy=0,fitted='';
+const now=()=>Date.now()+off,pad=n=>String(n).padStart(2,'0');
+const fmt=s=>{s=Math.max(0,Math.floor(s));const h=Math.floor(s/3600);return(h?h+':':'')+pad(Math.floor(s%3600/60))+':'+pad(s%60)};
+const ago=s=>s<60?Math.floor(s)+'s ago':Math.floor(s/60)+'m '+pad(Math.floor(s%60))+'s ago';
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',4500)}
+async function rpc(fn,a){const{data,error}=await sb.rpc(fn,a);if(error){toast(error.message);throw error}return data}
+const hav=(a,b,c,d)=>12742000*Math.asin(Math.sqrt(Math.sin((c-a)*Math.PI/360)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin((d-b)*Math.PI/360)**2));
+function pip(la,ln,z){let r=false;for(let i=0,j=z.length-1;i<z.length;j=i++){const[yi,xi]=z[i],[yj,xj]=z[j];if((yi>la)!=(yj>la)&&ln<(xj-xi)*(la-yi)/(yj-yi)+xi)r=!r}return r}
+function bearing(a,b,c,d){const y=Math.sin((d-b)*Math.PI/180)*Math.cos(c*Math.PI/180),x=Math.cos(a*Math.PI/180)*Math.sin(c*Math.PI/180)-Math.sin(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.cos((d-b)*Math.PI/180);return['N','NE','E','SE','S','SW','W','NW'][Math.round(((Math.atan2(y,x)*180/Math.PI+360)%360)/45)%8]}
 
-    // Scroll animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
+/* ---------- boot ---------- */
+(async()=>{
+ initMap();
+ const{data}=await sb.auth.getSession();
+ if(!data.session){const r=await sb.auth.signInAnonymously();if(r.error){$('pl').innerHTML='<p class=err>Enable anonymous sign-ins in Supabase (Authentication → Providers). '+esc(r.error.message)+'</p>';return}}
+ code?poll():home();
+ setInterval(()=>code&&poll(),3000);setInterval(tickUI,1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden){code&&poll();wl()}});
+})();
+function initMap(){
+ map=L.map('map',{zoomControl:false}).setView([37.98,23.72],15);
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+ ly.g=L.layerGroup().addTo(map);
+ map.on('click',e=>{if(S&&S.status=='waiting'&&S.me.host){pts.push([+e.latlng.lat.toFixed(6),+e.latlng.lng.toFixed(6)]);syncMk()}});
+ if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{if(!S)map.setView([p.coords.latitude,p.coords.longitude],16)},()=>0);
+}
+async function poll(){
+ if(busy)return;busy=1;
+ const{data,error}=await sb.rpc('state',{p_code:code});busy=0;
+ if(error){if(/not in this|not found/i.test(error.message)){localStorage.removeItem('mhc');home(error.message)}else $('net').hidden=false;return}
+ $('net').hidden=true;S=data;off=new Date(S.now)-Date.now();render();
+}
+function go(c){code=c;localStorage.mhc=c;poll()}
+function home(msg){
+ S=null;built='';ly.g.clearLayers();$('fm').innerHTML='';
+ $('role').textContent='Manhunt';$('ph').textContent='Real-life hide and seek';$('tm').textContent='';$('top').className='';
+ $('pl').innerHTML=`<h2>Play Manhunt</h2>${msg?`<p class=err>${esc(msg)}</p>`:''}<input id=nm placeholder="Display name" maxlength=20 value="${esc(localStorage.mhn||'')}"><input id=cd placeholder="Lobby code" maxlength=5 value="${esc(code)}" style="text-transform:uppercase"><div class=row><button onclick="mkLobby()">Create lobby</button><button class=alt onclick="joinLobby()">Join lobby</button></div>`;
+}
+async function mkLobby(){const n=$('nm').value;localStorage.mhn=n;go(await rpc('create_lobby',{p_name:n}))}
+async function joinLobby(){const n=$('nm').value,c=$('cd').value.toUpperCase();localStorage.mhn=n;await rpc('join_lobby',{p_code:c,p_name:n});go(c)}
 
-    document.querySelectorAll('.flow-section').forEach(section => {
-        observer.observe(section);
-    });
+/* ---------- zone drawing (host) ---------- */
+function drawZone(){
+ if(ly.z)map.removeLayer(ly.z);
+ const z=(S.status=='waiting'&&S.me.host)?pts:(S.zone||[]);
+ if(z.length>1)ly.z=L.polygon(z,{color:'#ffb000',weight:3,fillOpacity:.08,interactive:false}).addTo(map);
+}
+function syncMk(){
+ mk.forEach(m=>map.removeLayer(m));
+ mk=pts.map((p,i)=>L.marker(p,{draggable:true,icon:L.divIcon({className:'',html:'<div style="width:22px;height:22px;border-radius:50%;background:#ffb000;border:3px solid #fff"></div>',iconSize:[22,22],iconAnchor:[11,11]})})
+  .on('drag',e=>{pts[i]=[e.latlng.lat,e.latlng.lng];drawZone()}).addTo(map));
+ drawZone();
+}
+const undoPt=()=>{pts.pop();syncMk()},clearZone=()=>{pts=[];syncMk()};
 
-    // Form animation
-    document.querySelectorAll('.form-input').forEach(input => {
-        input.addEventListener('focus', () => {
-            input.parentElement.classList.add('focused');
-        });
-        input.addEventListener('blur', () => {
-            if (!input.value) {
-                input.parentElement.classList.remove('focused');
-            }
-        });
-    });
+/* ---------- render ---------- */
+function render(){
+ const st=S.status,m=S.me;
+ if(built!=st){built=st;$('fm').innerHTML='';mk.forEach(x=>map.removeLayer(x));mk=[];if(st=='waiting'&&m.host){pts=(S.zone||[]).map(x=>[...x]);buildForm();syncMk()}}
+ if(st!='waiting'){mk.forEach(x=>map.removeLayer(x));mk=[]}
+ drawZone();ly.g.clearLayers();
+ if(fitted!=code+st&&S.zone&&S.zone.length>2){fitted=code+st;map.fitBounds(L.polygon(S.zone).getBounds(),{padding:[20,20]})}
+ $('role').textContent=m.role?m.role.toUpperCase():'LOBBY';$('role').style.color=m.role=='hunter'?'var(--hu)':m.role=='hider'?'var(--hi)':'';
+ $('top').className=m.role||'';
+ if(st=='waiting')waiting();else if(st=='active'){game();startWatch()}else done();
+ drawMe();tickUI();
+}
+function tickUI(){
+ if(!S)return;const m=S.me,t=now(),hs=new Date(S.hs),en=new Date(S.en);let ph='',tm='';
+ if(S.status=='waiting'){ph='Lobby '+code;tm=''}
+ else if(S.status!='active'){ph='Match over';tm=''}
+ else if(m.status!='active'){ph=m.role=='hider'?'You are out':'Status: '+m.status;tm=''}
+ else if(t<hs){ph=m.role=='hider'?'Head start: run and hide':'Head start: hunt begins in';tm=fmt((hs-t)/1e3)}
+ else if(m.role=='hider'){ph='Survive for';tm=fmt((en-t)/1e3-m.red)}
+ else{ph='Match ends in';tm=fmt((en-t)/1e3)}
+ $('ph').textContent=ph;$('tm').textContent=tm;
+ const nx=$('nx');if(nx)nx.textContent=t<hs?'after head start':fmt((new Date(S.next_snap)-t)/1e3);
+}
 
-    // ============================================
-    // WORKING QUOTE SYSTEM - NO API ERRORS
-    // ============================================
+/* ---------- waiting room ---------- */
+const F=[['hunters','Hunters',s=>s.hunters],['dur','Match length (min, after head start)',s=>s.dur],['head','Head start (min)',s=>s.head],['int','Hunters see hiders every (min)',s=>s.interval/60,'0.5'],
+ ['cp_total','Checkpoints per hider',s=>s.cp_total,1,1],['cp_reduce','Minutes removed per checkpoint',s=>s.cp_reduce,1,1],['cp_min','Checkpoint min distance (m)',s=>s.cp_min,1,1],['cp_max','Checkpoint max distance (m)',s=>s.cp_max,1,1],
+ ['cp_radius','Checkpoint radius (m)',s=>s.cp_radius,1,1],['grace','Boundary grace (s)',s=>s.grace,1,1],['acc_tol','Max GPS error counted for boundary (m)',s=>s.acc_tol,1,1]];
+const fld=f=>`<div><label>${f[1]}</label><input id="f_${f[0]}" type=number inputmode=decimal step="${f[3]||1}" value="${f[2](S.s)}" oninput="cnt()"></div>`;
+function buildForm(){
+ $('fm').innerHTML=`<hr style="border-color:var(--ln)"><h2>Match settings</h2><p class=mu>Tap the map to draw the play zone. Drag the dots to adjust.</p>
+ <div class=row><button class=alt onclick="undoPt()">Undo point</button><button class=alt onclick="clearZone()">Clear zone</button></div>
+ <div class=g>${F.slice(0,4).map(fld).join('')}</div><p id=cnt class=big></p>
+ <details><summary>Advanced</summary><div class=g>${F.slice(4).map(fld).join('')}</div></details>
+ <button onclick="saveAll()">Save settings</button><button id=go onclick="startGame()">Start match</button>`;cnt();
+}
+const val=id=>+$('f_'+id).value;
+function cnt(){const n=S.players?.length||0,h=val('hunters');const c=$('cnt');if(c)c.innerHTML=`${h} hunter${h==1?'':'s'} · ${Math.max(0,n-h)} hider${n-h==1?'':'s'} <small>(${n} players)</small>`}
+const collect=()=>({hunters:val('hunters'),dur:val('dur'),head:val('head'),interval:Math.round(val('int')*60),cp_total:val('cp_total'),cp_reduce:val('cp_reduce'),cp_min:val('cp_min'),cp_max:val('cp_max'),cp_radius:val('cp_radius'),grace:val('grace'),acc_tol:val('acc_tol')});
+async function saveAll(q){await rpc('save_settings',{p_code:code,p_s:collect(),p_zone:pts});if(!q)toast('Settings saved')}
+async function startGame(){await saveAll(1);await rpc('start_match',{p_code:code});poll()}
+function waiting(){
+ const m=S.me,link=location.origin+location.pathname+'?c='+code;
+ $('pl').innerHTML=`<h2>Lobby <span style="color:var(--am)">${code}</span></h2>
+ <button class=alt onclick="navigator.share?navigator.share({url:'${link}',title:'Join my Manhunt'}):navigator.clipboard.writeText('${link}').then(()=>toast('Invite link copied'))">Share invite link</button>
+ <p class=mu>${S.players.length} of 10 players${m.host?'':' · the host sets the rules and starts the match'}</p>
+ ${S.players.map(p=>`<div class=p><span>${p.host?'★ ':''}${esc(p.name)}</span><span><span class="b ${p.loc_ok?'on':'off'}">${p.loc_ok?'location on':'no location'}</span> <span class="b ${p.ready?'on':''}">${p.ready?'ready':'not ready'}</span></span></div>`).join('')}
+ ${m.loc_ok?'':`<p class=mu>Your phone's location is used for the game. Hunters only see anonymous hider positions at the set interval. Sharing starts when the match starts and your location data is deleted when it ends. Keep this page open and your screen awake.</p><button onclick="enLoc()">Enable location</button>`}
+ <div class=row><button class=alt onclick="rpc('set_ready',{p_code:code,p_ready:${!m.ready},p_loc:${m.loc_ok}}).then(poll)">${m.ready?'Not ready':'I’m ready'}</button><button class="alt bad" onclick="leave()">Leave</button></div>`;
+ if(m.host)cnt();
+}
+function enLoc(){navigator.geolocation.getCurrentPosition(()=>rpc('set_ready',{p_code:code,p_ready:S.me.ready,p_loc:true}).then(poll),()=>toast('Location is blocked. Allow location for this site in your browser settings, then try again.'),{enableHighAccuracy:true})}
+async function leave(){if(!confirm('Leave this game?'))return;await rpc('leave_game',{p_code:code});localStorage.removeItem('mhc');code='';home()}
 
-    // Form submission handling
-    document.getElementById('quoteForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+/* ---------- active match ---------- */
+function game(){
+ const m=S.me,t=now(),started=t>=new Date(S.hs),end=m.host?`<button class="alt bad" onclick="endM()">End match (host)</button>`:'';
+ const lv=`<button class="alt" onclick="leave()">Emergency stop / leave game</button>`;
+ if(m.role=='hunter'){
+  const act=S.hiders.filter(h=>h.status=='active').length;
+  $('pl').innerHTML=`<div class=row><div><small>Hiders left</small><div class=big>${act}</div></div><div><small>Next location update</small><div class=big id=nx></div></div></div>
+  ${S.hiders.map(h=>{const age=h.at?(t-new Date(h.at))/1e3:null,stale=age>S.s.interval*1.5;
+   return`<div class=p><span><b>${h.anon}</b> <span class="b ${h.status=='active'?'on':'off'}">${h.status=='active'?'active':h.status=='caught'?'caught':h.status}</span><br><small>${h.status!='active'?'out of the game':h.lat==null?'no location released yet':'seen '+ago(age)+(stale?' · stale':'')}</small></span>
+   ${h.status=='active'&&started?`<button style="width:auto" class=bad onclick="catchH('${h.anon}')">Caught</button>`:''}</div>`}).join('')}
+  <h2 style="margin-top:14px">Leaderboard</h2>${S.board.map((h,i)=>`<div class=p><span>${i+1}. ${h.anon}${h.anon==m.anon?' (you)':''}</span><b>${h.catches}</b></div>`).join('')}${end}${lv}`;
+  S.hiders.filter(h=>h.lat!=null).forEach(h=>{const age=(t-new Date(h.at))/1e3,stale=age>S.s.interval*1.5;
+   L.circleMarker([h.lat,h.lng],{radius:10,color:stale?'#7f98ab':'#35e0c2',fillOpacity:stale?.2:.85,dashArray:stale?'3 3':null}).bindTooltip(`${h.anon} · ${ago(age)}`,{permanent:true,direction:'top'}).addTo(ly.g)});
+ }else{
+  const tot=S.s.cp_total,req=Math.max(0,S.s.dur*60-m.red);
+  $('pl').innerHTML=m.status!='active'?`<h2>${m.status=='escaped'?'You survived!':m.status=='caught'?'You were caught':m.status=='eliminated'?'You left the play zone':'You left the game'}</h2><p class=mu>Stay out of the way and wait for the match to end.</p>${lv}`:
+  `<div id=wz class=warn></div><div class=row><div><small>Checkpoints</small><div class=big>${m.cp_done}/${tot}</div></div><div><small>Survival needed</small><div class=big>${fmt(req)}</div></div></div>
+  <p class=mu>${m.red?`You've removed ${Math.round(m.red/60*10)/10} min from your survival time.`:''}${m.cp?'':tot?' All checkpoints done: just stay hidden.':''}</p>
+  ${m.cp?`<div class=p><span>Next checkpoint</span><b id=cpd>locating…</b></div><p class=mu>Stay on public paths and never cross roads unsafely.</p>`:''}${end}${lv}`;
+  if(m.cp&&m.status=='active'){L.circle(m.cp,{radius:S.s.cp_radius,color:'#ffb000',fillOpacity:.25}).addTo(ly.g);L.marker(m.cp,{icon:L.divIcon({className:'',html:'<div style="font-size:28px">🚩</div>',iconSize:[28,28],iconAnchor:[6,26]})}).addTo(ly.g)}
+ }
+}
+async function catchH(a){if(!confirm('Mark '+a+' as caught? This cannot be undone.'))return;await rpc('catch_hider',{p_code:code,p_anon:a});poll()}
+async function endM(){if(confirm('End the match for everyone?')){await rpc('end_match',{p_code:code});poll()}}
 
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const statusDiv = document.getElementById('quoteStatus');
+/* ---------- location ---------- */
+function startWatch(){
+ if(watching||!navigator.geolocation)return;watching=1;
+ navigator.geolocation.watchPosition(p=>{
+  pos=[p.coords.latitude,p.coords.longitude,p.coords.accuracy];
+  if(S&&S.status=='active'&&S.me.status=='active'&&Date.now()-lastSent>5000){lastSent=Date.now();sb.rpc('report_loc',{p_code:code,p_lat:pos[0],p_lng:pos[1],p_acc:pos[2]}).then(()=>0)}
+  drawMe();
+ },e=>toast('Location error: '+e.message+'. Allow location for this site.'),{enableHighAccuracy:true,maximumAge:0,timeout:20000});
+ wl();
+}
+const wl=()=>{try{navigator.wakeLock?.request('screen').catch(()=>0)}catch(e){}};
+function drawMe(){
+ if(!pos||!S)return;if(ly.me)map.removeLayer(ly.me);
+ ly.me=L.circleMarker([pos[0],pos[1]],{radius:8,color:'#fff',fillColor:'#4da3ff',fillOpacity:1,className:'me'}).addTo(map);
+ if(S.status!='active')return;const m=S.me;
+ const w=$('wz');if(w&&m.role=='hider')w.textContent=S.zone&&!pip(pos[0],pos[1],S.zone)&&pos[2]<=S.s.acc_tol?`You are outside the play zone. Return within ${S.s.grace}s or you are eliminated.`:'';
+ const d=$('cpd');if(d&&m.cp)d.textContent=Math.round(hav(pos[0],pos[1],m.cp[0],m.cp[1]))+' m '+bearing(pos[0],pos[1],m.cp[0],m.cp[1])+(pos[2]>30?` (GPS ±${Math.round(pos[2])} m)`:'');
+}
 
-        // Disable button and show loading
-        submitBtn.disabled = true;
-        btnText.textContent = 'Creating Quote...';
-
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            budget: document.getElementById('budget').value,
-            message: document.getElementById('message').value.trim() || 'No additional details provided',
-            timestamp: new Date().toLocaleString(),
-            quoteId: 'TL' + Date.now().toString().slice(-6)
-        };
-
-        // Validate required fields
-        if (!formData.name || !formData.email || !formData.phone || !formData.budget) {
-            statusDiv.innerHTML = `
-                <h3 style="color: #ff5555;"><i class="fas fa-exclamation-triangle"></i> Missing Information</h3>
-                <p>Please fill in all required fields marked with *</p>
-            `;
-            statusDiv.className = 'quote-status error';
-            statusDiv.style.display = 'block';
-            submitBtn.disabled = false;
-            btnText.textContent = 'Generate Custom Quote';
-            return;
-        }
-
-        // Create the quote
-        try {
-            // 1. Show success message immediately
-            statusDiv.innerHTML = `
-                <div style="text-align: center;">
-                    <h3 style="color: #00ff00; margin-bottom: 20px;">
-                        <i class="fas fa-check-circle"></i> Quote Request Created!
-                    </h3>
-                    
-                    <div style="background: rgba(0,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
-                        <p><strong>Quote ID:</strong> ${formData.quoteId}</p>
-                        <p><strong>Customer:</strong> ${formData.name}</p>
-                        <p><strong>Budget:</strong> ${formData.budget}</p>
-                        <p><strong>Submitted:</strong> ${formData.timestamp}</p>
-                    </div>
-                    
-                    <h4><i class="fas fa-list-check"></i> Next Steps:</h4>
-                    <div style="text-align: left; margin: 15px;">
-                        <p>1. <strong>We'll email you</strong> within 24 hours with a detailed quote</p>
-                        <p>2. <strong>Check your inbox</strong> (and spam folder) at: ${formData.email}</p>
-                        <p>3. <strong>We'll call/text</strong> you at ${formData.phone} to discuss options</p>
-                        <p>4. <strong>No obligation</strong> - quote valid for 7 days</p>
-                    </div>
-                    
-                    <div style="margin-top: 20px; padding: 15px; background: rgba(0,255,255,0.05); border-radius: 8px;">
-                        <p><i class="fas fa-envelope"></i> <strong>Need immediate help?</strong></p>
-                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">
-                            Email us directly: <strong>tlprebuilts@gmail.com</strong><br>
-                            Include Quote ID: <strong>${formData.quoteId}</strong>
-                        </p>
-                    </div>
-                </div>
-            `;
-            statusDiv.className = 'quote-status success';
-            statusDiv.style.display = 'block';
-
-            // 2. Create downloadable quote summary
-            createQuoteFile(formData);
-
-            // 3. Save to localStorage for tracking
-            saveQuoteRequest(formData);
-
-            // 4. Reset form
-            document.getElementById('quoteForm').reset();
-
-            // 5. Auto-scroll to show success message
-            setTimeout(() => {
-                statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 500);
-
-        } catch (error) {
-            console.error('Error:', error);
-            statusDiv.innerHTML = `
-                <h3 style="color: #ff5555;"><i class="fas fa-exclamation-circle"></i> System Error</h3>
-                <p>Please save this information and email us:</p>
-                <div style="background: rgba(255,85,85,0.1); padding: 15px; border-radius: 8px; margin: 10px 0;">
-                    <p><strong>Name:</strong> ${formData.name}</p>
-                    <p><strong>Email:</strong> ${formData.email}</p>
-                    <p><strong>Budget:</strong> ${formData.budget}</p>
-                    <p><strong>Error:</strong> ${error.message}</p>
-                </div>
-                <p style="margin-top: 10px;">
-                    Email: <strong>tlprebuilts@gmail.com</strong> with the details above.
-                </p>
-            `;
-            statusDiv.className = 'quote-status error';
-            statusDiv.style.display = 'block';
-        } finally {
-            // Re-enable button after delay
-            setTimeout(() => {
-                submitBtn.disabled = false;
-                btnText.textContent = 'Generate Another Quote';
-            }, 2000);
-        }
-    });
-
-    // Create downloadable quote file
-    function createQuoteFile(formData) {
-        const quoteContent = `
-================================================================
-TL PREBUILTS - QUOTE REQUEST CONFIRMATION
-================================================================
-
-QUOTE ID: ${formData.quoteId}
-DATE/TIME: ${formData.timestamp}
-
-CUSTOMER INFORMATION:
----------------------
-• Name: ${formData.name}
-• Email: ${formData.email}
-• Phone: ${formData.phone}
-• Budget Range: ${formData.budget}
-• Additional Details: ${formData.message}
-
-PERFORMANCE EXPECTATIONS FOR ${formData.budget}:
--------------------------------------------------
-${getPerformanceExpectations(formData.budget)}
-
-NEXT STEPS:
------------
-1. TL PREBUILTS will review your request
-2. You'll receive a detailed quote within 24 hours
-3. Quote includes component breakdown and pricing
-4. We'll contact you to discuss customization options
-
-CONTACT INFORMATION:
--------------------
-Email: tlprebuilts@gmail.com
-Website: https://tlprebuilts.netlify.app
-Quote ID: ${formData.quoteId}
-
-Please save or print this confirmation for your records.
-================================================================
-        `.trim();
-
-        // Create downloadable file
-        const blob = new Blob([quoteContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `TL_Prebuilts_Quote_${formData.quoteId}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // Get performance expectations based on budget
-    function getPerformanceExpectations(budget) {
-        const expectations = {
-            "500-800": `
-• Target Resolution: 1080p Gaming
-• Expected FPS: 60-144+ in Esports Titles
-• Games: Valorant, CS2, Fortnite, Apex Legends
-• AAA Games: 60+ FPS at Medium-High Settings
-• Ideal For: Entry-level gaming, school/work, first PC build
-• Typical Components: Ryzen 5 5600/Intel i5, RX 6600/RTX 3060`,
-
-            "800-1200": `
-• Target Resolution: 1440p or 1080p High Refresh
-• Expected FPS: 100+ in Esports, 60+ in AAA
-• Games: Competitive & AAA titles at high settings
-• Features: Ray Tracing capable, streaming ready
-• Ideal For: Serious gamers, content creators
-• Typical Components: Ryzen 7 5700X/Intel i5 13600K, RX 6700 XT/RTX 4060 Ti`,
-
-            "1200-1800": `
-• Target Resolution: 1440p High Refresh / 4K 60Hz
-• Expected FPS: 144+ in Esports, 80-100+ in AAA
-• Features: High-end ray tracing, AI upscaling
-• Ideal For: Enthusiast gaming, professional streaming
-• Cooling: Premium air or liquid cooling
-• Typical Components: Ryzen 7 7700X/Intel i7 13700K, RX 7800 XT/RTX 4070 Super`,
-
-            "1800-2500": `
-• Target Resolution: 4K High Refresh / 1440p Ultra
-• Expected FPS: 120+ in AAA games at max settings
-• Features: Top-tier ray tracing, content creation beast
-• Ideal For: Professional streamers, 4K gaming
-• Aesthetics: Premium RGB, custom loops possible
-• Typical Components: Ryzen 9 7900X/Intel i9 13900K, RTX 4080/RX 7900 XTX`,
-
-            "2500+": `
-• Target Resolution: 4K Ultra / 1440p 240Hz+
-• Expected FPS: Max settings in all games
-• Features: No-compromise performance
-• Ideal For: Professional esports, 4K 144Hz gaming
-• Cooling: Custom liquid cooling, premium components
-• Typical Components: Latest gen top-tier CPU/GPU, 32GB+ RAM`,
-
-            "custom": `
-• We'll work with you to create a custom solution
-• Tell us exactly what you need
-• We'll find the best performance for your budget
-• Unlimited customization options available`
-        };
-
-        return expectations[budget] || 'We will create a custom solution based on your requirements.';
-    }
-
-    // Save quote request locally
-    function saveQuoteRequest(formData) {
-        try {
-            const requests = JSON.parse(localStorage.getItem('tl_prebuilts_quotes') || '[]');
-            const newRequest = {
-                ...formData,
-                id: formData.quoteId,
-                status: 'pending',
-                created: new Date().toISOString()
-            };
-            requests.push(newRequest);
-            localStorage.setItem('tl_prebuilts_quotes', JSON.stringify(requests));
-
-            // Also store in session for current visit
-            sessionStorage.setItem('current_quote_id', formData.quoteId);
-
-            console.log('Quote saved locally:', newRequest);
-        } catch (error) {
-            console.log('Local storage error:', error);
-        }
-    }
-
-    // Budget selector changes - show info
-    document.getElementById('budget').addEventListener('change', function(e) {
-        const budgetDetails = document.querySelector('.budget-details');
-        const selected = e.target.value;
-
-        // Clear previous additional info
-        const existingInfo = budgetDetails.querySelector('.dynamic-info');
-        if (existingInfo) {
-            existingInfo.remove();
-        }
-
-        if (selected && selected !== "") {
-            const infoDiv = document.createElement('div');
-            infoDiv.className = 'dynamic-info';
-            infoDiv.style.cssText = 'margin-top: 10px; padding: 10px; background: rgba(0,255,255,0.1); border-radius: 5px;';
-            infoDiv.innerHTML = `<i class="fas fa-lightbulb"></i> <strong>For this budget:</strong> ${getBudgetDescription(selected)}`;
-            budgetDetails.appendChild(infoDiv);
-        }
-    });
-
-    function getBudgetDescription(budget) {
-        const descriptions = {
-            "500-800": "Entry-level gaming PC - perfect for esports and 1080p gaming",
-            "800-1200": "Mid-range powerhouse - handles AAA games at high settings",
-            "1200-1800": "High-end gaming - ready for 1440p or entry 4K",
-            "1800-2500": "Premium build - ideal for streaming and 4K gaming",
-            "2500+": "Elite performance - no-compromise gaming experience",
-            "custom": "Tell us exactly what you need for a custom solution"
-        };
-        return descriptions[budget] || "Select a budget range to see details";
-    }
-
-    // Initialize form with default state
-    document.addEventListener('DOMContentLoaded', function() {
-        const budgetSelect = document.getElementById('budget');
-        if (budgetSelect.value) {
-            budgetSelect.dispatchEvent(new Event('change'));
-        }
-    });
-</script>
-</body>
-</html>
+/* ---------- results ---------- */
+function done(){
+ const r=S.results||[],c=k=>r.filter(x=>x.status==k).length;
+ $('pl').innerHTML=S.status=='cancelled'?`<h2>Lobby cancelled</h2><button onclick="code='';localStorage.removeItem('mhc');home()">Back to start</button>`:
+ `<h2>Match over</h2><p class=mu>${esc(S.end_reason||'')}</p>
+ <div class=row><div><small>Caught</small><div class=big>${c('caught')}</div></div><div><small>Left zone</small><div class=big>${c('eliminated')}</div></div><div><small>Escaped</small><div class=big>${c('escaped')}</div></div></div>
+ <p class=mu>${r.length} players · ${S.s.dur} min match · ${r.filter(x=>x.role=='hunter').length} hunters</p>
+ ${r.map(x=>`<div class=p><span><b>${esc(x.name)}</b> <span class=b>${x.role||''}</span><br><small>${x.role=='hunter'?x.catches+' caught':esc(x.reason||x.status)+' · '+x.cp+' checkpoints · −'+Math.round(x.red/60*10)/10+' min'}</small></span></div>`).join('')}
+ ${S.me.host?`<button onclick="rpc('rematch',{p_code:code}).then(poll)">Rematch (same lobby)</button>`:'<p class=mu>Waiting for the host to start a rematch.</p>'}
+ <button class=alt onclick="code='';localStorage.removeItem('mhc');home()">Leave lobby</button>`;
+}
+</script></body></html>
