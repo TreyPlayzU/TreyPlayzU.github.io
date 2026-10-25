@@ -38,7 +38,7 @@ button.alt{background:var(--bg);color:var(--ink);border:1px solid var(--ln)}butt
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const SB_URL='https://ydeklhewghijsrkcrkux.supabase.co',SB_KEY='YOUR_SUPABASE_ANON_KEY'; // anon key is public by design; data is protected by schema.sql
+const SB_URL='https://ydeklhewghijsrkcrkux.supabase.co',SB_KEY='sb_publishable_CoYZrj3RwPif3QfPzVhHUw_qHt0TJwe'; // anon key is public by design; data is protected by schema.sql
 if(!/^https:\/\//.test(SB_URL)){document.getElementById('sheet').innerHTML='<h2>Not set up yet</h2><p>Open index.html in a text editor and replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY at the top of the script with your Supabase values (README step 4). Then host it over HTTPS.</p>';throw new Error('Supabase not configured')}
 const sb=supabase.createClient(SB_URL,SB_KEY);
 const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -56,14 +56,14 @@ function bearing(a,b,c,d){const y=Math.sin((d-b)*Math.PI/180)*Math.cos(c*Math.PI
 (async()=>{
  initMap();
  const{data}=await sb.auth.getSession();
- if(!data.session){const r=await sb.auth.signInAnonymously();if(r.error){$('pl').innerHTML='<p class=err>Enable anonymous sign-ins in Supabase (Authentication → Providers). '+esc(r.error.message)+'</p>';return}}
+ if(!data.session){const r=await sb.auth.signInAnonymously();if(r.error){$('pl').innerHTML='<p class=err>Sign-in failed: '+esc(r.error.message)+' (status '+(r.error.status||'?')+'). Check that Anonymous sign-ins are on in Supabase and that SB_KEY is the full key.</p>';return}}
  code?poll():home();
  setInterval(()=>code&&poll(),3000);setInterval(tickUI,1000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){code&&poll();wl()}});
 })();
 function initMap(){
  map=L.map('map',{zoomControl:false}).setView([37.98,23.72],15);
- L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(map);
  ly.g=L.layerGroup().addTo(map);
  map.on('click',e=>{if(S&&S.status=='waiting'&&S.me.host){pts.push([+e.latlng.lat.toFixed(6),+e.latlng.lng.toFixed(6)]);syncMk()}});
  if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{if(!S)map.setView([p.coords.latitude,p.coords.longitude],16)},()=>0);
