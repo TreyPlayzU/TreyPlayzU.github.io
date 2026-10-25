@@ -1,4 +1,5 @@
 -- MANHUNT: run once in Supabase SQL editor. All game logic is server-side; tables are locked, clients only call RPCs.
+drop table if exists players, lobbies cascade; -- safe to re-run: resets all data
 create table lobbies(id uuid primary key default gen_random_uuid(), code text unique not null, host uuid not null,
  status text not null default 'waiting', -- waiting|active|completed|cancelled
  s jsonb not null default '{"hunters":1,"dur":30,"head":5,"interval":300,"cp_total":3,"cp_reduce":2,"cp_min":100,"cp_max":400,"cp_radius":25,"grace":20,"acc_tol":50}',
@@ -12,16 +13,16 @@ create table players(id uuid primary key default gen_random_uuid(), lobby uuid n
 alter table lobbies enable row level security; alter table players enable row level security; -- no policies = no direct access
 revoke all on all tables in schema public from anon, authenticated;
 
-create function pip(la float8, ln float8, z jsonb) returns bool language plpgsql immutable as $$
+create or replace function pip(la float8, ln float8, z jsonb) returns bool language plpgsql immutable as $$
 declare n int=jsonb_array_length(z); i int; j int; ins bool=false; yi float8; xi float8; yj float8; xj float8;
 begin j:=n-1; for i in 0..n-1 loop
  yi:=(z->i->>0)::float8; xi:=(z->i->>1)::float8; yj:=(z->j->>0)::float8; xj:=(z->j->>1)::float8;
  if ((yi>la)<>(yj>la)) and (ln < (xj-xi)*(la-yi)/(yj-yi)+xi) then ins:=not ins; end if; j:=i; end loop; return ins; end $$;
-create function dist(a float8,b float8,c float8,d float8) returns float8 language sql immutable as $$
+create or replace function dist(a float8,b float8,c float8,d float8) returns float8 language sql immutable as $$
  select 12742000*asin(sqrt(sin(radians(c-a)/2)^2+cos(radians(a))*cos(radians(c))*sin(radians(d-b)/2)^2)) $$;
 
 -- per-hider random checkpoint, inside the real polygon; shrinks search distance, then falls back to any point in zone
-create function gen_cp(pid uuid) returns void language plpgsql security definer set search_path=public as $$
+create or replace function gen_cp(pid uuid) returns void language plpgsql security definer set search_path=public as $$
 declare p players; l lobbies; mn float8; mx float8; d float8; b float8; la float8; ln float8; k int; a float8; bb float8; c float8; e float8;
 begin select * into p from players where id=pid; select * into l from lobbies where id=p.lobby;
  mn:=(l.s->>'cp_min')::float8; mx:=(l.s->>'cp_max')::float8;
@@ -37,13 +38,13 @@ begin select * into p from players where id=pid; select * into l from lobbies wh
   if pip(la,ln,l.zone) then update players set cp_lat=la,cp_lng=ln,cp_hits=0 where id=pid; return; end if; end loop;
 end $$;
 
-create function _finish(lid uuid, why text) returns void language sql security definer set search_path=public as $$
+create or replace function _finish(lid uuid, why text) returns void language sql security definer set search_path=public as $$
  update lobbies set status='completed',end_reason=why,ended_at=now() where id=lid;
  update players set lat=null,lng=null,snap_lat=null,snap_lng=null,cp_lat=null,cp_lng=null where lobby=lid; -- drop location data at match end
 $$;
 
 -- advances the clock-driven rules: boundary grace, escapes, scheduled snapshots, end conditions. Called by every RPC.
-create function tick(lid uuid) returns void language plpgsql security definer set search_path=public as $$
+create or replace function tick(lid uuid) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies; hs timestamptz; en timestamptz; iv int;
 begin select * into l from lobbies where id=lid for update; if l.status<>'active' then return; end if;
  hs:=l.started_at+((l.s->>'head')::int*60)*interval '1 second'; en:=hs+((l.s->>'dur')::int*60)*interval '1 second'; iv:=(l.s->>'interval')::int;
@@ -57,7 +58,7 @@ begin select * into l from lobbies where id=lid for update; if l.status<>'active
   perform _finish(lid, case when now()>=en then 'Time expired' else 'All hiders caught, eliminated or escaped' end); end if;
 end $$;
 
-create function create_lobby(p_name text) returns text language plpgsql security definer set search_path=public as $$
+create or replace function create_lobby(p_name text) returns text language plpgsql security definer set search_path=public as $$
 declare c text; l uuid;
 begin if auth.uid() is null then raise exception 'Sign in required'; end if;
  if length(trim(p_name))<1 then raise exception 'Enter a display name'; end if;
@@ -65,7 +66,7 @@ begin if auth.uid() is null then raise exception 'Sign in required'; end if;
  insert into lobbies(code,host) values(c,auth.uid()) returning id into l;
  insert into players(lobby,uid,name) values(l,auth.uid(),left(trim(p_name),20)); return c; end $$;
 
-create function join_lobby(p_code text, p_name text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function join_lobby(p_code text, p_name text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies;
 begin select * into l from lobbies where code=upper(trim(p_code)) for update; if l.id is null then raise exception 'Lobby not found'; end if;
  if exists(select 1 from players where lobby=l.id and uid=auth.uid()) then return; end if; -- reconnect / no duplicates
@@ -74,24 +75,24 @@ begin select * into l from lobbies where code=upper(trim(p_code)) for update; if
  if length(trim(p_name))<1 then raise exception 'Enter a display name'; end if;
  insert into players(lobby,uid,name) values(l.id,auth.uid(),left(trim(p_name),20)); end $$;
 
-create function save_settings(p_code text, p_s jsonb, p_zone jsonb) returns void language plpgsql security definer set search_path=public as $$
-declare l lobbies; s jsonb;
+create or replace function save_settings(p_code text, p_s jsonb, p_zone jsonb) returns void language plpgsql security definer set search_path=public as $$
+declare l lobbies; ns jsonb;
 begin select * into l from lobbies where code=upper(p_code) for update;
  if l.id is null or l.host<>auth.uid() then raise exception 'Host only'; end if;
  if l.status<>'waiting' then raise exception 'Settings are locked'; end if;
  if jsonb_typeof(p_zone)<>'array' or jsonb_array_length(p_zone)<3 or jsonb_array_length(p_zone)>100 then raise exception 'Draw a play zone with at least 3 points'; end if;
- s:=jsonb_build_object('hunters',least(9,greatest(1,(p_s->>'hunters')::int)),'dur',least(240,greatest(5,(p_s->>'dur')::int)),
+ ns:=jsonb_build_object('hunters',least(9,greatest(1,(p_s->>'hunters')::int)),'dur',least(240,greatest(5,(p_s->>'dur')::int)),
   'head',least(60,greatest(0,(p_s->>'head')::int)),'interval',least(1800,greatest(30,(p_s->>'interval')::int)),
   'cp_total',least(10,greatest(0,(p_s->>'cp_total')::int)),'cp_reduce',least(60,greatest(0,(p_s->>'cp_reduce')::int)),
   'cp_min',least(2000,greatest(20,(p_s->>'cp_min')::int)),'cp_max',least(5000,greatest((p_s->>'cp_min')::int,(p_s->>'cp_max')::int)),
   'cp_radius',least(100,greatest(10,(p_s->>'cp_radius')::int)),'grace',least(300,greatest(5,(p_s->>'grace')::int)),
   'acc_tol',least(200,greatest(10,(p_s->>'acc_tol')::int)));
- update lobbies set s=s, zone=p_zone where id=l.id; end $$;
+ update lobbies set s=ns, zone=p_zone where id=l.id; end $$;
 
-create function set_ready(p_code text, p_ready bool, p_loc bool) returns void language sql security definer set search_path=public as $$
+create or replace function set_ready(p_code text, p_ready bool, p_loc bool) returns void language sql security definer set search_path=public as $$
  update players set ready=p_ready, loc_ok=p_loc from lobbies l where l.id=players.lobby and l.code=upper(p_code) and l.status='waiting' and players.uid=auth.uid() $$;
 
-create function start_match(p_code text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function start_match(p_code text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies; n int; h int;
 begin select * into l from lobbies where code=upper(p_code) for update;
  if l.id is null or l.host<>auth.uid() then raise exception 'Host only'; end if;
@@ -107,7 +108,7 @@ begin select * into l from lobbies where code=upper(p_code) for update;
   update players p set anon=case when r.role='hunter' then 'Hunter ' else 'Hider ' end||chr(64+r.rn::int) from r where p.id=r.id;
  update lobbies set status='active',started_at=now(),last_snap=null where id=l.id; end $$;
 
-create function report_loc(p_code text, p_lat float8, p_lng float8, p_acc float8) returns void language plpgsql security definer set search_path=public as $$
+create or replace function report_loc(p_code text, p_lat float8, p_lng float8, p_acc float8) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies; p players; hits int; rad float8; tot int;
 begin select * into l from lobbies where code=upper(p_code); if l.id is null then raise exception 'Lobby not found'; end if;
  select * into p from players where lobby=l.id and uid=auth.uid() for update; if p.id is null then raise exception 'Not in lobby'; end if;
@@ -130,7 +131,7 @@ begin select * into l from lobbies where code=upper(p_code); if l.id is null the
    else update players set cp_hits=0 where id=p.id; end if; end if; end if;
  perform tick(l.id); end $$;
 
-create function catch_hider(p_code text, p_anon text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function catch_hider(p_code text, p_anon text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies; p players;
 begin select * into l from lobbies where code=upper(p_code); select * into p from players where lobby=l.id and uid=auth.uid();
  if p.id is null or p.role<>'hunter' then raise exception 'Hunters only'; end if;
@@ -140,20 +141,20 @@ begin select * into l from lobbies where code=upper(p_code); select * into p fro
  if not found then raise exception 'That hider is already out'; end if;
  update players set catches=catches+1 where id=p.id; perform tick(l.id); end $$;
 
-create function end_match(p_code text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function end_match(p_code text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies;
 begin select * into l from lobbies where code=upper(p_code) for update;
  if l.id is null or l.host<>auth.uid() then raise exception 'Host only'; end if;
  if l.status='active' then update players set status='escaped',reason='survived' where lobby=l.id and role='hider' and status='active'; perform _finish(l.id,'Ended by host'); end if; end $$;
 
-create function leave_game(p_code text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function leave_game(p_code text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies;
 begin select * into l from lobbies where code=upper(p_code); if l.id is null then return; end if;
  if l.status='waiting' then
   if l.host=auth.uid() then update lobbies set status='cancelled' where id=l.id; else delete from players where lobby=l.id and uid=auth.uid(); end if;
  else update players set status='left',reason='left game' where lobby=l.id and uid=auth.uid() and status='active'; perform tick(l.id); end if; end $$;
 
-create function rematch(p_code text) returns void language plpgsql security definer set search_path=public as $$
+create or replace function rematch(p_code text) returns void language plpgsql security definer set search_path=public as $$
 declare l lobbies;
 begin select * into l from lobbies where code=upper(p_code) for update;
  if l.id is null or l.host<>auth.uid() then raise exception 'Host only'; end if;
@@ -164,7 +165,7 @@ begin select * into l from lobbies where code=upper(p_code) for update;
  update lobbies set status='waiting',started_at=null,last_snap=null,end_reason=null,ended_at=null where id=l.id; end $$;
 
 -- role-filtered view of the game; the only read path clients have
-create function state(p_code text) returns jsonb language plpgsql security definer set search_path=public as $$
+create or replace function state(p_code text) returns jsonb language plpgsql security definer set search_path=public as $$
 declare l lobbies; p players; hs timestamptz; en timestamptz; r jsonb;
 begin select * into l from lobbies where code=upper(trim(p_code)); if l.id is null then raise exception 'Lobby not found'; end if;
  select * into p from players where lobby=l.id and uid=auth.uid(); if p.id is null then raise exception 'You are not in this lobby'; end if;
@@ -189,3 +190,5 @@ revoke execute on all functions in schema public from public, anon, authenticate
 grant execute on function create_lobby(text),join_lobby(text,text),save_settings(text,jsonb,jsonb),set_ready(text,bool,bool),start_match(text),
  report_loc(text,float8,float8,float8),catch_hider(text,text),end_match(text),leave_game(text),rematch(text),state(text) to authenticated;
 -- optional retention (needs pg_cron): select cron.schedule('purge','0 4 * * *',$$delete from lobbies where created<now()-interval '2 days'$$);
+
+notify pgrst, 'reload schema';
