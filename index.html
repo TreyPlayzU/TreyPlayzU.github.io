@@ -38,7 +38,8 @@ button.alt{background:var(--bg);color:var(--ink);border:1px solid var(--ln)}butt
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY'; // anon key is public by design; data is protected by schema.sql
+const SB_URL='https://ydeklhewghijsrkcrkux.supabase.co',SB_KEY='YOUR_SUPABASE_ANON_KEY'; // anon key is public by design; data is protected by schema.sql
+if(!/^https:\/\//.test(SB_URL)){document.getElementById('sheet').innerHTML='<h2>Not set up yet</h2><p>Open index.html in a text editor and replace YOUR_SUPABASE_URL and YOUR_SUPABASE_ANON_KEY at the top of the script with your Supabase values (README step 4). Then host it over HTTPS.</p>';throw new Error('Supabase not configured')}
 const sb=supabase.createClient(SB_URL,SB_KEY);
 const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let code=(new URLSearchParams(location.search).get('c')||localStorage.mhc||'').toUpperCase(),S=null,off=0,map,ly={},pts=[],mk=[],built='',pos=null,lastSent=0,watching=0,busy=0,fitted='';
