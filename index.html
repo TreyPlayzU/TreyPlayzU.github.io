@@ -1,768 +1,1512 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Manhunt</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@2.2.1/dist/maplibre-gl.css">
 
     <style>
-        :root{--bg:#0d1a26;--pn:#14293b;--ink:#e8f1f7;--mu:#7f98ab;--am:#ffb000;--hu:#ff5a4f;--hi:#35e0c2;--ln:#24425a}
-        *{box-sizing:border-box}
-        html,body{height:100%;margin:0}
-        body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-top:env(safe-area-inset-top)}
-        #top{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--pn);border-bottom:4px solid var(--am)}
-        #top.hunter{border-color:var(--hu)}
-        #top.hider{border-color:var(--hi)}
-        #role{font-weight:800;font-size:15px;padding:4px 10px;border-radius:6px;background:var(--bg)}
-        #ph{color:var(--mu);font-size:13px;flex:1}
-        #tm{font-size:40px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px}
-        #net{background:var(--hu);color:#fff;text-align:center;padding:4px;font-size:14px}
-        #map{flex:1;min-height:200px}
-        #sheet{max-height:48vh;overflow:auto;background:var(--pn);padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--ln)}
-        h2{margin:0 0 8px;font-size:20px}
-        input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:12px;width:100%;margin:4px 0}
-        button{background:var(--am);color:#1a1200;font-weight:700;border:0;min-height:48px}
-        button.alt{background:var(--bg);color:var(--ink);border:1px solid var(--ln)}
-        button.bad{background:var(--hu);color:#fff}
-        .row{display:flex;gap:8px}
-        .row>*{flex:1}
-        .g{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
-        label{font-size:13px;color:var(--mu)}
-        .p{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--ln)}
-        .b{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--mu)}
-        .b.on{color:var(--hi)}
-        .b.off{color:var(--hu)}
-        .err,.warn{color:var(--hu);font-weight:700}
-        small,.mu{color:var(--mu)}
-        .big{font-size:22px;font-weight:800}
-        details{margin:8px 0}
-        summary{padding:8px 0;color:var(--am)}
-        #toast{position:fixed;left:12px;right:12px;bottom:calc(60px + env(safe-area-inset-bottom));background:var(--ink);color:#000;padding:12px;border-radius:8px;z-index:9999;display:none}
-        .leaflet-tooltip{background:var(--bg);color:var(--ink);border:1px solid var(--hi);font-weight:700}
-        .maplibregl-canvas{outline:none}
-        @media (prefers-reduced-motion:no-preference){
-            .me{animation:pl 1.6s infinite}
+        :root {
+            --bg: #0d1a26;
+            --pn: #14293b;
+            --ink: #e8f1f7;
+            --mu: #7f98ab;
+            --am: #ffb000;
+            --hu: #ff5a4f;
+            --hi: #35e0c2;
+            --ln: #24425a;
         }
-        @keyframes pl{50%{opacity:.4}}
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        #top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--pn);
+            border-bottom: 4px solid var(--am);
+        }
+
+        #top.hunter { border-color: var(--hu); }
+        #top.hider { border-color: var(--hi); }
+
+        #role {
+            font-weight: 800;
+            font-size: 15px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg);
+        }
+
+        #ph {
+            color: var(--mu);
+            font-size: 13px;
+            flex: 1;
+        }
+
+        #tm {
+            font-size: 32px;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+
+        #net {
+            background: var(--hu);
+            color: #fff;
+            text-align: center;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        #map {
+            flex: 1;
+            min-height: 200px;
+            background: #dbe5e9;
+        }
+
+        #mapmsg {
+            position: absolute;
+            z-index: 500;
+            top: 90px;
+            left: 12px;
+            right: 12px;
+            background: #14293bef;
+            color: var(--ink);
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        #sheet {
+            max-height: 48vh;
+            overflow: auto;
+            background: var(--pn);
+            padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+            border-top: 1px solid var(--ln);
+        }
+
+        h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+        }
+
+        input, select, button {
+            font: inherit;
+            color: var(--ink);
+            background: var(--bg);
+            border: 1px solid var(--ln);
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            margin: 4px 0;
+        }
+
+        button {
+            background: var(--am);
+            color: #1a1200;
+            font-weight: 700;
+            border: 0;
+            min-height: 48px;
+            cursor: pointer;
+        }
+
+        button.alt {
+            background: var(--bg);
+            color: var(--ink);
+            border: 1px solid var(--ln);
+        }
+
+        button.bad {
+            background: var(--hu);
+            color: #fff;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .row > * { flex: 1; }
+
+        .g {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 10px;
+        }
+
+        label {
+            font-size: 13px;
+            color: var(--mu);
+        }
+
+        .p {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 7px 0;
+            border-bottom: 1px solid var(--ln);
+        }
+
+        .b {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 99px;
+            background: var(--bg);
+            color: var(--mu);
+        }
+
+        .b.on { color: var(--hi); }
+        .b.off { color: var(--hu); }
+
+        .err, .warn {
+            color: var(--hu);
+            font-weight: 700;
+        }
+
+        small, .mu { color: var(--mu); }
+
+        .big {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        details { margin: 8px 0; }
+
+        summary {
+            padding: 8px 0;
+            color: var(--am);
+        }
+
+        #toast {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: calc(60px + env(safe-area-inset-bottom));
+            background: var(--ink);
+            color: #000;
+            padding: 12px;
+            border-radius: 8px;
+            z-index: 9999;
+            display: none;
+        }
+
+        .leaflet-tooltip {
+            background: var(--bg);
+            color: var(--ink);
+            border: 1px solid var(--hi);
+            font-weight: 700;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .me { animation: pulse 1.6s infinite; }
+        }
+
+        @keyframes pulse {
+            50% { opacity: .4; }
+        }
     </style>
 </head>
 
 <body>
+
 <div id="top">
     <span id="role">Manhunt</span>
-    <span id="ph"></span>
+    <span id="ph">Real-life hide and seek</span>
     <span id="tm"></span>
 </div>
 
 <div id="net" hidden>Connection lost. Reconnecting…</div>
+
 <div id="map"></div>
-<div id="sheet"><div id="pl"></div><div id="fm"></div></div>
+<div id="mapmsg"></div>
+
+<div id="sheet">
+    <div id="pl"></div>
+    <div id="fm"></div>
+</div>
+
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://unpkg.com/maplibre-gl@2.2.1/dist/maplibre-gl.js"></script>
-<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
 <script>
-    const SB_URL='https://ydeklhewghijsrkcrkux.supabase.co',
-        SB_KEY='sb_publishable_CoYZrj3RwPif3QfPzVhHUw_qHt0TJwe';
+    /* =========================================================
+       SUPABASE CONFIGURATION
+       ========================================================= */
 
-    // Supabase anonymous/publishable key is public by design.
-    // Protect game data with the appropriate database permissions and schema.
+    const SB_URL = 'https://ydeklhewghijsrkcrkux.supabase.co';
+    const SB_KEY = 'sb_publishable_CoYZrj3RwPif3QfPzVhHUw_qHt0TJwe';
 
-    if(!/^https:\/\//.test(SB_URL)){
-        document.getElementById('sheet').innerHTML=
-            '<h2>Not set up yet</h2><p>Configure your Supabase URL and key, then host this page over HTTPS.</p>';
-        throw new Error('Supabase not configured');
-    }
+    const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    const sb=supabase.createClient(SB_URL,SB_KEY);
-    const $=i=>document.getElementById(i);
-    const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const $ = id => document.getElementById(id);
 
-    let code=(new URLSearchParams(location.search).get('c')||localStorage.mhc||'').toUpperCase(),
-        S=null,off=0,map,ly={},pts=[],mk=[],built='',pos=null,lastSent=0,watching=0,busy=0,fitted='';
+    let code = (
+        new URLSearchParams(location.search).get('c') ||
+        localStorage.mhc ||
+        ''
+    ).toUpperCase();
 
-    const now=()=>Date.now()+off;
-    const pad=n=>String(n).padStart(2,'0');
+    let S = null;
+    let off = 0;
+    let map = null;
+    let ly = {};
+    let pts = [];
+    let mk = [];
+    let built = '';
+    let pos = null;
+    let lastSent = 0;
+    let watching = 0;
+    let busy = 0;
+    let fitted = '';
+    let tileLayer = null;
 
-    const fmt=s=>{
-        s=Math.max(0,Math.floor(s));
-        const h=Math.floor(s/3600);
-        return(h?h+':':'')+pad(Math.floor(s%3600/60))+':'+pad(s%60);
+    const now = () => Date.now() + off;
+
+    const pad = n => String(n).padStart(2, '0');
+
+    const fmt = s => {
+        s = Math.max(0, Math.floor(s));
+
+        const h = Math.floor(s / 3600);
+
+        return (h ? h + ':' : '') +
+            pad(Math.floor(s % 3600 / 60)) +
+            ':' +
+            pad(s % 60);
     };
 
-    const ago=s=>s<60?Math.floor(s)+'s ago':Math.floor(s/60)+'m '+pad(Math.floor(s%60))+'s ago';
-
-    function toast(m){
-        const t=$('toast');
-        t.textContent=m;
-        t.style.display='block';
-        clearTimeout(toast.t);
-        toast.t=setTimeout(()=>t.style.display='none',4500);
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"]/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;'
+        }[c]));
     }
 
-    async function rpc(fn,a){
-        const{data,error}=await sb.rpc(fn,a);
-        if(error){
+    function toast(message) {
+        const t = $('toast');
+
+        t.textContent = message;
+        t.style.display = 'block';
+
+        clearTimeout(toast.t);
+
+        toast.t = setTimeout(() => {
+            t.style.display = 'none';
+        }, 4500);
+    }
+
+    async function rpc(fn, args) {
+        const { data, error } = await sb.rpc(fn, args);
+
+        if (error) {
+            console.error('Supabase RPC error:', fn, error);
             toast(error.message);
             throw error;
         }
+
         return data;
     }
 
-    const hav=(a,b,c,d)=>
-        12742000*Math.asin(Math.sqrt(
-            Math.sin((c-a)*Math.PI/360)**2+
-            Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*
-            Math.sin((d-b)*Math.PI/360)**2
+    function hav(a, b, c, d) {
+        return 12742000 * Math.asin(Math.sqrt(
+            Math.sin((c - a) * Math.PI / 360) ** 2 +
+            Math.cos(a * Math.PI / 180) *
+            Math.cos(c * Math.PI / 180) *
+            Math.sin((d - b) * Math.PI / 360) ** 2
         ));
-
-    function pip(la,ln,z){
-        let r=false;
-        for(let i=0,j=z.length-1;i<z.length;j=i++){
-            const[yi,xi]=z[i],[yj,xj]=z[j];
-            if((yi>la)!=(yj>la)&&ln<(xj-xi)*(la-yi)/(yj-yi)+xi)r=!r;
-        }
-        return r;
     }
 
-    function bearing(a,b,c,d){
-        const y=Math.sin((d-b)*Math.PI/180)*Math.cos(c*Math.PI/180);
-        const x=Math.cos(a*Math.PI/180)*Math.sin(c*Math.PI/180)-
-            Math.sin(a*Math.PI/180)*Math.cos(c*Math.PI/180)*
-            Math.cos((d-b)*Math.PI/180);
-        return['N','NE','E','SE','S','SW','W','NW'][
-        Math.round(((Math.atan2(y,x)*180/Math.PI+360)%360)/45)%8
+    function pip(lat, lng, zone) {
+        let inside = false;
+
+        for (let i = 0, j = zone.length - 1; i < zone.length; j = i++) {
+            const [yi, xi] = zone[i];
+            const [yj, xj] = zone[j];
+
+            if (
+                (yi > lat) !== (yj > lat) &&
+                lng < (xj - xi) * (lat - yi) / (yj - yi) + xi
+            ) {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    function bearing(a, b, c, d) {
+        const y = Math.sin((d - b) * Math.PI / 180) *
+            Math.cos(c * Math.PI / 180);
+
+        const x =
+            Math.cos(a * Math.PI / 180) *
+            Math.sin(c * Math.PI / 180) -
+            Math.sin(a * Math.PI / 180) *
+            Math.cos(c * Math.PI / 180) *
+            Math.cos((d - b) * Math.PI / 180);
+
+        return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][
+        Math.round(((Math.atan2(y, x) * 180 / Math.PI + 360) % 360) / 45) % 8
             ];
     }
 
-    /* ---------- boot ---------- */
 
-    (async()=>{
-        initMap();
+    /* =========================================================
+       STARTUP
+       ========================================================= */
 
-        const{data}=await sb.auth.getSession();
-
-        if(!data.session){
-            const r=await sb.auth.signInAnonymously();
-
-            if(r.error){
-                $('pl').innerHTML=
-                    '<p class=err>Sign-in failed: '+esc(r.error.message)+
-                    ' (status '+(r.error.status||'?')+
-                    '). Check that Anonymous sign-ins are enabled in Supabase and that SB_KEY is correct.</p>';
+    (async function boot() {
+        try {
+            if (!window.L) {
+                $('pl').innerHTML =
+                    '<p class="err">The map library failed to load. Check your internet connection or browser content blocker.</p>';
+                home();
                 return;
             }
-        }
 
-        code?poll():home();
+            initMap();
 
-        setInterval(()=>code&&poll(),3000);
-        setInterval(tickUI,1000);
+            const { data, error } = await sb.auth.getSession();
 
-        document.addEventListener('visibilitychange',()=>{
-            if(!document.hidden){
-                code&&poll();
-                wl();
+            if (error) throw error;
+
+            if (!data.session) {
+                const result = await sb.auth.signInAnonymously();
+
+                if (result.error) {
+                    $('pl').innerHTML = `
+                    <h2>Sign-in failed</h2>
+                    <p class="err">${esc(result.error.message)}</p>
+                    <p class="mu">Enable Anonymous Sign-Ins in your Supabase Authentication settings.</p>
+                `;
+                    return;
+                }
             }
-        });
+
+            if (code) {
+                poll();
+            } else {
+                home();
+            }
+
+            setInterval(() => {
+                if (code) poll();
+            }, 3000);
+
+            setInterval(tickUI, 1000);
+
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    if (code) poll();
+                    wl();
+                }
+            });
+
+        } catch (e) {
+            console.error(e);
+
+            $('pl').innerHTML = `
+            <h2>Startup error</h2>
+            <p class="err">${esc(e.message || e)}</p>
+            <p class="mu">Check your internet connection, Supabase configuration and browser console.</p>
+        `;
+        }
     })();
 
-    /* ---------- map ---------- */
 
-    function initMap(){
-        map=L.map('map',{zoomControl:false,minZoom:1})
-            .setView([37.98,23.72],15);
+    /* =========================================================
+       MAP
+       Uses raster OpenStreetMap tiles instead of WebGL vector
+       tiles to improve compatibility with phones and browsers.
+       ========================================================= */
 
-        // Free vector map style from OpenFreeMap.
-        // Leaflet remains in use for markers, circles and the play-zone polygon.
-        L.maplibreGL({
-            style:'https://tiles.openfreemap.org/styles/liberty'
-        }).addTo(map);
+    function initMap() {
+        map = L.map('map', {
+            zoomControl: false,
+            minZoom: 1
+        }).setView([37.98, 23.72], 15);
 
-        ly.g=L.layerGroup().addTo(map);
+        L.control.zoom({ position: 'topright' }).addTo(map);
 
-        map.on('click',e=>{
-            if(S&&S.status=='waiting'&&S.me.host){
+        tileLayer = L.tileLayer(
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap contributors'
+            }
+        ).addTo(map);
+
+        tileLayer.on('tileerror', () => {
+            $('mapmsg').style.display = 'block';
+
+            $('mapmsg').textContent =
+                'Map tiles failed to load. Try refreshing, allowing this site through your content blocker, or using another network.';
+        });
+
+        tileLayer.on('tileload', () => {
+            $('mapmsg').style.display = 'none';
+        });
+
+        ly.g = L.layerGroup().addTo(map);
+
+        map.on('click', e => {
+            if (S && S.status === 'waiting' && S.me.host) {
                 pts.push([
                     +e.latlng.lat.toFixed(6),
                     +e.latlng.lng.toFixed(6)
                 ]);
+
                 syncMk();
             }
         });
 
-        if(navigator.geolocation){
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                p=>{
-                    if(!S)map.setView([p.coords.latitude,p.coords.longitude],16);
+                p => {
+                    if (!S) {
+                        map.setView([
+                            p.coords.latitude,
+                            p.coords.longitude
+                        ], 16);
+                    }
                 },
-                ()=>0
+                () => {},
+                { timeout: 8000 }
             );
         }
+
+        setTimeout(() => map.invalidateSize(), 250);
+
+        window.addEventListener('resize', () => {
+            map.invalidateSize();
+        });
     }
 
-    async function poll(){
-        if(busy)return;
-        busy=1;
 
-        const{data,error}=await sb.rpc('state',{p_code:code});
-        busy=0;
+    /* =========================================================
+       LOBBY STATE
+       ========================================================= */
 
-        if(error){
-            if(/not in this|not found/i.test(error.message)){
-                localStorage.removeItem('mhc');
-                home(error.message);
-            }else{
-                $('net').hidden=false;
+    async function poll() {
+        if (busy) return;
+
+        busy = 1;
+
+        try {
+            const { data, error } = await sb.rpc('state', {
+                p_code: code
+            });
+
+            if (error) {
+                if (/not in this|not found/i.test(error.message)) {
+                    localStorage.removeItem('mhc');
+                    home(error.message);
+                } else {
+                    $('net').hidden = false;
+                }
+
+                return;
             }
-            return;
-        }
 
-        $('net').hidden=true;
-        S=data;
-        off=new Date(S.now)-Date.now();
-        render();
+            $('net').hidden = true;
+
+            S = data;
+
+            off = new Date(S.now) - Date.now();
+
+            render();
+
+        } catch (e) {
+            $('net').hidden = false;
+            console.error(e);
+
+        } finally {
+            busy = 0;
+        }
     }
 
-    function go(c){
-        code=c;
-        localStorage.mhc=c;
+    function go(c) {
+        code = c;
+        localStorage.mhc = c;
         poll();
     }
 
-    function home(msg){
-        S=null;
-        built='';
-        ly.g.clearLayers();
-        $('fm').innerHTML='';
-        $('role').textContent='Manhunt';
-        $('ph').textContent='Real-life hide and seek';
-        $('tm').textContent='';
-        $('top').className='';
+    function home(message) {
+        S = null;
+        built = '';
 
-        $('pl').innerHTML=`
- <h2>Play Manhunt</h2>
- ${msg?`<p class=err>${esc(msg)}</p>`:''}
- <input id=nm placeholder="Display name" maxlength=20 value="${esc(localStorage.mhn||'')}">
- <input id=cd placeholder="Lobby code" maxlength=5 value="${esc(code)}" style="text-transform:uppercase">
- <div class=row>
-  <button onclick="mkLobby()">Create lobby</button>
-  <button class=alt onclick="joinLobby()">Join lobby</button>
- </div>`;
+        if (ly.g) ly.g.clearLayers();
+
+        $('fm').innerHTML = '';
+
+        $('role').textContent = 'Manhunt';
+        $('ph').textContent = 'Real-life hide and seek';
+        $('tm').textContent = '';
+        $('top').className = '';
+
+        $('pl').innerHTML = `
+        <h2>Play Manhunt</h2>
+
+        ${message ? `<p class="err">${esc(message)}</p>` : ''}
+
+        <input
+            id="nm"
+            placeholder="Display name"
+            maxlength="20"
+            value="${esc(localStorage.mhn || '')}"
+        >
+
+        <input
+            id="cd"
+            placeholder="Lobby code"
+            maxlength="5"
+            value="${esc(code)}"
+            style="text-transform:uppercase"
+        >
+
+        <div class="row">
+            <button onclick="mkLobby()">Create lobby</button>
+            <button class="alt" onclick="joinLobby()">Join lobby</button>
+        </div>
+    `;
     }
 
-    async function mkLobby(){
-        const n=$('nm').value;
-        localStorage.mhn=n;
-        go(await rpc('create_lobby',{p_name:n}));
+    async function mkLobby() {
+        const name = $('nm').value.trim();
+
+        if (!name) {
+            toast('Enter a display name first.');
+            return;
+        }
+
+        localStorage.mhn = name;
+
+        const newCode = await rpc('create_lobby', {
+            p_name: name
+        });
+
+        go(newCode);
     }
 
-    async function joinLobby(){
-        const n=$('nm').value;
-        const c=$('cd').value.toUpperCase();
-        localStorage.mhn=n;
-        await rpc('join_lobby',{p_code:c,p_name:n});
+    async function joinLobby() {
+        const name = $('nm').value.trim();
+        const c = $('cd').value.trim().toUpperCase();
+
+        if (!name || !c) {
+            toast('Enter your name and lobby code.');
+            return;
+        }
+
+        localStorage.mhn = name;
+
+        await rpc('join_lobby', {
+            p_code: c,
+            p_name: name
+        });
+
         go(c);
     }
 
-    /* ---------- zone drawing (host) ---------- */
 
-    function drawZone(){
-        if(ly.z)map.removeLayer(ly.z);
+    /* =========================================================
+       PLAY ZONE DRAWING
+       ========================================================= */
 
-        const z=(S.status=='waiting'&&S.me.host)?pts:(S.zone||[]);
+    function drawZone() {
+        if (ly.z) map.removeLayer(ly.z);
 
-        if(z.length>1){
-            ly.z=L.polygon(z,{
-                color:'#ffb000',
-                weight:3,
-                fillOpacity:.08,
-                interactive:false
+        const zone = (
+            S &&
+            S.status === 'waiting' &&
+            S.me.host
+        ) ? pts : (S?.zone || []);
+
+        if (zone.length > 1) {
+            ly.z = L.polygon(zone, {
+                color: '#ffb000',
+                weight: 3,
+                fillOpacity: 0.08,
+                interactive: false
             }).addTo(map);
         }
     }
 
-    function syncMk(){
-        mk.forEach(m=>map.removeLayer(m));
+    function syncMk() {
+        mk.forEach(marker => map.removeLayer(marker));
 
-        mk=pts.map((p,i)=>
-            L.marker(p,{
-                draggable:true,
-                icon:L.divIcon({
-                    className:'',
-                    html:'<div style="width:22px;height:22px;border-radius:50%;background:#ffb000;border:3px solid #fff"></div>',
-                    iconSize:[22,22],
-                    iconAnchor:[11,11]
+        mk = pts.map((p, i) => {
+            return L.marker(p, {
+                draggable: true,
+                icon: L.divIcon({
+                    className: '',
+                    html: `
+                    <div style="
+                        width:22px;
+                        height:22px;
+                        border-radius:50%;
+                        background:#ffb000;
+                        border:3px solid #fff">
+                    </div>
+                `,
+                    iconSize: [22, 22],
+                    iconAnchor: [11, 11]
                 })
             })
-                .on('drag',e=>{
-                    pts[i]=[e.latlng.lat,e.latlng.lng];
+                .on('drag', e => {
+                    pts[i] = [
+                        e.latlng.lat,
+                        e.latlng.lng
+                    ];
+
                     drawZone();
                 })
-                .addTo(map)
-        );
+                .addTo(map);
+        });
 
         drawZone();
     }
 
-    const undoPt=()=>{
+    function undoPt() {
         pts.pop();
         syncMk();
-    };
+    }
 
-    const clearZone=()=>{
-        pts=[];
+    function clearZone() {
+        pts = [];
         syncMk();
-    };
+    }
 
-    /* ---------- render ---------- */
 
-    function render(){
-        const st=S.status,m=S.me;
+    /* =========================================================
+       MAIN RENDER
+       ========================================================= */
 
-        if(built!=st){
-            built=st;
-            $('fm').innerHTML='';
-            mk.forEach(x=>map.removeLayer(x));
-            mk=[];
+    function render() {
+        const st = S.status;
+        const m = S.me;
 
-            if(st=='waiting'&&m.host){
-                pts=(S.zone||[]).map(x=>[...x]);
+        if (built !== st) {
+            built = st;
+
+            $('fm').innerHTML = '';
+
+            mk.forEach(marker => map.removeLayer(marker));
+            mk = [];
+
+            if (st === 'waiting' && m.host) {
+                pts = (S.zone || []).map(p => [...p]);
+
                 buildForm();
                 syncMk();
             }
         }
 
-        if(st!='waiting'){
-            mk.forEach(x=>map.removeLayer(x));
-            mk=[];
+        if (st !== 'waiting') {
+            mk.forEach(marker => map.removeLayer(marker));
+            mk = [];
         }
 
         drawZone();
+
         ly.g.clearLayers();
 
-        if(fitted!=code+st&&S.zone&&S.zone.length>2){
-            fitted=code+st;
-            map.fitBounds(L.polygon(S.zone).getBounds(),{padding:[20,20]});
+        if (
+            fitted !== code + st &&
+            S.zone &&
+            S.zone.length > 2
+        ) {
+            fitted = code + st;
+
+            map.fitBounds(
+                L.polygon(S.zone).getBounds(),
+                { padding: [20, 20] }
+            );
         }
 
-        $('role').textContent=m.role?m.role.toUpperCase():'LOBBY';
-        $('role').style.color=m.role=='hunter'?'var(--hu)':m.role=='hider'?'var(--hi)':'';
-        $('top').className=m.role||'';
+        $('role').textContent = m.role
+            ? m.role.toUpperCase()
+            : 'LOBBY';
 
-        if(st=='waiting')waiting();
-        else if(st=='active'){
+        $('role').style.color =
+            m.role === 'hunter' ? 'var(--hu)' :
+                m.role === 'hider' ? 'var(--hi)' : '';
+
+        $('top').className = m.role || '';
+
+        if (st === 'waiting') {
+            waiting();
+        } else if (st === 'active') {
             game();
             startWatch();
-        }else{
+        } else {
             done();
         }
 
         drawMe();
         tickUI();
+
+        setTimeout(() => map.invalidateSize(), 0);
     }
 
-    function tickUI(){
-        if(!S)return;
+    function tickUI() {
+        if (!S) return;
 
-        const m=S.me,t=now(),hs=new Date(S.hs),en=new Date(S.en);
-        let ph='',tm='';
+        const m = S.me;
+        const t = now();
+        const hs = new Date(S.hs);
+        const en = new Date(S.en);
 
-        if(S.status=='waiting'){
-            ph='Lobby '+code;
-            tm='';
-        }else if(S.status!='active'){
-            ph='Match over';
-            tm='';
-        }else if(m.status!='active'){
-            ph=m.role=='hider'?'You are out':'Status: '+m.status;
-            tm='';
-        }else if(t<hs){
-            ph=m.role=='hider'?'Head start: run and hide':'Head start: hunt begins in';
-            tm=fmt((hs-t)/1e3);
-        }else if(m.role=='hider'){
-            ph='Survive for';
-            tm=fmt((en-t)/1e3-m.red);
-        }else{
-            ph='Match ends in';
-            tm=fmt((en-t)/1e3);
+        let ph = '';
+        let tm = '';
+
+        if (S.status === 'waiting') {
+            ph = 'Lobby ' + code;
+
+        } else if (S.status !== 'active') {
+            ph = 'Match over';
+
+        } else if (m.status !== 'active') {
+            ph = m.role === 'hider'
+                ? 'You are out'
+                : 'Status: ' + m.status;
+
+        } else if (t < hs) {
+            ph = m.role === 'hider'
+                ? 'Head start: run and hide'
+                : 'Head start: hunt begins in';
+
+            tm = fmt((hs - t) / 1000);
+
+        } else if (m.role === 'hider') {
+            ph = 'Survive for';
+            tm = fmt((en - t) / 1000 - m.red);
+
+        } else {
+            ph = 'Match ends in';
+            tm = fmt((en - t) / 1000);
         }
 
-        $('ph').textContent=ph;
-        $('tm').textContent=tm;
+        $('ph').textContent = ph;
+        $('tm').textContent = tm;
 
-        const nx=$('nx');
-        if(nx)nx.textContent=t<hs?'after head start':fmt((new Date(S.next_snap)-t)/1e3);
+        const nx = $('nx');
+
+        if (nx) {
+            nx.textContent = t < hs
+                ? 'After head start'
+                : fmt((new Date(S.next_snap) - t) / 1000);
+        }
     }
 
-    /* ---------- waiting room ---------- */
 
-    const F=[
-        ['hunters','Hunters',s=>s.hunters],
-        ['dur','Match length (min, after head start)',s=>s.dur],
-        ['head','Head start (min)',s=>s.head],
-        ['int','Hunters see hiders every (min)',s=>s.interval/60,'0.5'],
-        ['cp_total','Checkpoints per hider',s=>s.cp_total,1,1],
-        ['cp_reduce','Minutes removed per checkpoint',s=>s.cp_reduce,1,1],
-        ['cp_min','Checkpoint min distance (m)',s=>s.cp_min,1,1],
-        ['cp_max','Checkpoint max distance (m)',s=>s.cp_max,1,1],
-        ['cp_radius','Checkpoint radius (m)',s=>s.cp_radius,1,1],
-        ['grace','Boundary grace (s)',s=>s.grace,1,1],
-        ['acc_tol','Max GPS error counted for boundary (m)',s=>s.acc_tol,1,1]
+    /* =========================================================
+       WAITING ROOM / SETTINGS
+       ========================================================= */
+
+    const F = [
+        ['hunters', 'Hunters', s => s.hunters],
+        ['dur', 'Match length (min, after head start)', s => s.dur],
+        ['head', 'Head start (min)', s => s.head],
+        ['int', 'Hunters see hiders every (min)', s => s.interval / 60, 0.5],
+        ['cp_total', 'Checkpoints per hider', s => s.cp_total, 1],
+        ['cp_reduce', 'Minutes removed per checkpoint', s => s.cp_reduce, 1],
+        ['cp_min', 'Checkpoint min distance (m)', s => s.cp_min, 1],
+        ['cp_max', 'Checkpoint max distance (m)', s => s.cp_max, 1],
+        ['cp_radius', 'Checkpoint radius (m)', s => s.cp_radius, 1],
+        ['grace', 'Boundary grace (s)', s => s.grace, 1],
+        ['acc_tol', 'Max GPS error counted for boundary (m)', s => s.acc_tol, 1]
     ];
 
-    const fld=f=>`
- <div>
-  <label>${f[1]}</label>
-  <input id="f_${f[0]}" type=number inputmode=decimal step="${f[3]||1}" value="${f[2](S.s)}" oninput="cnt()">
- </div>`;
+    const fld = f => `
+    <div>
+        <label>${f[1]}</label>
+        <input
+            id="f_${f[0]}"
+            type="number"
+            inputmode="decimal"
+            step="${f[3] || 1}"
+            value="${f[2](S.s)}"
+            oninput="cnt()"
+        >
+    </div>
+`;
 
-    function buildForm(){
-        $('fm').innerHTML=`
- <hr style="border-color:var(--ln)">
- <h2>Match settings</h2>
- <p class=mu>Tap the map to draw the play zone. Drag the dots to adjust.</p>
- <div class=row>
-  <button class=alt onclick="undoPt()">Undo point</button>
-  <button class=alt onclick="clearZone()">Clear zone</button>
- </div>
- <div class=g>${F.slice(0,4).map(fld).join('')}</div>
- <p id=cnt class=big></p>
- <details>
-  <summary>Advanced</summary>
-  <div class=g>${F.slice(4).map(fld).join('')}</div>
- </details>
- <button onclick="saveAll()">Save settings</button>
- <button id=go onclick="startGame()">Start match</button>`;
+    function cnt() {
+        if (!S || !$('cnt')) return;
+
+        const n = S.players?.length || 0;
+        const h = val('hunters');
+
+        $('cnt').innerHTML = `
+        ${h} hunter${h === 1 ? '' : 's'} ·
+        ${Math.max(0, n - h)} hider${n - h === 1 ? '' : 's'}
+        <small>(${n} players)</small>
+    `;
+    }
+
+    function buildForm() {
+        $('fm').innerHTML = `
+        <hr style="border-color:var(--ln)">
+
+        <h2>Match settings</h2>
+
+        <p class="mu">
+            Tap the map to draw the play zone.
+            Drag the dots to adjust it.
+        </p>
+
+        <div class="row">
+            <button class="alt" onclick="undoPt()">Undo point</button>
+            <button class="alt" onclick="clearZone()">Clear zone</button>
+        </div>
+
+        <div class="g">
+            ${F.slice(0, 4).map(fld).join('')}
+        </div>
+
+        <p id="cnt" class="big"></p>
+
+        <details>
+            <summary>Advanced settings</summary>
+            <div class="g">
+                ${F.slice(4).map(fld).join('')}
+            </div>
+        </details>
+
+        <button onclick="saveAll()">Save settings</button>
+        <button id="go" onclick="startGame()">Start match</button>
+    `;
+
         cnt();
     }
 
-    const val=id=>+$('f_'+id).value;
+    const val = id => +$('f_' + id).value;
 
-    function cnt(){
-        const n=S.players?.length||0,h=val('hunters');
-        const c=$('cnt');
-
-        if(c)c.innerHTML=
-            `${h} hunter${h==1?'':'s'} · ${Math.max(0,n-h)} hider${n-h==1?'':'s'} <small>(${n} players)</small>`;
-    }
-
-    const collect=()=>({
-        hunters:val('hunters'),
-        dur:val('dur'),
-        head:val('head'),
-        interval:Math.round(val('int')*60),
-        cp_total:val('cp_total'),
-        cp_reduce:val('cp_reduce'),
-        cp_min:val('cp_min'),
-        cp_max:val('cp_max'),
-        cp_radius:val('cp_radius'),
-        grace:val('grace'),
-        acc_tol:val('acc_tol')
+    const collect = () => ({
+        hunters: val('hunters'),
+        dur: val('dur'),
+        head: val('head'),
+        interval: Math.round(val('int') * 60),
+        cp_total: val('cp_total'),
+        cp_reduce: val('cp_reduce'),
+        cp_min: val('cp_min'),
+        cp_max: val('cp_max'),
+        cp_radius: val('cp_radius'),
+        grace: val('grace'),
+        acc_tol: val('acc_tol')
     });
 
-    async function saveAll(q){
-        await rpc('save_settings',{
-            p_code:code,
-            p_s:collect(),
-            p_zone:pts
+    async function saveAll(quiet) {
+        await rpc('save_settings', {
+            p_code: code,
+            p_s: collect(),
+            p_zone: pts
         });
 
-        if(!q)toast('Settings saved');
+        if (!quiet) toast('Settings saved.');
     }
 
-    async function startGame(){
-        await saveAll(1);
-        await rpc('start_match',{p_code:code});
+    async function startGame() {
+        await saveAll(true);
+
+        await rpc('start_match', {
+            p_code: code
+        });
+
         poll();
     }
 
-    function waiting(){
-        const m=S.me;
-        const link=location.origin+location.pathname+'?c='+code;
+    function waiting() {
+        const m = S.me;
 
-        $('pl').innerHTML=`
- <h2>Lobby <span style="color:var(--am)">${code}</span></h2>
+        const link = location.origin +
+            location.pathname +
+            '?c=' + code;
 
- <button class=alt onclick="navigator.share?navigator.share({url:'${link}',title:'Join my Manhunt'}):navigator.clipboard.writeText('${link}').then(()=>toast('Invite link copied'))">Share invite link</button>
+        $('pl').innerHTML = `
+        <h2>
+            Lobby
+            <span style="color:var(--am)">${esc(code)}</span>
+        </h2>
 
- <p class=mu>${S.players.length} of 10 players${m.host?'':' · the host sets the rules and starts the match'}</p>
+        <button class="alt" onclick="
+            navigator.share
+                ? navigator.share({
+                    url:'${link}',
+                    title:'Join my Manhunt'
+                  })
+                : navigator.clipboard.writeText('${link}')
+                    .then(()=>toast('Invite link copied'))
+        ">
+            Share invite link
+        </button>
 
- ${S.players.map(p=>`
-  <div class=p>
-   <span>${p.host?'★ ':''}${esc(p.name)}</span>
-   <span>
-    <span class="b ${p.loc_ok?'on':'off'}">${p.loc_ok?'location on':'no location'}</span>
-    <span class="b ${p.ready?'on':''}">${p.ready?'ready':'not ready'}</span>
-   </span>
-  </div>
- `).join('')}
+        <p class="mu">
+            ${S.players.length} of 10 players
+            ${m.host ? '' : ' · The host sets the rules and starts the match'}
+        </p>
 
- ${m.loc_ok?'':`
-  <p class=mu>Your phone's location is used for the game. Hunters only see anonymous hider positions at the set interval. Sharing starts when the match starts and your location data is deleted when it ends. Keep this page open and your screen awake.</p>
-  <button onclick="enLoc()">Enable location</button>
- `}
+        ${S.players.map(p => `
+            <div class="p">
+                <span>${p.host ? '★ ' : ''}${esc(p.name)}</span>
 
- <div class=row>
-  <button class=alt onclick="rpc('set_ready',{p_code:code,p_ready:${!m.ready},p_loc:${m.loc_ok}}).then(poll)">${m.ready?'Not ready':'I’m ready'}</button>
-  <button class="alt bad" onclick="leave()">Leave</button>
- </div>`;
+                <span>
+                    <span class="b ${p.loc_ok ? 'on' : 'off'}">
+                        ${p.loc_ok ? 'location on' : 'no location'}
+                    </span>
 
-        if(m.host)cnt();
+                    <span class="b ${p.ready ? 'on' : ''}">
+                        ${p.ready ? 'ready' : 'not ready'}
+                    </span>
+                </span>
+            </div>
+        `).join('')}
+
+        ${m.loc_ok ? '' : `
+            <p class="mu">
+                Your phone's location is used for the game.
+                Hunters only see anonymous hider positions at the
+                configured interval. Keep this page open and your
+                screen awake while playing.
+            </p>
+
+            <button onclick="enLoc()">Enable location</button>
+        `}
+
+        <div class="row">
+            <button class="alt" onclick="
+                rpc('set_ready',{
+                    p_code:code,
+                    p_ready:${!m.ready},
+                    p_loc:${m.loc_ok}
+                }).then(poll)
+            ">
+                ${m.ready ? 'Not ready' : 'I’m ready'}
+            </button>
+
+            <button class="alt bad" onclick="leave()">Leave</button>
+        </div>
+    `;
+
+        if (m.host) cnt();
     }
 
-    function enLoc(){
+    function enLoc() {
+        if (!navigator.geolocation) {
+            toast('This browser does not support location services.');
+            return;
+        }
+
         navigator.geolocation.getCurrentPosition(
-            ()=>rpc('set_ready',{
-                p_code:code,
-                p_ready:S.me.ready,
-                p_loc:true
+            () => rpc('set_ready', {
+                p_code: code,
+                p_ready: S.me.ready,
+                p_loc: true
             }).then(poll),
-            ()=>toast('Location is blocked. Allow location for this site in your browser settings, then try again.'),
-            {enableHighAccuracy:true}
+
+            () => toast(
+                'Location permission denied. Allow location for this website in your browser settings, then try again.'
+            ),
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000
+            }
         );
     }
 
-    async function leave(){
-        if(!confirm('Leave this game?'))return;
+    async function leave() {
+        if (!confirm('Leave this game?')) return;
 
-        await rpc('leave_game',{p_code:code});
+        await rpc('leave_game', {
+            p_code: code
+        });
+
         localStorage.removeItem('mhc');
-        code='';
+
+        code = '';
+
         home();
     }
 
-    /* ---------- active match ---------- */
 
-    function game(){
-        const m=S.me,t=now(),started=t>=new Date(S.hs);
-        const end=m.host?`<button class="alt bad" onclick="endM()">End match (host)</button>`:'';
-        const lv=`<button class="alt" onclick="leave()">Emergency stop / leave game</button>`;
+    /* =========================================================
+       ACTIVE MATCH
+       ========================================================= */
 
-        if(m.role=='hunter'){
-            const act=S.hiders.filter(h=>h.status=='active').length;
+    function game() {
+        const m = S.me;
 
-            $('pl').innerHTML=`
-  <div class=row>
-   <div><small>Hiders left</small><div class=big>${act}</div></div>
-   <div><small>Next location update</small><div class=big id=nx></div></div>
-  </div>
+        const end = m.host
+            ? `<button class="alt bad" onclick="endM()">End match (host)</button>`
+            : '';
 
-  ${S.hiders.map(h=>{
-                const age=h.at?(t-new Date(h.at))/1e3:null;
-                const stale=age>S.s.interval*1.5;
+        const lv = `
+        <button class="alt" onclick="leave()">
+            Emergency stop / leave game
+        </button>
+    `;
 
-                return`
-   <div class=p>
-    <span>
-     <b>${h.anon}</b>
-     <span class="b ${h.status=='active'?'on':'off'}">${h.status=='active'?'active':h.status=='caught'?'caught':h.status}</span><br>
-     <small>${h.status!='active'?'out of the game':h.lat==null?'no location released yet':'seen '+ago(age)+(stale?' · stale':'')}</small>
-    </span>
+        /* HUNTER VIEW
+           Hiders have no names, labels, or tooltips on the map. */
 
-    ${h.status=='active'&&started?`<button style="width:auto" class=bad onclick="catchH('${h.anon}')">Caught</button>`:''}
-   </div>`;
-            }).join('')}
+        if (m.role === 'hunter') {
+            const act = S.hiders.filter(
+                h => h.status === 'active'
+            ).length;
 
-  <h2 style="margin-top:14px">Leaderboard</h2>
+            $('pl').innerHTML = `
+            <div class="row">
+                <div>
+                    <small>Hiders left</small>
+                    <div class="big">${act}</div>
+                </div>
 
-  ${S.board.map((h,i)=>`
-   <div class=p>
-    <span>${i+1}. ${h.anon}${h.anon==m.anon?' (you)':''}</span>
-    <b>${h.catches}</b>
-   </div>
-  `).join('')}
+                <div>
+                    <small>Next location update</small>
+                    <div class="big" id="nx"></div>
+                </div>
+            </div>
 
-  ${end}${lv}`;
+            <p class="mu">
+                Hider positions are anonymous.
+                No names or player labels are shown on the map.
+            </p>
 
-            S.hiders.filter(h=>h.lat!=null).forEach(h=>{
-                const age=(t-new Date(h.at))/1e3;
-                const stale=age>S.s.interval*1.5;
+            <h2 style="margin-top:14px">Hunter leaderboard</h2>
 
-                L.circleMarker([h.lat,h.lng],{
-                    radius:10,
-                    color:stale?'#7f98ab':'#35e0c2',
-                    fillOpacity:stale?.2:.85,
-                    dashArray:stale?'3 3':null
-                })
-                    .bindTooltip(`${h.anon} · ${ago(age)}`,{
-                        permanent:true,
-                        direction:'top'
-                    })
-                    .addTo(ly.g);
-            });
+            ${S.board.map((h, i) => `
+                <div class="p">
+                    <span>
+                        ${i + 1}. ${esc(h.anon)}
+                        ${h.anon === m.anon ? '(you)' : ''}
+                    </span>
 
-        }else{
-            const tot=S.s.cp_total;
-            const req=Math.max(0,S.s.dur*60-m.red);
+                    <b>${h.catches}</b>
+                </div>
+            `).join('')}
 
-            $('pl').innerHTML=m.status!='active'?`
-   <h2>${m.status=='escaped'?'You survived!':m.status=='caught'?'You were caught':m.status=='eliminated'?'You left the play zone':'You left the game'}</h2>
-   <p class=mu>Stay out of the way and wait for the match to end.</p>
-   ${lv}
-  `:`
-   <div id=wz class=warn></div>
+            ${end}
+            ${lv}
+        `;
 
-   <div class=row>
-    <div><small>Checkpoints</small><div class=big>${m.cp_done}/${tot}</div></div>
-    <div><small>Survival needed</small><div class=big>${fmt(req)}</div></div>
-   </div>
+            S.hiders
+                .filter(h =>
+                    h.status === 'active' &&
+                    h.lat != null &&
+                    h.lng != null
+                )
+                .forEach(h => {
+                    const age = h.at
+                        ? (now() - new Date(h.at)) / 1000
+                        : Infinity;
 
-   <p class=mu>${m.red?`You've removed ${Math.round(m.red/60*10)/10} min from your survival time.`:''}${m.cp?'':tot?' All checkpoints done: just stay hidden.':''}</p>
+                    const stale = age > S.s.interval * 1.5;
 
-   ${m.cp?`
-    <div class=p><span>Next checkpoint</span><b id=cpd>locating…</b></div>
-    <p class=mu>Stay on public paths and never cross roads unsafely.</p>
-   `:''}
+                    L.circleMarker(
+                        [h.lat, h.lng],
+                        {
+                            radius: 10,
+                            color: stale ? '#7f98ab' : '#35e0c2',
+                            fillOpacity: stale ? 0.2 : 0.85,
+                            dashArray: stale ? '3 3' : null
+                        }
+                    ).addTo(ly.g);
+                });
 
-   ${end}${lv}
-  `;
+        } else {
 
-            if(m.cp&&m.status=='active'){
-                L.circle(m.cp,{
-                    radius:S.s.cp_radius,
-                    color:'#ffb000',
-                    fillOpacity:.25
+            /* HIDER VIEW */
+
+            const total = S.s.cp_total;
+
+            const required = Math.max(
+                0,
+                S.s.dur * 60 - m.red
+            );
+
+            if (m.status !== 'active') {
+                $('pl').innerHTML = `
+                <h2>
+                    ${
+                    m.status === 'escaped'
+                        ? 'You survived!'
+                        : m.status === 'caught'
+                            ? 'You reported being caught'
+                            : m.status === 'eliminated'
+                                ? 'You left the play zone'
+                                : 'You left the game'
+                }
+                </h2>
+
+                <p class="mu">Wait for the match to end.</p>
+
+                ${lv}
+            `;
+
+            } else {
+                $('pl').innerHTML = `
+                <div id="wz" class="warn"></div>
+
+                <div class="row">
+                    <div>
+                        <small>Checkpoints</small>
+                        <div class="big">${m.cp_done}/${total}</div>
+                    </div>
+
+                    <div>
+                        <small>Survival needed</small>
+                        <div class="big">${fmt(required)}</div>
+                    </div>
+                </div>
+
+                <p class="mu">
+                    ${
+                    m.red
+                        ? `You've removed ${Math.round(m.red / 60 * 10) / 10} min from your survival time.`
+                        : ''
+                }
+
+                    ${
+                    !m.cp && total
+                        ? ' All checkpoints done: just stay hidden.'
+                        : ''
+                }
+                </p>
+
+                ${
+                    m.cp
+                        ? `
+                            <div class="p">
+                                <span>Next checkpoint</span>
+                                <b id="cpd">Locating…</b>
+                            </div>
+
+                            <p class="mu">
+                                Stay on public paths and never cross roads unsafely.
+                            </p>
+                        `
+                        : ''
+                }
+
+                <button class="bad" onclick="reportCaught()">
+                    I've Been Caught
+                </button>
+
+                <p class="mu">
+                    Only press this when a hunter has actually caught you.
+                </p>
+
+                ${end}
+                ${lv}
+            `;
+            }
+
+            if (m.cp && m.status === 'active') {
+                L.circle(m.cp, {
+                    radius: S.s.cp_radius,
+                    color: '#ffb000',
+                    fillOpacity: 0.25
                 }).addTo(ly.g);
 
-                L.marker(m.cp,{
-                    icon:L.divIcon({
-                        className:'',
-                        html:'<div style="font-size:28px">🚩</div>',
-                        iconSize:[28,28],
-                        iconAnchor:[6,26]
+                L.marker(m.cp, {
+                    icon: L.divIcon({
+                        className: '',
+                        html: '<div style="font-size:28px">🚩</div>',
+                        iconSize: [28, 28],
+                        iconAnchor: [6, 26]
                     })
                 }).addTo(ly.g);
             }
         }
     }
 
-    async function catchH(a){
-        if(!confirm('Mark '+a+' as caught? This cannot be undone.'))return;
-        await rpc('catch_hider',{p_code:code,p_anon:a});
-        poll();
-    }
 
-    async function endM(){
-        if(confirm('End the match for everyone?')){
-            await rpc('end_match',{p_code:code});
-            poll();
+    /* =========================================================
+       HIDER-REPORTED CATCH
+       Requires public.report_caught(text) in Supabase.
+       ========================================================= */
+
+    async function reportCaught() {
+        if (
+            !S ||
+            S.status !== 'active' ||
+            S.me.role !== 'hider' ||
+            S.me.status !== 'active'
+        ) {
+            toast('You cannot report a catch right now.');
+            return;
+        }
+
+        if (!confirm('Have you actually been caught by a hunter?')) {
+            return;
+        }
+
+        try {
+            await rpc('report_caught', {
+                p_code: code
+            });
+
+            await poll();
+
+        } catch (e) {
+            console.error('Failed to report catch:', e);
         }
     }
 
-    /* ---------- location ---------- */
+    async function endM() {
+        if (!confirm('End the match for everyone?')) return;
 
-    function startWatch(){
-        if(watching||!navigator.geolocation)return;
-        watching=1;
+        await rpc('end_match', {
+            p_code: code
+        });
+
+        poll();
+    }
+
+
+    /* =========================================================
+       LOCATION TRACKING
+       ========================================================= */
+
+    function startWatch() {
+        if (watching || !navigator.geolocation) return;
+
+        watching = 1;
 
         navigator.geolocation.watchPosition(
-            p=>{
-                pos=[p.coords.latitude,p.coords.longitude,p.coords.accuracy];
+            p => {
+                pos = [
+                    p.coords.latitude,
+                    p.coords.longitude,
+                    p.coords.accuracy
+                ];
 
-                if(S&&S.status=='active'&&S.me.status=='active'&&Date.now()-lastSent>5000){
-                    lastSent=Date.now();
-                    sb.rpc('report_loc',{
-                        p_code:code,
-                        p_lat:pos[0],
-                        p_lng:pos[1],
-                        p_acc:pos[2]
-                    }).then(()=>0);
+                if (
+                    S &&
+                    S.status === 'active' &&
+                    S.me.status === 'active' &&
+                    Date.now() - lastSent > 5000
+                ) {
+                    lastSent = Date.now();
+
+                    sb.rpc('report_loc', {
+                        p_code: code,
+                        p_lat: pos[0],
+                        p_lng: pos[1],
+                        p_acc: pos[2]
+                    }).then(({ error }) => {
+                        if (error) console.error('Location update failed:', error);
+                    });
                 }
 
                 drawMe();
             },
-            e=>toast('Location error: '+e.message+'. Allow location for this site.'),
-            {enableHighAccuracy:true,maximumAge:0,timeout:20000}
+
+            e => {
+                toast(
+                    'Location error: ' +
+                    e.message +
+                    '. Allow location for this website.'
+                );
+            },
+
+            {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 20000
+            }
         );
 
         wl();
     }
 
-    const wl=()=>{
-        try{
-            navigator.wakeLock?.request('screen').catch(()=>0);
-        }catch(e){}
-    };
+    function wl() {
+        try {
+            navigator.wakeLock?.request('screen').catch(() => {});
+        } catch (e) {}
+    }
 
-    function drawMe(){
-        if(!pos||!S)return;
+    function drawMe() {
+        if (!pos || !S || !map) return;
 
-        if(ly.me)map.removeLayer(ly.me);
+        if (ly.me) map.removeLayer(ly.me);
 
-        ly.me=L.circleMarker([pos[0],pos[1]],{
-            radius:8,
-            color:'#fff',
-            fillColor:'#4da3ff',
-            fillOpacity:1,
-            className:'me'
-        }).addTo(map);
+        ly.me = L.circleMarker(
+            [pos[0], pos[1]],
+            {
+                radius: 8,
+                color: '#fff',
+                fillColor: '#4da3ff',
+                fillOpacity: 1,
+                className: 'me'
+            }
+        ).addTo(map);
 
-        if(S.status!='active')return;
+        if (S.status !== 'active') return;
 
-        const m=S.me;
-        const w=$('wz');
+        const m = S.me;
+        const warning = $('wz');
 
-        if(w&&m.role=='hider'){
-            w.textContent=S.zone&&!pip(pos[0],pos[1],S.zone)&&pos[2]<=S.s.acc_tol
-                ?`You are outside the play zone. Return within ${S.s.grace}s or you are eliminated.`
-                :'';
+        if (warning && m.role === 'hider') {
+            warning.textContent =
+                S.zone &&
+                !pip(pos[0], pos[1], S.zone) &&
+                pos[2] <= S.s.acc_tol
+                    ? `You are outside the play zone. Return within ${S.s.grace}s or you are eliminated.`
+                    : '';
         }
 
-        const d=$('cpd');
+        const checkpoint = $('cpd');
 
-        if(d&&m.cp){
-            d.textContent=
-                Math.round(hav(pos[0],pos[1],m.cp[0],m.cp[1]))+
-                ' m '+bearing(pos[0],pos[1],m.cp[0],m.cp[1])+
-                (pos[2]>30?` (GPS ±${Math.round(pos[2])} m)`:'');
+        if (checkpoint && m.cp) {
+            checkpoint.textContent =
+                Math.round(hav(
+                    pos[0],
+                    pos[1],
+                    m.cp[0],
+                    m.cp[1]
+                )) +
+                ' m ' +
+                bearing(
+                    pos[0],
+                    pos[1],
+                    m.cp[0],
+                    m.cp[1]
+                ) +
+                (
+                    pos[2] > 30
+                        ? ` (GPS ±${Math.round(pos[2])} m)`
+                        : ''
+                );
         }
     }
 
-    /* ---------- results ---------- */
 
-    function done(){
-        const r=S.results||[];
-        const c=k=>r.filter(x=>x.status==k).length;
+    /* =========================================================
+       RESULTS
+       ========================================================= */
 
-        $('pl').innerHTML=S.status=='cancelled'?`
-  <h2>Lobby cancelled</h2>
-  <button onclick="code='';localStorage.removeItem('mhc');home()">Back to start</button>
- `:`
-  <h2>Match over</h2>
-  <p class=mu>${esc(S.end_reason||'')}</p>
+    function done() {
+        const results = S.results || [];
 
-  <div class=row>
-   <div><small>Caught</small><div class=big>${c('caught')}</div></div>
-   <div><small>Left zone</small><div class=big>${c('eliminated')}</div></div>
-   <div><small>Escaped</small><div class=big>${c('escaped')}</div></div>
-  </div>
+        const count = status =>
+            results.filter(x => x.status === status).length;
 
-  <p class=mu>${r.length} players · ${S.s.dur} min match · ${r.filter(x=>x.role=='hunter').length} hunters</p>
+        if (S.status === 'cancelled') {
+            $('pl').innerHTML = `
+            <h2>Lobby cancelled</h2>
 
-  ${r.map(x=>`
-   <div class=p>
-    <span>
-     <b>${esc(x.name)}</b>
-     <span class=b>${x.role||''}</span><br>
-     <small>${x.role=='hunter'?x.catches+' caught':esc(x.reason||x.status)+' · '+x.cp+' checkpoints · −'+Math.round(x.red/60*10)/10+' min'}</small>
-    </span>
-   </div>
-  `).join('')}
+            <button onclick="
+                code='';
+                localStorage.removeItem('mhc');
+                home()
+            ">
+                Back to start
+            </button>
+        `;
 
-  ${S.me.host
-            ?`<button onclick="rpc('rematch',{p_code:code}).then(poll)">Rematch (same lobby)</button>`
-            :'<p class=mu>Waiting for the host to start a rematch.</p>'}
+            return;
+        }
 
-  <button class=alt onclick="code='';localStorage.removeItem('mhc');home()">Leave lobby</button>
- `;
+        $('pl').innerHTML = `
+        <h2>Match over</h2>
+
+        <p class="mu">${esc(S.end_reason || '')}</p>
+
+        <div class="row">
+            <div>
+                <small>Caught</small>
+                <div class="big">${count('caught')}</div>
+            </div>
+
+            <div>
+                <small>Left zone</small>
+                <div class="big">${count('eliminated')}</div>
+            </div>
+
+            <div>
+                <small>Escaped</small>
+                <div class="big">${count('escaped')}</div>
+            </div>
+        </div>
+
+        <p class="mu">
+            ${results.length} players ·
+            ${S.s.dur} min match ·
+            ${results.filter(x => x.role === 'hunter').length} hunters
+        </p>
+
+        ${results.map(x => `
+            <div class="p">
+                <span>
+                    <b>${esc(x.name)}</b>
+
+                    <span class="b">${esc(x.role || '')}</span>
+
+                    <br>
+
+                    <small>
+                        ${
+            x.role === 'hunter'
+                ? x.catches + ' caught'
+                : esc(x.reason || x.status) +
+                ' · ' + x.cp + ' checkpoints' +
+                ' · −' + Math.round(x.red / 60 * 10) / 10 + ' min'
+        }
+                    </small>
+                </span>
+            </div>
+        `).join('')}
+
+        ${
+            S.me.host
+                ? `
+                    <button onclick="
+                        rpc('rematch',{p_code:code}).then(poll)
+                    ">
+                        Rematch (same lobby)
+                    </button>
+                `
+                : `
+                    <p class="mu">
+                        Waiting for the host to start a rematch.
+                    </p>
+                `
+        }
+
+        <button class="alt" onclick="
+            code='';
+            localStorage.removeItem('mhc');
+            home()
+        ">
+            Leave lobby
+        </button>
+    `;
     }
 </script>
+
 </body>
 </html>
